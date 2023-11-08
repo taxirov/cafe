@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w --single --host",
+    "dev": "rollup -c -w",
     "start": "sirv public --no-clear --single",
     "check": "svelte-check"
   },

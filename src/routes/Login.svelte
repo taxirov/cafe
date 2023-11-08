@@ -1,5 +1,33 @@
 <script lang="ts">
+    import { navigate } from "svelte-navigator";
+    import { UserEndpoint } from "../api/user.api"
+
+    const userEndpoint = new UserEndpoint()
+    const token = localStorage.getItem('token')
+    async function checkToken() {
+        if(token) {
+            const res = await userEndpoint.verify(token)
+            if(res.status === 200) {
+                navigate('/')
+            }
+        }
+    } checkToken()
     let password: HTMLInputElement
+    let username: HTMLInputElement
+
+    async function login() {
+        try {
+            const res = await userEndpoint.login(username.value.toString(), password.value.toString())
+            if(res.status === 200) {
+                localStorage.setItem('token', res.data.token)
+                localStorage.setItem('payload', JSON.stringify(res.data.payload))
+                navigate('/')
+            }
+        }  catch(error) {
+            alert(error.response.data.message)
+            console.log(error)
+        }
+    }
 </script>
 
 <svelte:head>
@@ -10,9 +38,9 @@
     <div class="flex flex-col gap-4 bg-white p-8 rounded-md">
         <h1 class="text-3xl font-bold outline-none">Tizimga kirish</h1>
         <div class="flex flex-col gap-2">
-            <label class="font-semibold" for="username">Username:*</label>
-            <input class="outline-none border-2 p-2 rounded-md" type="text" name="username" placeholder="username">
-            <label class="font-semibold" for="password">Password:*</label>
+            <label class="font-semibold" for="username">Username: <p class="text-red-500 inline">*</p></label>
+            <input bind:this={username} class="outline-none border-2 p-2 rounded-md" type="text" name="username" placeholder="username">
+            <label class="font-semibold" for="password">Password: <p class="text-red-500 inline">*</p></label>
             <input bind:this={password} class="outline-none border-2 p-2 rounded-md" type="password" name="password">
             <span class="flex gap-3">
                 <input 
@@ -27,6 +55,6 @@
                 <p>Show password</p>
             </span>
         </div>
-        <button class="bg-indigo-500 text-white font-bold p-3 rounded-md">Kirish</button>
+        <button on:click={login} class="bg-indigo-500 text-white font-bold p-3 rounded-md">Kirish</button>
     </div>
 </div>

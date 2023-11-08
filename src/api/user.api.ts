@@ -1,7 +1,12 @@
 import axios from "axios";
 
-class User {
+const url = "http://localhost:4800/api"
+
+export class UserEndpoint {
     login = async (username: string, password: string) => {
-        const user = await axios.post
+        return await axios.post(url + '/user/login', { username, password })
+    }
+    verify = async (token: string) => {
+        return await axios.get(url + '/user/verify', { headers: { "Access-Token": token}})
     }
 }
