@@ -1,8 +1,8 @@
 <script>
-    import { Tabs } from '@svelteuidev/core';
-    import { Camera, EnvelopeClosed, Gear } from 'radix-icons-svelte';
     import { UserEndpoint } from '../api/user.api';
     import { navigate } from 'svelte-navigator';
+
+    if(screen.width < 450){ navigate('/mobile') }
 
     const userEndpoint = new UserEndpoint()
     const token = localStorage.getItem('token')
@@ -29,4 +29,3 @@
     <title>Bosh sahifa</title>
 </svelte:head>
 
-<h1>Bosh sahifa</h1>
