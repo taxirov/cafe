@@ -6,14 +6,12 @@
 
     const userEndpoint = new UserEndpoint()
     const token = localStorage.getItem('token')
-    if(!token) {
-        navigate('/login')
-    }
+    // check token
     async function getVerify() {
         try {
             const res = await userEndpoint.verify(token)
             if(res.status === 401 && res.status === 403) {
-                navigate('/login')
+                navigate('/')
             } else {
                 console.log('Verify succes')
             }
