@@ -1,6 +1,6 @@
 <script lang="ts">
     import { navigate } from 'svelte-navigator';
-    import MobileNavbar from '../components/MobileNavbar.svelte';
+    import MobileNavbar from '../components/AdminNavbar.svelte';
 </script>
 
 <svelte:head>

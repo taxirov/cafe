@@ -1,29 +1,5 @@
-<script>
-    import { UserEndpoint } from '../api/user.api';
-    import { navigate } from 'svelte-navigator';
-
-    if(screen.width < 450){ navigate('/mobile') }
-
-    const userEndpoint = new UserEndpoint()
-    const token = localStorage.getItem('token')
-    // check token
-    async function getVerify() {
-        try {
-            const res = await userEndpoint.verify(token)
-            if(res.status === 401 && res.status === 403) {
-                navigate('/')
-            } else {
-                console.log('Verify succes')
-            }
-        } catch(error) {
-            console.log(error)
-        }
-    }
-    getVerify()
-
+<script lang="ts">
+    import { navigate } from 'svelte-navigator'
+    let role = JSON.parse(localStorage.getItem('payload')).role
+    if(role == "admin"){ navigate('/admin') } else { navigate('/mwaiter') }
 </script>
-
-<svelte:head>
-    <title>Bosh sahifa</title>
-</svelte:head>
-

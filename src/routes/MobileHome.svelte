@@ -1,7 +1,7 @@
 <script>
     import { UserEndpoint } from '../api/user.api';
     import { navigate } from 'svelte-navigator';
-    import MobileNavbar from '../components/MobileNavbar.svelte';
+    import AdminNavbar from '../components/AdminNavbar.svelte';
 
     if(screen.width > 450){ navigate('/') }
 
@@ -192,5 +192,5 @@
             </div>
         </div>
     </div>
-    <MobileNavbar></MobileNavbar>
+    <AdminNavbar></AdminNavbar>
 </section>
