@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { categories } from "../database/category.store"
+    import { categoryStore } from "../database/category.store"
     import { CategoryEndpoint } from '../api/category.api'
 
     const categoryEndpoint = new CategoryEndpoint()
@@ -9,6 +9,8 @@
 
     let name: HTMLInputElement
     let desc: HTMLTextAreaElement
+
+    
 
     async function create() {
         try {
@@ -31,14 +33,11 @@
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="">Nomi*:</label>
                 <input bind:this={name}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="" placeholder="Ichimliklar">
+                <p class="text-red-500 font-medium">Kategoriya nomi takrorlanmasligi kerak!</p>
             </div>
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="desc">Izoh*:</label>
                 <textarea bind:this={desc} class="outline-0 border-2 px-3 py-1 rounded" name="desc" id="" rows="5" placeholder="Salqin ichimliklar, Soklar va boshqa ichimliklar"></textarea>
-            </div>
-            <div class="flex flex-col gap-2">
-                <label for="" class="font-semibold">Rasmi*:</label>
-                <input type="file" name="image" id="" accept=".jpg, .png, .jpeg">
             </div>
         </div>
 

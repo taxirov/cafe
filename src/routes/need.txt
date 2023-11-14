@@ -1,0 +1,5 @@
+
+<div class="flex flex-col gap-2">
+    <label for="" class="font-semibold">Rasmi*:</label>
+    <input type="file" name="image" id="" accept=".jpg, .png, .jpeg">
+</div>

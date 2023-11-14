@@ -1,101 +1,121 @@
 <script lang="ts">
     import { navigate } from 'svelte-navigator';
-    import MobileNavbar from '../components/AdminNavbar.svelte';
+
+    // stores
+    import { roomStore, type Room } from '../database/room.store';
+    import { orderStore, type Order } from '../database/order.store';
+
+    // endpoints
+    import { RoomEndpoint } from '../api/room.api';
+    import { OrderEndpoint } from '../api/order.api';
+
+    // modals
+    import AddOrderModal from "../modals/AddOrderModal.svelte";
+
+    // components
+    import RoomComponent from '../components/RoomComponent.svelte';
+    import AcceptRoomDelete from "../modals/AcceptDeleteRoom.svelte"
+    
+    let show_add: boolean = false
+
+    const roomEndpoint = new RoomEndpoint()
+    const orderEndpoint = new OrderEndpoint()
+
+    const token: string = localStorage.getItem('token')
+
+    let status_order = ''
+    let room_id = ''
+
+    // get rooms
+    async function getRooms() {
+        try{
+            const res = await roomEndpoint.get(token)
+            const rooms: Room[] = res.data.rooms
+            roomStore.set(rooms)
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }  getRooms()
+
+    // get rooms
+    async function getOrders() {
+        try{
+            const res = await orderEndpoint.get(token, status_order, room_id)
+            const orders: Room[] = res.data.orders
+            orderStore.set(orders)
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }  getOrders()
+
 </script>
 
+
 <svelte:head>
-    <title>Buyurtmalar</title>
+    <title>Xonalar</title>
 </svelte:head>
 
-<section class="grid grid-rows-2 bg-indigo-500/10">
-    <div class="orders flex flex-col gap-3 p-3">
-        <div class="flex justify-between items-center">
-            <h2  class="outline-none">Buyurtmalar</h2>
-            <div class="flex gap-1 items-center">
-                <button class="px-2 py-1 rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-filter"></i></button>
-                <button class="px-2 py-1 rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-plus"></i></button>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 gap-2">
-            <div class="flex flex-col gap-2 shadow-md rounded-xl p-3 bg-white">
-                <h2 class="font-bold text-md">Buyurtma sarlavhasi</h2>
-                <div class="flex flex-col gap-1">
-                    <p class="text-md">Mahsulotlar:</p>
-                    <div class="flex flex-col gap-2">
-                        <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                            <span class="flex gap-1 w-1/2">
-                                <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://img.freepik.com/premium-photo/fried-fish-with-lemon-dark-board-male-hands-black_239004-146.jpg')]"></span>
-                                <p class="font-semibold">Qovurilgan baliq</p>
-                            </span>
-                            <span class="flex flex-col items-end gap-1 w-1/2">
-                                <p>3 kg</p>
-                                <p>150000 so'm</p>
-                            </span>
-                        </div>
-                        <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                            <span class="flex gap-1 w-1/2">
-                                <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://images.uzum.uz/cf7p3f2vtie1lhbhc7ig/original.jpg')]"></span>
-                                <p class="font-semibold">Coca Cola 1.5</p>
-                            </span>
-                            <span class="flex flex-col items-end gap-1 w-1/2">
-                                <p>2 ta</p>
-                                <p>26000 so'm</p>
-                            </span>
-                        </div>
-                        <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                            <span class="flex gap-1 w-1/2">
-                                <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg')]"></span>
-                                <p class="font-semibold">Fanta 1.5</p>
-                            </span>
-                            <span class="flex flex-col items-end gap-1 w-1/2">
-                                <p>2 ta</p>
-                                <p>26000 so'm</p>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="bg-green-300 rounded-lg p-2 text-sm text-center">Faol buyurtma</p>
-                </div>
-            </div>
-            <div class="flex flex-col gap-2 shadow-md rounded-xl p-3 bg-white">
-                <h2 class="font-bold text-md">Buyurtma sarlavhasi</h2>
-                <div class="flex flex-col gap-1">
-                    <p class="text-md">Mahsulotlar:</p>
-                    <div class="flex flex-col gap-2">
-                        <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                            <span class="flex gap-1 w-1/2">
-                                <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://img.freepik.com/premium-photo/fried-fish-with-lemon-dark-board-male-hands-black_239004-146.jpg')]"></span>
-                                <p class="font-semibold">Qovurilgan baliq</p>
-                            </span>
-                            <span class="flex flex-col items-end gap-1 w-1/2">
-                                <p>3 kg</p>
-                                <p>150000 so'm</p>
-                            </span>
-                        </div>
-                        <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                            <span class="flex gap-1 w-1/2">
-                                <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://images.uzum.uz/cf7p3f2vtie1lhbhc7ig/original.jpg')]"></span>
-                                <p class="font-semibold">Coca Cola 1.5</p>
-                            </span>
-                            <span class="flex flex-col items-end gap-1 w-1/2">
-                                <p>2 ta</p>
-                                <p>26000 so'm</p>
-                            </span>
-                        </div>
-                        <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                            <span class="flex gap-1 w-1/2">
-                                <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg')]"></span>
-                                <p class="font-semibold">Fanta 1.5</p>
-                            </span>
-                            <span class="flex flex-col items-end gap-1 w-1/2">
-                                <p>2 ta</p>
-                                <p>26000 so'm</p>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="bg-green-300 rounded-lg p-2 text-sm text-center">Faol buyurtma</p>
-                </div>
-            </div>
+<style>
+    .mainbox {
+        grid-template-areas: "top"
+                             "content"
+                             "bottom";
+    }
+    .navtop {
+        grid-area: top;
+    }
+    .content {
+        grid-area: content;
+    }
+    .navbottom {
+        grid-area: bottom;
+    }
+</style>
+
+<section class="mainbox grid min-h-screen">
+    <div class="navtop flex justify-between items-center sticky top-0 left-0 right-0 bg-white p-3 h-fit">
+        <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-clipboard-fill text-2xl text-indigo-500"></i> Buyurtmalar</h2>
+        <div class="flex gap-1 items-center">
+            <button class="px-2 py-1 text-xl rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-filter"></i></button>
+            <button on:click={() => show_add = true} class="px-2 py-1 text-xl rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-plus"></i></button>
         </div>
     </div>
-    <MobileNavbar></MobileNavbar>
+    <div class="content flex flex-col gap-3 p-3 h-fit">
+        <AddOrderModal show={show_add} close={() => show_add = false}></AddOrderModal>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-start">
+            {#if $orderStore.length == 0}
+                <p class="text-center text-md text-gray-400 font-medium">Sizda faol buyurtmalar mavjud emas</p>
+            {:else}
+                {#each $roomStore as room}
+                    <RoomComponent room_id={room.id} room_name={room.name} room_capacity={room.capacity} room_desc={room.desc}></RoomComponent>
+                {/each}
+            {/if}
+        </div>
+    </div>
+
+    <nav class="navbottom h-fit grid grid-cols-5 bg-indigo-500 px-2 py-3 sticky bottom-0 right-0 left-0 rounded-t-2xl">
+        <button on:click={() => { navigate('/m')}} class="flex flex-col items-center gap-1 bg-indigo-500 px-2 rounded-xl">
+            <i class="bi bi-house-fill text-2xl text-white"></i>
+            <p class="text-[8px] text-white">Asosiy</p>
+        </button>
+        <button on:click={() => { navigate('/morders')}} class="flex flex-col items-center gap-1 bg-indigo-500 px-2 rounded-xl">
+            <i class="bi bi-clipboard-fill text-2xl text-white"></i>
+            <p class="text-[8px] text-white">Buyurtmalar</p>
+        </button>
+        <button on:click={() => { navigate('/madd')}} class="flex flex-col items-center gap-1 bg-indigo-500 px-2 rounded-xl">
+            <i class="bi bi-plus text-2xl text-white"></i>
+            <p class="text-[8px] text-white">Qo'shish</p>
+        </button>
+        <button on:click={() => { navigate('/mrooms')}} class="flex flex-col items-center gap-1 bg-indigo-500 px-2 rounded-xl">
+            <i class="bi bi-door-open-fill text-2xl text-white"></i>
+            <p class="text-[8px] text-white">Xonalar</p>
+        </button>
+        <button on:click={() => { navigate('/mprofile')}} class="flex flex-col items-center gap-1 bg-indigo-500 px-2 rounded-xl">
+            <i class="bi bi-person-fill text-2xl text-white"></i>
+            <p class="text-[8px] text-white">Profil</p>
+        </button>
+    </nav>
+
 </section>

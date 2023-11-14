@@ -1,15 +1,12 @@
 <script lang="ts">
     import WaiterNavbar from '../components/WaiterNavbar.svelte';
-    import CategoryModal from '../windows/CategoryModal.svelte';
-
-    let show = false
 </script>
 
 <svelte:head>
-    <title>Buyurtma qo'shish</title>
+    <title>Qo'shish</title>
 </svelte:head>
 
-<section class="grid grid-rows-2 bg-indigo-500/10">
+<section class="grid grid-rows-2">
     <section>
         <div class="orders flex flex-col gap-3 p-3">
             <div class="flex justify-between items-center">
@@ -32,7 +29,7 @@
                 <p>Kategoriyalar</p>
                 <div class="flex gap-1 items-center">
                     <button class="px-2 py-1 rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-filter"></i></button>
-                    <button on:click={() => (show = true)} class="px-2 py-1 rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-plus"></i></button>
+                    <button class="px-2 py-1 rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-plus"></i></button>
                 </div>
             </div>
             <table class="border-collapse border border-slate-500">
@@ -52,6 +49,5 @@
             </table>
         </div>
     </section>
-    <CategoryModal show={show} close={() => (show = false)}></CategoryModal>
     <WaiterNavbar></WaiterNavbar>
 </section>

@@ -1,12 +1,14 @@
 import { writable, type Writable } from "svelte/store";
 
-export type Category = {
+export type Room = {
     id: number,
     name: string,
     desc: string,
     image: string,
+    booked: boolean,
+    capacity: number,
     created_date: string,
     update_date: string
 }
 
-export const categoryStore: Writable<Category[]> = writable([])
+export const roomStore: Writable<Room[]> = writable([])
