@@ -1,13 +1,13 @@
 <script lang="ts">
     import { navigate } from 'svelte-navigator';
-    import AdminNavbar from '../components/AdminNavbar.svelte';
-    import AddRoomModal from '../modals/AddRoomModal.svelte';
     import { roomStore, type Room } from '../database/room.store';
     import { RoomEndpoint } from '../api/room.api';
 
     // components
     import RoomComponent from '../components/RoomComponent.svelte';
-    import AcceptRoomDelete from "../modals/AcceptDeleteRoom.svelte"
+    
+    // modals
+    import AddRoomModal from '../modals/AddRoomModal.svelte';
     
     let show_add: boolean = false
     const roomEndpoint = new RoomEndpoint()
@@ -32,32 +32,15 @@
     <title>Xonalar</title>
 </svelte:head>
 
-<style>
-    .mainbox {
-        grid-template-areas: "top"
-                             "content"
-                             "bottom";
-    }
-    .navtop {
-        grid-area: top;
-    }
-    .content {
-        grid-area: content;
-    }
-    .navbottom {
-        grid-area: bottom;
-    }
-</style>
-
-<section class="mainbox grid">
-    <div class="navtop flex justify-between items-center sticky top-0 left-0 right-0 bg-white p-3 h-fit">
+<section class="flex flex-col min-h-screen">
+    <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-white p-3 h-fit">
         <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-door-open-fill text-2xl text-indigo-500"></i> Xonalar</h2>
         <div class="flex gap-1 items-center">
             <button class="px-2 py-1 text-xl rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-filter"></i></button>
             <button on:click={() => show_add = true} class="px-2 py-1 text-xl rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-plus"></i></button>
         </div>
     </div>
-    <div class="content flex flex-col gap-3 p-3 h-fit">
+    <div class="grow flex flex-col justify-center gap-3 p-3 h-fit">
         <AddRoomModal show={show_add} close={() => show_add = false}></AddRoomModal>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-start">
             {#if $roomStore.length == 0}
@@ -69,7 +52,7 @@
             {/if}
         </div>
     </div>
-    <nav class="navbottom grid grid-cols-5 bg-indigo-500 px-2 py-3 sticky bottom-0 right-0 left-0 rounded-t-2xl">
+    <nav class="grow-0 grid grid-cols-5 bg-indigo-500 px-2 py-3 sticky bottom-0 right-0 left-0 rounded-t-2xl h-fit">
         <button on:click={() => { navigate('/m')}} class="flex flex-col items-center gap-1 bg-indigo-500 px-2 rounded-xl">
             <i class="bi bi-house-fill text-2xl text-white"></i>
             <p class="text-[8px] text-white">Asosiy</p>

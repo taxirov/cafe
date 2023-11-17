@@ -8,15 +8,16 @@
     export let show: boolean
     export let close: () => void
     export let id: number
+    let admin_key: string
 
     async function deleteRoom() {
         try {
-            const res = await roomEndpoint.delete(id, token)
+            const res = await roomEndpoint.delete(id, token, admin_key)
             const room_deleted: Room = res.data.room
             roomStore.update((rooms) => { return rooms.filter(room => room.id !== room_deleted.id)})
             close()
         } catch (error) {
-            console.log(error)
+            alert(error.response.data.message)
         }
     }
 
@@ -26,8 +27,12 @@
     <div class="bg-white p-8 flex flex-col gap-3 h-fit w-fit rounded-md shadow-md">
         <p class="text-xl text-center font-bold">Xona o'chirish</p>
         <p class="text-sm">Xonani o'chirishni tasdiqlaysizmi?</p>
+        <div class="flex flex-col gap-2">
+            <label class="font-semibold text-md" for="">Admin parol*:</label>
+            <input bind:value={admin_key}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="" placeholder="parol">
+        </div>
         <div class="flex justify-between gap-3">
-            <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-400 font-semibold">Yopish</button>
+            <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-500 font-semibold">Yopish</button>
             <button on:click={deleteRoom} class="py-2 px-4 rounded-md text-white bg-indigo-500 font-semibold">Tasdiqlash</button>
         </div>
     </div>

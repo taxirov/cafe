@@ -1,27 +1,32 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    import { UserEndpoint } from "../api/user.api"
+    import { UserEndpoint } from "../api/user.api";
+    import { adminKey } from "../database/user.store"
 
+    const admin_key = localStorage.getItem('admin-key')
     const userEndpoint = new UserEndpoint()
-    const token = localStorage.getItem('token')
-    async function checkToken() {
-        if(token) {
-            const res = await userEndpoint.verify(token)
+
+    // get admin verify
+    async function getAdminVerify() {
+        try {
+            const res = await userEndpoint.getAdminVerify(admin_key)
             if(res.status === 200) {
-                navigate('/')
+                navigate('/register')
             }
+        }  catch(error) {
+            console.log('verify admin failed')
         }
-    } checkToken()
+    } getAdminVerify()
+
     let password: HTMLInputElement
-    let username: HTMLInputElement
 
     async function login() {
         try {
-            const res = await userEndpoint.login(username.value.toString(), password.value.toString())
+            const res = await userEndpoint.getAdminVerify(password.value.toString())
             if(res.status === 200) {
-                localStorage.setItem('token', res.data.token)
-                localStorage.setItem('payload', JSON.stringify(res.data.payload))
-                navigate('/')
+                localStorage.setItem('admin-key', password.value.toString())
+                adminKey.set(password.value.toString())
+                navigate('/register')
             }
         }  catch(error) {
             alert(error.response.data.message)
@@ -36,11 +41,9 @@
 
 <div class="flex justify-center items-center w-screen h-screen bg-indigo-500">
     <div class="flex flex-col gap-4 bg-white p-8 rounded-md">
-        <h1 class="text-3xl font-bold outline-none">Tizimga kirish</h1>
+        <h1 class="text-2xl font-bold outline-none">Admin parolni yozing</h1>
         <div class="flex flex-col gap-2">
-            <label class="font-semibold" for="username">Username: <p class="text-red-500 inline">*</p></label>
-            <input bind:this={username} class="outline-none border-2 p-2 rounded-md" type="text" name="username" placeholder="username">
-            <label class="font-semibold" for="password">Password: <p class="text-red-500 inline">*</p></label>
+            <label class="font-semibold" for="password">Admin key: <p class="text-red-500 inline">*</p></label>
             <input bind:this={password} class="outline-none border-2 p-2 rounded-md" type="password" name="password">
             <span class="flex gap-3">
                 <input 
@@ -55,6 +58,7 @@
                 <p>Show password</p>
             </span>
         </div>
-        <button on:click={login} class="bg-indigo-500 text-white font-bold p-3 rounded-md">Kirish</button>
+        <button on:click={login} class="bg-indigo-500 text-white font-bold p-3 rounded-md">Tasdiqlash</button>
+        <button on:click={() => { navigate('/login')}} class="text-sm font-medium py1 rounded-md">Kirish</button>
     </div>
 </div>

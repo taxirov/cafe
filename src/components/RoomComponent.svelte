@@ -1,6 +1,7 @@
 <script lang="ts">
     import { RoomEndpoint } from "../api/room.api";
     import AcceptDeleteRoom from "../modals/AcceptDeleteRoom.svelte";
+    import EditRoomModal from '../modals/EditRoomModal.svelte';
 
     const roomEndpoint = new RoomEndpoint()
 
@@ -10,8 +11,7 @@
     export let room_id: number
 
     let show_delete: boolean = false
-
-    async function deleteRoom(){}
+    let show_edit: boolean = false
 
 </script>
 
@@ -31,9 +31,10 @@
             <p class="text-md font-medium">{room_capacity} kishilik</p>
         </div>
         <div class="flex gap-2">
-            <button disabled class="bg-green-200 text-white p-2 rounded-md font-semibold w-full"><i class="bi bi-pencil"></i> Tahrirlash</button>
-            <button on:click={() => { show_delete = true}} class="bg-red-400 text-white p-2 rounded-md font-semibold w-full"><i class="bi bi-trash"></i> O'chirish</button>
+            <button on:click={() => { show_edit = true }} class="bg-green-500 text-white p-2 rounded-md font-semibold w-full"><i class="bi bi-pencil"></i> Tahrirlash</button>
+            <button on:click={() => { show_delete = true }} class="bg-red-500 text-white p-2 rounded-md font-semibold w-full"><i class="bi bi-trash"></i> O'chirish</button>
         </div>
     </div>
+    <EditRoomModal show={show_edit} close={() => { show_edit = false }} id={room_id} name={room_name} desc={room_desc} capacity={room_capacity}></EditRoomModal>
     <AcceptDeleteRoom show={show_delete} id={room_id} close={() => show_delete = false}></AcceptDeleteRoom>
 </div>
