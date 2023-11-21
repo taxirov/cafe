@@ -7,15 +7,14 @@
     export let show: boolean
     export let close: () => void
 
-    let name: HTMLInputElement
-    let desc: HTMLTextAreaElement
-
-    
+    let name: string
+    let desc: string
+    let admin_key: string
 
     async function create() {
         try {
-            const res = await categoryEndpoint.post(name.value, desc.value, token)
-            console.log(res.data)
+            const res = await categoryEndpoint.post(name, desc, token, admin_key)
+            categoryStore.update((cat) => { return cat.concat(res.data.category)})
             close()
         } catch (error) {
             console.log(error)
@@ -31,13 +30,17 @@
 
         <div class="flex flex-col gap-3">
             <div class="flex flex-col gap-2">
-                <label class="font-semibold" for="">Nomi*:</label>
-                <input bind:this={name}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="" placeholder="Ichimliklar">
+                <label class="font-semibold" for="category-name">Nomi*:</label>
+                <input bind:value={name}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="category-name" id="" placeholder="Ichimliklar">
                 <p class="text-red-500 font-medium">Kategoriya nomi takrorlanmasligi kerak!</p>
             </div>
             <div class="flex flex-col gap-2">
-                <label class="font-semibold" for="desc">Izoh*:</label>
-                <textarea bind:this={desc} class="outline-0 border-2 px-3 py-1 rounded" name="desc" id="" rows="5" placeholder="Salqin ichimliklar, Soklar va boshqa ichimliklar"></textarea>
+                <label class="font-semibold" for="category-desc">Izoh*:</label>
+                <textarea bind:value={desc} class="outline-0 border-2 px-3 py-1 rounded" name="category-desc" id="" rows="5" placeholder="Salqin ichimliklar, Soklar va boshqa ichimliklar"></textarea>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="font-semibold" for="admin-key">Admin parol*:</label>
+                <input bind:value={admin_key}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="admin-key" id="">
             </div>
         </div>
 

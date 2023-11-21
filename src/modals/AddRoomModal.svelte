@@ -5,18 +5,20 @@
 
     const roomEndpoint = new RoomEndpoint()
     const token = localStorage.getItem('token')
+    
     export let show: boolean
     export let close: () => void
 
-    let name: HTMLInputElement
-    let desc: HTMLTextAreaElement
-    let capacity: HTMLInputElement
+    let name: string
+    let desc: string
+    let capacity: string
+    let admin_key: string
 
     
 
     async function create() {
         try {
-            const res = await roomEndpoint.post(name.value, desc.value, +(capacity.value), token)
+            const res = await roomEndpoint.post(name, desc, +capacity, token, admin_key)
             const room: Room = res.data.room
             roomStore.update((rooms) => rooms.concat([room]))
             close()
@@ -35,16 +37,20 @@
         <div class="flex flex-col gap-3">
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="">Nomi*:</label>
-                <input bind:this={name}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="" placeholder="Zal 1">
+                <input bind:value={name}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="" placeholder="Zal 1">
                 <p class="text-red-500 font-medium">Xona nomi takrorlanmasligi kerak!</p>
             </div>
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="">Sig'imi*:</label>
-                <input bind:this={capacity}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="" placeholder="10">
+                <input bind:value={capacity}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="" placeholder="10">
             </div>
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="desc">Izoh*:</label>
-                <textarea bind:this={desc} class="outline-0 border-2 px-3 py-1 rounded" name="desc" id="" rows="5" placeholder="Salqin ichimliklar, Soklar va boshqa ichimliklar"></textarea>
+                <textarea bind:value={desc} class="outline-0 border-2 px-3 py-1 rounded" name="desc" id="" rows="5" placeholder="Salqin ichimliklar, Soklar va boshqa ichimliklar"></textarea>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="font-semibold" for="">Admin parol*:</label>
+                <input bind:value={admin_key}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="">
             </div>
         </div>
 

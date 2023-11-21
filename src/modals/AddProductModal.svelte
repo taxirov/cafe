@@ -1,9 +1,14 @@
 <script lang="ts">
     import { categoryStore } from "../database/category.store"
     import { CategoryEndpoint } from '../api/category.api'
+    import { ProductEndpoint } from "../api/product.api"
+    import { productStore } from "../database/product.store";
 
     const categoryEndpoint = new CategoryEndpoint()
+    const productEndpoint = new ProductEndpoint()
+
     const token = localStorage.getItem('token')
+
     export let show: boolean
     export let close: () => void
 
@@ -11,10 +16,13 @@
     let desc: HTMLTextAreaElement
     let price: HTMLInputElement
     let category_id: HTMLSelectElement
+    let admin_key: string
 
     async function create() {
         try {
-            console.log(name.value, price.value, desc.value, category_id.value)
+            const res = await productEndpoint.post(+category_id.value, name.value, +price.value, desc.value, token, admin_key)
+            productStore.update((pro) => { return pro.concat(res.data.product)})
+            close()
         } catch (error) {
             console.log(error)
         }
@@ -48,6 +56,10 @@
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="desc">Izoh*:</label>
                 <textarea bind:this={desc} class="outline-0 border-2 px-3 py-1 rounded" name="desc" id="" rows="4" placeholder="izoh uchun joy"></textarea>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="font-semibold" for="admin-key">Admin parol*:</label>
+                <input bind:value={admin_key}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="admin-key" id="">
             </div>
         </div>
 

@@ -1,13 +1,13 @@
 import { writable, type Writable } from "svelte/store";
-import type { Product } from "./product.store";
+import type { ProductInOrder } from "./productInOrder.store";
 
 export type Order = {
     id: number,
     title: string,
     desc: string,
-    user_name: string,
-    room_name: string,
-    products: Product[]
+    user: { id: number, name: string },
+    room: { id: number, name: string },
+    products: ProductInOrder[],
     total_price: number,
     status: boolean,
     created_date: string,

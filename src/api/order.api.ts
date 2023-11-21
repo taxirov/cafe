@@ -1,14 +1,22 @@
 import axios from "axios";
 
-const url = "http://localhost:4800/api";
-const adminkey = "opa039jf0w4fnio;sa;f49jfsif;i;fnafdnfldf"
+const url = "http://31.129.110.72:4800/api";
 
 export class OrderEndpoint {
     post = async (title: string, desc: any, room_id: number, token: string) => {
-        return await axios.post(url + '/order', { title, desc, room_id }, { headers: { "Access-Token": token }})
+        return await axios.post(url + '/order', { data: { title, desc, room_id }, headers: { "Access-Token": token }})
     }
-    get = async (token: string, status_order: any, room_id: any) => {
-        return await axios.get(url + '/order?status_order=' + status_order + '&room_id=' + room_id, { headers: { "Access-Token": token }})
+    get = async (token: string) => {
+        return await axios.get(url + '/order', { headers: { "Access-Token": token }} )
+    }
+    getStatus = async (status_order: number, token: string) => {
+        return await axios.get(url + '/order/?status_order=' + status_order.toString(), { headers: { "Access-Token": token }})
+    }
+    getRoom = async ( room_id: number, token: string) => {
+        return await axios.get(url + '/order/?room_id=' +  room_id, { headers: { "Access-Token": token }})
+    }
+    getStatusRoom = async ( status_order: number, room_id: number, token: string) => {
+        return await axios.get(url + '/order/?status_order=' + status_order + '&room_id=' + room_id, { headers: { "Access-Token": token }})
     }
     delete = async (id: number, token: string) => {
         return await axios.delete(url + '/order/' + id, { headers: { "Access-Token": token }} )

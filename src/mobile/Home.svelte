@@ -11,7 +11,7 @@
             const res = await userEndpoint.getTokenVerify(token);
             if (res.status == 200) {
                 const role = JSON.parse(localStorage.getItem("user")).role;
-                if (role == "admin") {
+                if (role === "admin") {
                     if (screen.width < 500) {
                         navigate("/m");
                     } else {

@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const url = "http://localhost:4800/api";
-const adminkey = "opa039jf0w4fnio;sa;f49jfsif;i;fnafdnfldf"
+const url = "http://31.129.110.72:4800/api";
 
-export class                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ProductEndpoint {
-    post = async (name: string, category_id: number, price: number, desc: string, token: string) => {
+export class ProductEndpoint {
+    post = async (category_id: number, name: string, price: number, desc: string, token: string, adminkey: string) => {
         return await axios.post(url + '/product', { name, desc, category_id, price }, { headers: { "Access-Token": token, "Admin-Key": adminkey }})
     }
     get = async () => {
@@ -13,7 +12,7 @@ export class                                                                    
     getByCatgory = async (category_id: number) => {
         return await axios.get(url + '/product?category_id=' + category_id)
     }
-    delete = async (id: number, token: string) => {
+    delete = async (id: number, token: string, adminkey: string) => {
         return await axios.delete(url + '/product/' + id, { headers: { "Access-Token": token, "Admin-Key": adminkey }} )
     }
 }

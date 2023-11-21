@@ -27,23 +27,25 @@
 </script>
 
 <Router>
-	<Route path='/' component={Home}/>
-	<Route path="/admin" component={Admin}/>
-	<Route path='/demo' component={Demo}/>
+	<Route exact path='/'><Home/></Route>
+	<Route exact path="/admin"><Admin/></Route>
+	<Route exact path='/demo'><Demo/></Route>
 	
 	<!-- auth -->
-	<Route path='/login' component={Login}/>
-	<Route path='/register' component={Register}/>
-	<Route path='/check' component={Check}/>
+	<Route exact path='/login'><Login/></Route>
+	<Route exact path='/register'><Register/></Route>
+	<Route exact path='/check'><Check/></Route>
 
-	<Route path='/m' component={MobileHome}/>
-	<Route path='/mprofile' component={MobileProfile}/>
-	<Route path='/morders' component={MobileOrders}/>
-	<Route path='/mrooms' component={MobileRooms}/>
-	<Route path="/madd" component={MobileAdd}/>
+	<!-- mobile -->
+	<Route exact path='/m'><MobileHome/></Route>
+	<Route exact path='/mprofile'><MobileProfile/></Route>
+	<Route exact path='/morders'><MobileOrders/></Route>
+	<Route exact path='/mrooms'><MobileRooms/></Route>
+	<Route exact path="/madd"><MobileAdd/></Route>
 
-	<Route path='/w' component={WaiterOrders}/>
-	<Route path='/products' component={Products}/>
-	<Route path='/wadd' component={WaiterAdd}/>
-	<Route path='/wprofile' component={WaiterProfile}/>
+	<!-- waiter -->
+	<Route exact path='/w'><WaiterOrders/></Route>
+	<Route exact path='/products'><Products/></Route>
+	<Route exact path='/wadd'><WaiterAdd/></Route>
+	<Route exact path='/wprofile'><WaiterProfile/></Route>
 </Router>

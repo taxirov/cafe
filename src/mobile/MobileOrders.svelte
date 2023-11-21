@@ -12,18 +12,22 @@
     import type { Order } from '../database/order.store';
     import type { User } from '../database/user.store';
     import type { Product } from '../database/product.store';
+    import type { ProductInOrder } from '../database/productInOrder.store';
 
     // endpoints
     import { RoomEndpoint } from '../api/room.api';
     import { OrderEndpoint } from '../api/order.api';
     import { UserEndpoint } from '../api/user.api';
+    import { ProductEndpoint } from  "../api/product.api"
+    import { ProductInOrderEndpoint } from '../api/productinorder.api';
 
     // modals
     import AddOrderModal from "../modals/AddOrderModal.svelte";
-    import AcceptEndOrder from "../modals/AcceptEndOrder.svelte";
 
     // components
     import OrderComponent from '../components/OrderComponent.svelte';
+    import { productInOrderStore } from '../database/productInOrder.store';
+    import axios from 'axios';
     
     
     let show_add: boolean = false
@@ -31,25 +35,10 @@
     const roomEndpoint = new RoomEndpoint()
     const orderEndpoint = new OrderEndpoint()
     const userEndpoint = new UserEndpoint()
+    const productEndpoint = new ProductEndpoint()
+    const productInOrderEndpoint = new ProductInOrderEndpoint()
 
     const token: string = localStorage.getItem('token')
-    let room: Room
-    let products: Product[]
-
-    let status_order = ''
-    let room_id = ''
-
-    // get rooms
-    async function getRooms() {
-        try{
-            const res = await roomEndpoint.get(token)
-            const rooms: Room[] = res.data.rooms
-            roomStore.set(rooms)
-        }
-        catch(error) {
-            console.log(error)
-        }
-    }  getRooms()
 
     // get users
     async function getUsers() {
@@ -62,21 +51,129 @@
         }
     } getUsers()
 
-    // get orders to do
-    async function getOrders() {
+    // get products
+    async function getProducts() {
+        try {
+            const res = await productEndpoint.get()
+            const products: Product[] = res.data.products
+            productStore.set(products)
+        } catch(error) {
+            console.log(error)
+        }
+    } getProducts()
+
+    // get product in orders
+    async function getProductInOrders(order_id: number) {
+        try {
+            let productInOrders: ProductInOrder[] = []
+            type ResPro = {
+                id: number,
+                user_id: number,
+                order_id: number,
+                product_id: number,
+                count: number,
+                created_date: string,
+                update_date: string
+                }
+            const res = await productInOrderEndpoint.get(token, order_id)
+            const resPro: ResPro[] = res.data.productInOrders
+            for(let i = 0; i < resPro.length; i++) {
+                let user: {id: number, name: string}
+                $userStore.forEach(u => {
+                    if(u.id == resPro[i].user_id) {
+                         return user = { id: u.id, name: u.name}
+                    }
+                })
+                let product: { id: number, name: string, price: number}
+                $productStore.forEach(p => {
+                    if(p.id == resPro[i].product_id){
+                        return product = { id: p.id, name: p.name, price: p.price}
+                    }
+                })
+                let productInOrder: ProductInOrder = {
+                    id: resPro[i].id, 
+                    user,
+                    order_id,
+                    product, 
+                    count: resPro[i].count, 
+                    total_price: product.price*resPro[i].count,
+                    created_date: resPro[i].created_date,
+                    update_date: resPro[i].update_date
+                }
+                productInOrders.push(productInOrder)                
+            } 
+            return productInOrders
+        } catch(error) {
+            console.log(error)
+        }
+    } 
+    
+    // get rooms
+    async function getRooms() {
         try{
-            const res = await orderEndpoint.get(token, status_order, room_id)
-            const res_orders = res.data.orders
-            let orders: Order[] = []
-            for(let i in res_orders) {
-                let user               
-            }
-            orderStore.set(orders)
+            const res = await roomEndpoint.get(token)
+            const rooms: Room[] = res.data.rooms
+            roomStore.set(rooms)
         }
         catch(error) {
             console.log(error)
         }
-    }  getOrders()
+    }  getRooms()
+
+    // get orders to do
+    async function getTrueOrders() {
+        try{
+            let products: ProductInOrder[]
+            type ResOrders = {
+                id: number,
+                title: string,
+                desc: string | null,
+                user_id: number,
+                room_id: number,
+                total_price: number | null,
+                status: boolean,
+                created_date: string,
+                update_date: string
+            }
+            const res = await orderEndpoint.getStatus(1, token)
+            const resOrders: ResOrders[] = res.data.orders
+            let orders: Order[] = []
+            for(let i = 0; i < resOrders.length; i++) {
+                let user: { id: number, name: string }
+                $userStore.forEach(u => {
+                    if(u.id == resOrders[i].user_id) {
+                        user = { id: u.id, name: u.name }
+                    }
+                })
+                let room: { id: number, name: string }
+                $roomStore.forEach(r => {
+                    if(r.id == resOrders[i].room_id) {
+                         room = { id: r.id, name: r.name}
+                    }
+                })
+                products = await getProductInOrders(resOrders[i].id)
+                let total_price: number = 0
+                for(let i = 0; i < products.length; i++) {
+                    total_price += products[i].total_price
+                }
+                let order: Order = {
+                    id: resOrders[i].id,
+                    title: resOrders[i].title,
+                    desc: resOrders[i].desc,
+                    user, room, products,
+                    total_price,
+                    status: resOrders[i].status,
+                    created_date: resOrders[i].created_date,
+                    update_date: resOrders[i].update_date
+                }
+                orders.push(order)
+            }
+            orderStore.set(orders)
+        }
+        catch(error) {
+            console.log(error.response.data.error)
+        }
+    }  getTrueOrders()
 
     
 
@@ -84,7 +181,7 @@
 
 
 <svelte:head>
-    <title>Xonalar</title>
+    <title>Buyurtmalar</title>
 </svelte:head>
 
 
@@ -100,10 +197,10 @@
     <div class="grow flex flex-col gap-3 p-3 h-fit">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-start">
             {#if $orderStore.length == 0}
-                <p class="text-center text-md text-gray-400 font-medium">Sizda faol buyurtmalar mavjud emas</p>
+                <p class="text-center text-sm text-gray-400 font-medium">Sizda faol buyurtmalar mavjud emas</p>
             {:else}
                 {#each $orderStore as order}
-                    <OrderComponent id={order.id} title={order.title} status={order.status} total_price={order.total_price} created_date={order.created_date}, room={room} products={products}></OrderComponent>
+                    <OrderComponent order={order}></OrderComponent>
                 {/each}
             {/if}
         </div>
