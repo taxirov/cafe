@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "//31.129.110.72:4800/api";
+const url = "http://localhost:4800/api";
 
 export class ProductEndpoint {
     post = async (category_id: number, name: string, price: number, desc: string, token: string, adminkey: string) => {
