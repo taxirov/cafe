@@ -29,7 +29,7 @@
                 created_date: string,
                 update_date: string
             }
-            const res = await orderEndpoint.post(title.value.toString(), desc.value.toString(), +(room_id.value), token)
+            const res = await orderEndpoint.post(title.value.toString(), desc.value.toString(), +(room_id.value), null, token)
             const resOrder: ResOrders = res.data.order;
             let user: { id: number, name: string };
             $userStore.forEach(u => {
