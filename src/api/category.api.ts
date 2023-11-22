@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://31.129.110.72:4800/api";
+const url = "//31.129.110.72:4800/api";
 
 export class CategoryEndpoint {
     post = async (name: string, desc: string, token: string, adminkey: string) => {

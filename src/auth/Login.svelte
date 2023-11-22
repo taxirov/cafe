@@ -24,7 +24,7 @@
                 navigate('/')
             }
         }  catch(error) {
-            alert(await error.response.data.message)
+            alert(error.response.data.message)
             console.log(error)
         }
     }

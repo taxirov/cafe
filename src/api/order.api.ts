@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://31.129.110.72:4800/api";
+const url = "//31.129.110.72:4800/api";
 
 export class OrderEndpoint {
     post = async (title: string, desc: any, room_id: number, token: string) => {
