@@ -3,8 +3,8 @@ import axios from "axios";
 const url = "http://localhost:4800/api";
 
 export class OrderEndpoint {
-    post = async (title: string, desc: string | null, room_id: number, token: string) => {
-        return await axios.post(url + '/order', { data: { title, desc, room_id }, headers: { "Access-Token": token }})
+    post = async (title: string, desc: string | null, room_id: number, total_price: number | null, token: string) => {
+        return await axios.post(url + '/order', { title, desc, room_id, total_price }, { headers: { "Access-Token": token }})
     }
     get = async (token: string) => {
         return await axios.get(url + '/order', { headers: { "Access-Token": token }} )
