@@ -5,6 +5,7 @@
     // stores
     import { orderStore, type Order } from "../database/order.store";
     import { roomStore} from "../database/room.store";
+    import { userStore } from '../database/user.store';
 
     const orderEndpoint = new OrderEndpoint()
     const token = localStorage.getItem('token')
@@ -17,8 +18,42 @@
 
     async function create() {
         try {
-            const res = await orderEndpoint.post(title.value, desc.value, +(room_id.value), token)
-            const order: Order = res.data.order
+            type ResOrders = {
+                id: number,
+                title: string,
+                desc: string | null,
+                user_id: number,
+                room_id: number,
+                total_price: number | null,
+                status: boolean,
+                created_date: string,
+                update_date: string
+            }
+            const res = await orderEndpoint.post(title.value.toString(), desc.value.toString(), +(room_id.value), token)
+            const resOrder: ResOrders = res.data.order;
+            let user: { id: number, name: string };
+            $userStore.forEach(u => {
+                    if(u.id == resOrder.user_id) {
+                        user = { id: u.id, name: u.name }
+                    }
+                })
+                let room: { id: number, name: string }
+                $roomStore.forEach(r => {
+                    if(r.id == resOrder.room_id) {
+                         room = { id: r.id, name: r.name}
+                    }
+                })
+            let order: Order = {
+                id: resOrder.id,
+                title: resOrder.title,
+                desc: resOrder.desc,
+                user, room,
+                products: [],
+                total_price: resOrder.total_price,
+                status: resOrder.status,
+                created_date: resOrder.created_date,
+                update_date: resOrder.update_date
+            } 
             orderStore.update((orders) => orders.concat(order))
             close()
         } catch (error) {

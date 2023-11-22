@@ -3,7 +3,7 @@ import axios from "axios";
 const url = "http://localhost:4800/api";
 
 export class OrderEndpoint {
-    post = async (title: string, desc: any, room_id: number, token: string) => {
+    post = async (title: string, desc: string | null, room_id: number, token: string) => {
         return await axios.post(url + '/order', { data: { title, desc, room_id }, headers: { "Access-Token": token }})
     }
     get = async (token: string) => {
