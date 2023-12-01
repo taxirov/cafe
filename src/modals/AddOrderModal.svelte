@@ -17,19 +17,8 @@
 
     async function create() {
         try {
-            type ResOrders = {
-                id: number,
-                title: string,
-                desc: string | null,
-                user_id: number,
-                room_id: number,
-                total_price: number | null,
-                status: boolean,
-                created_date: string,
-                update_date: string
-            }
-            const res = await orderEndpoint.post(title.value.toString(), desc.value.toString(), +(room_id.value), null, token)
-            const order: Order = res.data.order
+            const res = await orderEndpoint.post(title.value, desc.value, +room_id.value, token)
+            const order: Order = res.data.order;
             orderStore.update((orders) => orders.concat(order))
             close()
         } catch (error) {
