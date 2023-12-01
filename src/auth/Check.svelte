@@ -1,7 +1,6 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
     import { UserEndpoint } from "../api/user.api";
-    import { adminKey } from "../database/user.store"
 
     const admin_key = localStorage.getItem('admin-key')
     const userEndpoint = new UserEndpoint()
@@ -25,7 +24,6 @@
             const res = await userEndpoint.getAdminVerify(password.value.toString())
             if(res.status === 200) {
                 localStorage.setItem('admin-key', password.value.toString())
-                adminKey.set(password.value.toString())
                 navigate('/register')
             }
         }  catch(error) {

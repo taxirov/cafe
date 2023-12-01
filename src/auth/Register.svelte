@@ -1,7 +1,7 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
     import { UserEndpoint } from "../api/user.api";
-    import { RoleEndpoint } from "../api/role.api"
+    import { RoleEndpoint } from "../api/role.api";
     import { roleStore, type Role } from "../database/role.store";
 
     const userEndpoint = new UserEndpoint()
@@ -39,12 +39,13 @@
     let username: HTMLInputElement
     let password: HTMLInputElement
     let phone: HTMLInputElement
+    let email: HTMLInputElement
     let salary: HTMLInputElement
     let role: HTMLSelectElement
 
     async function login() {
         try {
-            const res = await userEndpoint.register(name.value, username.value.toString(), password.value.toString(), +salary.value, +role.value, phone.value, admin_key)
+            const res = await userEndpoint.register(name.value, username.value.toString(), password.value.toString(), +salary.value, +role.value, phone.value, email.value, admin_key)
             if(res.status === 200) {
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem('user', JSON.stringify(res.data.user))
@@ -71,7 +72,9 @@
             <label class="font-semibold" for="username">Username: <p class="text-red-500 inline">*</p></label>
             <input bind:this={username} class="outline-none border-2 p-2 rounded-md" type="text" name="username" placeholder="username">
             <label class="font-semibold" for="phone">Email: <p class="text-red-500 inline">*</p></label>
-            <input bind:this={phone} class="outline-none border-2 p-2 rounded-md" type="text" name="phone" placeholder="email@gmail.com">
+            <input bind:this={email} class="outline-none border-2 p-2 rounded-md" type="text" name="phone" placeholder="email@gmail.com">
+            <label class="font-semibold" for="phone">Telefon: <p class="text-red-500 inline">*</p></label>
+            <input bind:this={phone} class="outline-none border-2 p-2 rounded-md" type="text" name="phone" placeholder="+998905789204">
             <label class="font-semibold" for="salary">Oylik maosh: <p class="text-red-500 inline">*</p></label>
             <input bind:this={salary} class="outline-none border-2 p-2 rounded-md" type="text" name="salary" placeholder="2000000">
             <label class="font-semibold" for="role">Roli: <p class="text-red-500 inline">*</p></label>

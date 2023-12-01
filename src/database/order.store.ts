@@ -4,13 +4,13 @@ import type { ProductInOrder } from "./productInOrder.store";
 export type Order = {
     id: number,
     title: string,
-    desc: string,
+    desc: string | null,
     user: { id: number, name: string },
-    room: { id: number, name: string },
+    room: { id: number, name: string } | null,
     products: ProductInOrder[],
     total_price: number,
-    status: boolean,
-    created_date: string,
+    status: number,
+    create_date: string,
     update_date: string
 }
 

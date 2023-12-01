@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const url = "http://localhost:4800/api";
+import { REST_API } from "../env";
+const url = REST_API;
 
 export class OrderEndpoint {
     post = async (title: string, desc: string | null, room_id: number, total_price: number | null, token: string) => {
@@ -9,8 +9,8 @@ export class OrderEndpoint {
     get = async (token: string) => {
         return await axios.get(url + '/order', { headers: { "Access-Token": token }} )
     }
-    getStatus = async (status_order: number, token: string) => {
-        return await axios.get(url + '/order/?status_order=' + status_order.toString(), { headers: { "Access-Token": token }})
+    async getStatus(status_order: number, token: string) {
+        return await axios.get(url + '/order?status_order=' + status_order, { headers: { "Access-Token": token }})
     }
     getRoom = async ( room_id: number, token: string) => {
         return await axios.get(url + '/order/?room_id=' +  room_id, { headers: { "Access-Token": token }})

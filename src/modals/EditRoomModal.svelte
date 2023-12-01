@@ -2,7 +2,6 @@
     import { categoryStore } from "../database/category.store";
     import { RoomEndpoint } from '../api/room.api';
     import { roomStore, type Room } from "../database/room.store";
-    import { adminKey } from "../database/user.store";
 
     const roomEndpoint = new RoomEndpoint()
     const token = localStorage.getItem('token')

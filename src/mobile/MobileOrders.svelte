@@ -61,52 +61,6 @@
             console.log(error)
         }
     } getProducts()
-
-    // get product in orders
-    async function getProductInOrders(order_id: number) {
-        try {
-            let productInOrders: ProductInOrder[] = []
-            type ResPro = {
-                id: number,
-                user_id: number,
-                order_id: number,
-                product_id: number,
-                count: number,
-                created_date: string,
-                update_date: string
-                }
-            const res = await productInOrderEndpoint.get(token, order_id)
-            const resPro: ResPro[] = res.data.productInOrders
-            for(let i = 0; i < resPro.length; i++) {
-                let user: {id: number, name: string}
-                $userStore.forEach(u => {
-                    if(u.id == resPro[i].user_id) {
-                         return user = { id: u.id, name: u.name}
-                    }
-                })
-                let product: { id: number, name: string, price: number}
-                $productStore.forEach(p => {
-                    if(p.id == resPro[i].product_id){
-                        return product = { id: p.id, name: p.name, price: p.price}
-                    }
-                })
-                let productInOrder: ProductInOrder = {
-                    id: resPro[i].id, 
-                    user,
-                    order_id,
-                    product, 
-                    count: resPro[i].count, 
-                    total_price: product.price*resPro[i].count,
-                    created_date: resPro[i].created_date,
-                    update_date: resPro[i].update_date
-                }
-                productInOrders.push(productInOrder)                
-            } 
-            return productInOrders
-        } catch(error) {
-            console.log(error)
-        }
-    } 
     
     // get rooms
     async function getRooms() {
@@ -123,55 +77,12 @@
     // get orders to do
     async function getTrueOrders() {
         try{
-            let products: ProductInOrder[]
-            type ResOrders = {
-                id: number,
-                title: string,
-                desc: string | null,
-                user_id: number,
-                room_id: number,
-                total_price: number | null,
-                status: boolean,
-                created_date: string,
-                update_date: string
-            }
             const res = await orderEndpoint.getStatus(1, token)
-            const resOrders: ResOrders[] = res.data.orders
-            let orders: Order[] = []
-            for(let i = 0; i < resOrders.length; i++) {
-                let user: { id: number, name: string }
-                $userStore.forEach(u => {
-                    if(u.id == resOrders[i].user_id) {
-                        user = { id: u.id, name: u.name }
-                    }
-                })
-                let room: { id: number, name: string }
-                $roomStore.forEach(r => {
-                    if(r.id == resOrders[i].room_id) {
-                         room = { id: r.id, name: r.name}
-                    }
-                })
-                products = await getProductInOrders(resOrders[i].id)
-                let total_price: number = 0
-                for(let i = 0; i < products.length; i++) {
-                    total_price += products[i].total_price
-                }
-                let order: Order = {
-                    id: resOrders[i].id,
-                    title: resOrders[i].title,
-                    desc: resOrders[i].desc,
-                    user, room, products,
-                    total_price,
-                    status: resOrders[i].status,
-                    created_date: resOrders[i].created_date,
-                    update_date: resOrders[i].update_date
-                }
-                orders.push(order)
-            }
+            const orders: Order[] = res.data.orders
             orderStore.set(orders)
         }
         catch(error) {
-            console.log(error.response.data.error)
+            console.log(error)
         }
     }  getTrueOrders()
 
@@ -189,7 +100,6 @@
     <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-white p-3 h-fit">
         <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-clipboard-fill text-2xl text-indigo-500"></i> Buyurtmalar</h2>
         <div class="flex gap-1 items-center">
-            <button class="px-2 py-1 text-xl rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-filter"></i></button>
             <button on:click={() => show_add = true} class="px-2 py-1 text-xl rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-plus"></i></button>
         </div>
     </div>

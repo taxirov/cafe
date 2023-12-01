@@ -1,11 +1,13 @@
 import { writable, type Writable } from "svelte/store";
+import type { Product } from "./product.store";
 
 export type Category = {
     id: number,
     name: string,
-    desc: string,
-    image: string,
-    created_date: string,
+    desc: string | null,
+    image: string | null,
+    products: Product[],
+    create_date: string,
     update_date: string
 }
 

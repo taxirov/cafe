@@ -3,11 +3,11 @@ import { writable, type Writable } from "svelte/store";
 export type Room = {
     id: number,
     name: string,
-    desc: string,
-    image: string,
-    booked: boolean,
+    desc: string | null,
+    image: string | null,
+    booked: number,
     capacity: number,
-    created_date: string,
+    create_date: string,
     update_date: string
 }
 

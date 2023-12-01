@@ -42,7 +42,7 @@
     // get categories
     async function getCategories() {
         try {
-            const res = await categoryEndpoint.get();
+            const res = await categoryEndpoint.get(token);
             const categories: Category[] = res.data.categories;
             categoryStore.set(categories);
         } catch (error) {
@@ -60,52 +60,6 @@
             console.log(error)
         }
     } getProducts()
-
-    // get product in orders
-    async function getProductInOrders(order_id: number) {
-        try {
-            let productInOrders: ProductInOrder[] = []
-            type ResPro = {
-                id: number,
-                user_id: number,
-                order_id: number,
-                product_id: number,
-                count: number,
-                created_date: string,
-                update_date: string
-                }
-            const res = await proInOrEndpoint.get(token, order_id)
-            const resPro: ResPro[] = res.data.productInOrders
-            for(let i = 0; i < resPro.length; i++) {
-                let user: {id: number, name: string}
-                $userStore.forEach(u => {
-                    if(u.id == resPro[i].user_id) {
-                         return user = { id: u.id, name: u.name}
-                    }
-                })
-                let product: { id: number, name: string, price: number}
-                $productStore.forEach(p => {
-                    if(p.id == resPro[i].product_id){
-                        return product = { id: p.id, name: p.name, price: p.price}
-                    }
-                })
-                let productInOrder: ProductInOrder = {
-                    id: resPro[i].id, 
-                    user,
-                    order_id,
-                    product, 
-                    count: resPro[i].count, 
-                    total_price: product.price*resPro[i].count,
-                    created_date: resPro[i].created_date,
-                    update_date: resPro[i].update_date
-                }
-                productInOrders.push(productInOrder)                
-            } 
-            return productInOrders
-        } catch(error) {
-            console.log(error)
-        }
-    } 
     
     // get rooms
     async function getRooms() {
@@ -122,11 +76,10 @@
     let showAddCategory: boolean = false;
     let showAddProduct: boolean = false;
 
-
 </script>
 
 <svelte:head>
-    <title>Buyurtma qo'shish</title>
+    <title>Qo'shish</title>
 </svelte:head>
 
 <section class="grid grid-rows-2">
@@ -172,7 +125,7 @@
                                 >{category.name}</td
                             >
                             <td class="border border-slate-600 text-center"
-                                >{category.desc}</td
+                                >{category.products.length}</td
                             >
                             <td class="border border-slate-600 text-center">
                                 <div class="flex gap-1 items-center">

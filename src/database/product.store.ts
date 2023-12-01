@@ -5,9 +5,9 @@ export type Product = {
     name: string,
     price: number,
     category_id: number,
-    desc: string,
-    image: string,
-    created_date: string,
+    desc: string | null,
+    image: string | null,
+    create_date: string,
     update_date: string
 }
 

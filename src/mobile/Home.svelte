@@ -8,10 +8,10 @@
     // check token
     async function checkToken() {
         if (token) {
-            const res = await userEndpoint.getTokenVerify(token);
-            if (res.status == 200) {
+            try {
+                await userEndpoint.getTokenVerify(token);
                 const role = JSON.parse(localStorage.getItem("user")).role;
-                if (role === "admin") {
+                if (typeof role === "string" && role === "admin") {
                     if (screen.width < 500) {
                         navigate("/m");
                     } else {
@@ -20,11 +20,11 @@
                 } else {
                     navigate("/w");
                 }
-            } else {
-                return navigate("/login");
+            } catch (error) {
+                navigate("/login");
             }
         } else {
-            return navigate("/login");
+            navigate('/login')
         }
     }
     checkToken();

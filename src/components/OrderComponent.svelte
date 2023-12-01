@@ -28,7 +28,7 @@
     </div>
     <div class="flex items-center justify-between p-2">
         <p><b>{order.title}</b></p>
-        {#if order.status == true}
+        {#if order.status == 1}
             <p class="px-3 py-1 font-semibold text-white rounded-2xl bg-green-500 text-sm">Faol</p>
         {:else}
             <p class="px-3 py-1 font-semibold text-white rounded-2xl bg-red-500 text-sm">Tugatilgan</p>
@@ -37,8 +37,8 @@
     <div class="flex justify-between p-2">
         <p><b>Yaratilgan sana:</b></p>
         <span class="flex flex-col items-end font-medium">
-            <p>Sana: {order.created_date.slice(0,10)}</p>
-            <p>Vaqt: {order.created_date.slice(11,16)}</p>
+            <p>Sana: {order.create_date.slice(0,10)}</p>
+            <p>Vaqt: {order.create_date.slice(11,16)}</p>
         </span>
     </div>
     <div class="flex justify-between p-2">
@@ -47,7 +47,11 @@
     </div>
     <div class="flex justify-between p-2">
         <p><b>Xona nomi:</b></p>
-        <p>{order.room.name}</p>
+        {#if order.room === null}
+            <p class="text-white text-sm font-semibold bg-pink-500 rounded-2xl px-3 py-1">SOBOY/DOSTAVKA</p>
+        {:else}
+            <p class="text-white text-sm font-semibold bg-violet-500 rounded-2xl px-3 py-1">{order.room.name}</p>
+        {/if}
     </div>
     <div class="flex justify-between p-2">
         <p><b>Umumiy hisob:</b></p>
