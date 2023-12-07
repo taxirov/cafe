@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { OrderEndpoint } from '../api/order.api'
-    import { orderStore, type Order } from "../database/order.store";
+    import { OrderEndpoint } from '../api'
+    import { orderStore, type Order } from "../store";
 
     const roomEndpoint = new OrderEndpoint()
     const token = localStorage.getItem('token')

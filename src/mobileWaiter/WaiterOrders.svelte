@@ -1,6 +1,6 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    import { UserEndpoint } from "../api/user.api";
+    import { UserEndpoint } from "../api";
     import WaiterNavbar from "../components/WaiterNavbar.svelte";
 
     const token = localStorage.getItem('token')

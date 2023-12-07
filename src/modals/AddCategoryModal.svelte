@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { categoryStore } from "../database/category.store"
-    import { CategoryEndpoint } from '../api/category.api'
+    import { categoryStore } from "../store"
+    import { CategoryEndpoint } from '../api'
 
     const categoryEndpoint = new CategoryEndpoint()
     const token = localStorage.getItem('token')

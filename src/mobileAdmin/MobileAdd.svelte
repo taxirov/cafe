@@ -4,27 +4,15 @@
     import AddProductModal from "../modals/AddProductModal.svelte";
     import AddCategoryModal from "../modals/AddCategoryModal.svelte";
     // endpoints
-    import { CategoryEndpoint } from "../api/category.api";
-    import { ProductEndpoint } from "../api/product.api";
-    import { ProductInOrderEndpoint } from "../api/productinorder.api";
-    import { UserEndpoint } from "../api/user.api";
-    import { OrderEndpoint } from "../api/order.api";
-    import { RoomEndpoint } from "../api/room.api";
-
-    // stores
-    import { categoryStore, type Category } from "../database/category.store";
-    import { productStore, type Product } from "../database/product.store";
-    import type { ProductInOrder } from "../database/productInOrder.store";
-    import { userStore, type User } from "../database/user.store";
-    import { orderStore, type Order } from "../database/order.store";
-    import { roomStore, type Room } from "../database/room.store";
+    import { UserEndpoint, RoomEndpoint, CategoryEndpoint, ProductEndpoint } from "../api";
+    // types and stores
+    import type { User, Room, Category, Product } from "../store";
+    import { userStore, roomStore, categoryStore, productStore } from "../store";
 
     const userEndpoint = new UserEndpoint();
+    const roomEndpoint = new RoomEndpoint();
     const categoryEndpoint = new CategoryEndpoint();
     const productEndpoint = new ProductEndpoint();
-    const proInOrEndpoint = new ProductInOrderEndpoint();
-    const orderEndpoint = new OrderEndpoint();
-    const roomEndpoint = new RoomEndpoint();
 
     const token = localStorage.getItem('token');
 
@@ -38,6 +26,18 @@
             console.log(error)
         }
     } getUsers()
+    
+    // get rooms
+    async function getRooms() {
+        try{
+            const res = await roomEndpoint.get(token)
+            const rooms: Room[] = res.data.rooms
+            roomStore.set(rooms)
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }  getRooms()
 
     // get categories
     async function getCategories() {
@@ -60,18 +60,6 @@
             console.log(error)
         }
     } getProducts()
-    
-    // get rooms
-    async function getRooms() {
-        try{
-            const res = await roomEndpoint.get(token)
-            const rooms: Room[] = res.data.rooms
-            roomStore.set(rooms)
-        }
-        catch(error) {
-            console.log(error)
-        }
-    }  getRooms()
 
     let showAddCategory: boolean = false;
     let showAddProduct: boolean = false;
@@ -216,5 +204,5 @@
         show={showAddProduct}
         close={() => (showAddProduct = false)}
     />
-    <AdminNavbar />
+    <AdminNavbar current_page={"madd"}></AdminNavbar>
 </section>

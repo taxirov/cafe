@@ -1,13 +1,9 @@
 <script lang="ts">
     // endpoints
-    import { ProductInOrderEndpoint } from '../api/productinorder.api'
+    import { ProductInOrderEndpoint } from '../api'
 
     // stores
-    import { orderStore, type Order } from "../database/order.store";
-    import { roomStore } from "../database/room.store";
-    import { productStore } from "../database/product.store";
-    import { categoryStore } from '../database/category.store';
-
+    import { orderStore, roomStore, productStore, categoryStore, type Order } from "../store";
     const proInOrEndpoint = new ProductInOrderEndpoint()
     const token = localStorage.getItem('token')
 

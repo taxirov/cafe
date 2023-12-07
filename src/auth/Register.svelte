@@ -1,27 +1,24 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    import { UserEndpoint } from "../api/user.api";
-    import { RoleEndpoint } from "../api/role.api";
-    import { roleStore, type Role } from "../database/role.store";
+    import { UserEndpoint, RoleEndpoint } from "../api";
+    import { roleStore, type Role } from "../store";
 
     const userEndpoint = new UserEndpoint()
     const roleEndpoint = new RoleEndpoint()
     const admin_key = localStorage.getItem('admin-key')
 
-    // get admin verify
-    async function getAdminVerify() {
-        try {
-            const res = await userEndpoint.getAdminVerify(admin_key)
-            if(res.status !== 200) {
+    if (admin_key) {
+        // get admin verify
+        async function getAdminVerify() {
+            try {
+                await userEndpoint.getAdminVerify(admin_key)
+            }  catch(error) {
                 navigate('/check')
-            } else {
-                console.log('verify success')
             }
-        }  catch(error) {
-            alert(error.response.data.message)
-            console.log(error)
-        }
-    } getAdminVerify()
+        } getAdminVerify()
+    } else {
+        navigate('/check')
+    }
 
     // get roles
     async function getRoles() {
@@ -30,9 +27,7 @@
             const roles: Role[] = res.data.roles
             roleStore.set(roles)
         }
-        catch(error) {
-            console.log(error)
-        }
+        catch(error) {}
     }  getRoles()
 
     let name: HTMLInputElement
@@ -45,17 +40,10 @@
 
     async function login() {
         try {
-            const res = await userEndpoint.register(name.value, username.value.toString(), password.value.toString(), +salary.value, +role.value, phone.value, email.value, admin_key)
-            if(res.status === 200) {
-                localStorage.setItem('token', res.data.token)
-                localStorage.setItem('user', JSON.stringify(res.data.user))
-                localStorage.removeItem('admin-key')
-                navigate('/')
-            }
-        }  catch(error) {
-            alert(error.response.data.message)
-            console.log(error)
-        }
+            const res = await userEndpoint.register(name.value, username.value, password.value, +salary.value, +role.value, phone.value, email.value, admin_key)
+            localStorage.removeItem('admin-key')
+            navigate('/login')
+        }  catch(error) { }
     }
 </script>
 

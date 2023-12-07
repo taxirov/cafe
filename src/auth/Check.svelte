@@ -1,6 +1,6 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    import { UserEndpoint } from "../api/user.api";
+    import { UserEndpoint } from "../api";
 
     const admin_key = localStorage.getItem('admin-key')
     const userEndpoint = new UserEndpoint()

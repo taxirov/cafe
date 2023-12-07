@@ -1,5 +1,5 @@
 <script>
-    import { UserEndpoint } from '../api/user.api';
+    import { UserEndpoint } from '../api';
     import { navigate } from 'svelte-navigator';
 
     const userEndpoint = new UserEndpoint()

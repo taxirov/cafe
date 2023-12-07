@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { RoomEndpoint } from "../api/room.api";
+    import { RoomEndpoint } from "../api";
     import AcceptDeleteRoom from "../modals/AcceptDeleteRoom.svelte";
     import EditRoomModal from '../modals/EditRoomModal.svelte';
 

@@ -1,32 +1,28 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    import { UserEndpoint } from "../api/user.api"
+    import { UserEndpoint } from "../api"
 
     const userEndpoint = new UserEndpoint()
     const token = localStorage.getItem('token')
-    // async function checkToken() {
-    //     if(token) {
-    //         const res = await userEndpoint.verify(token)
-    //         if(res.status === 200) {
-    //             navigate('/')
-    //         }
-    //     }
-    // } checkToken()
+    if(token) {
+        const checkToken = async () => {
+            try {
+                await userEndpoint.getTokenVerify(token)
+                navigate('/')
+            } catch (error) {}
+        }; checkToken
+    }
+
     let password: HTMLInputElement
     let username: HTMLInputElement
 
     async function login() {
         try {
-            const res = await userEndpoint.login(username.value.toString(), password.value.toString())
-            if(res.status === 200) {
-                localStorage.setItem('token', res.data.token)
-                localStorage.setItem('user', JSON.stringify(res.data.user))
-                navigate('/')
-            }
-        }  catch(error) {
-            alert(error.response.data.message)
-            console.log(error)
-        }
+            const res = await userEndpoint.login(username.value, password.value)
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('user', JSON.stringify(res.data.user))
+            navigate('/')
+        }  catch(error) {}
     }
 </script>
 

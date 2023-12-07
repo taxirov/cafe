@@ -1,16 +1,18 @@
 <script lang="ts">
-    import { UserEndpoint } from '../api/user.api';
     import { navigate } from 'svelte-navigator';
+    // api endpoints
+    import { UserEndpoint, OrderEndpoint } from '../api';
+    // components
     import AdminNavbar from '../components/AdminNavbar.svelte';
-    import { userStore } from "../database/user.store"
-    import { OrderEndpoint } from '../api/order.api';
 
     if(screen.width > 450){ navigate('/') }
 
     const userEndpoint = new UserEndpoint()
     const orderEndpoint = new OrderEndpoint()
     const token = localStorage.getItem('token')
-    let orders: any[] = []
+
+    let orders_count: number = 0
+    let users_count: number = 0
 
     // check token 
     async function getVerify() {
@@ -31,19 +33,16 @@
     async function getUsers() {
         try {
             const res = await userEndpoint.get(token)
-            const users = res.data.users
-            userStore.set(users)
+            users_count = res.data.users.length
         } catch(error) {
-            console.log(error)
         }
     } getUsers()
 
     async function getTrueOrders() {
         try{
             const res = await orderEndpoint.getStatus(1, token)
-            orders = res.data.orders
+            orders_count = res.data.orders.length
         } catch(error) {
-            console.log(error)
         }
     } getTrueOrders()
 
@@ -72,7 +71,7 @@
                     <p class="text-sm">Faol buyurtmalar</p>
                     <span class="flex justify-between">
                         <span class="flex items-end gap-1">
-                            <p class="text-3xl font-bold">{orders.length}</p>
+                            <p class="text-3xl font-bold">{orders_count}</p>
                             <p class="">ta</p>
                         </span>
                         <i class="bi bi-box-seam absolute text-7xl right-0 bottom-0 opacity-30"></i>
@@ -82,7 +81,7 @@
                     <p class="text-sm">Ishchilar soni</p>
                     <span class="flex justify-between">
                         <span class="flex items-end gap-1">
-                            <p class="text-3xl font-bold">{$userStore.length}</p>
+                            <p class="text-3xl font-bold">{users_count}</p>
                             <p class="">ta</p>
                         </span>
                         <i class="bi bi-people absolute text-7xl right-0 bottom-0 opacity-30"></i>
@@ -217,5 +216,5 @@
             </div>
         </div>
     </div>
-    <AdminNavbar></AdminNavbar>
+    <AdminNavbar current_page={"m"}></AdminNavbar>
 </section>

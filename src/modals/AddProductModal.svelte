@@ -1,8 +1,6 @@
 <script lang="ts">
-    import { categoryStore } from "../database/category.store"
-    import { CategoryEndpoint } from '../api/category.api'
-    import { ProductEndpoint } from "../api/product.api"
-    import { productStore } from "../database/product.store";
+    import { categoryStore, productStore } from "../store"
+    import { CategoryEndpoint, ProductEndpoint } from '../api'
 
     const categoryEndpoint = new CategoryEndpoint()
     const productEndpoint = new ProductEndpoint()

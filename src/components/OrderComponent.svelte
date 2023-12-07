@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { OrderEndpoint } from "../api/order.api"
-    import type { Order } from "../database/order.store";
+    import { OrderEndpoint } from "../api"
+    import type { Order } from "../store";
     import AcceptEndOrder from "../modals/AcceptEndOrder.svelte";
     import AddProInOrModal from "../modals/AddProInOrModal.svelte";
 

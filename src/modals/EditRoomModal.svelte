@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { categoryStore } from "../database/category.store";
-    import { RoomEndpoint } from '../api/room.api';
-    import { roomStore, type Room } from "../database/room.store";
+    import { categoryStore, roomStore, type Room } from "../store";
+    import { RoomEndpoint } from '../api';
 
     const roomEndpoint = new RoomEndpoint()
     const token = localStorage.getItem('token')
