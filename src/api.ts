@@ -1,6 +1,6 @@
 import axios from "axios";
 import { REST_API } from "./env";
-const url = REST_API;
+const url = "http://31.129.110.72:4800/api;
 
 export class RoleEndpoint {
     post = async (name: string, admin_key: string) => {
