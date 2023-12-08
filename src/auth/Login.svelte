@@ -22,7 +22,9 @@
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('user', JSON.stringify(res.data.user))
             navigate('/')
-        }  catch(error) {}
+        }  catch(error) {
+            console.log(error)
+        }
     }
 </script>
 

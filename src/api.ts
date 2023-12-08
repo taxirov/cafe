@@ -19,7 +19,7 @@ export class UserEndpoint {
         return await axios.post(url + '/user/register', { username, password, salary, name, role_id, phone, email }, { headers: { "Admin-Key": admin_key}})
     }
     login = async (username: string, password: string) => {
-        return await axios.post(url + '/user/login', { username, password })
+        return await axios.post(url + '/user/login', { username, password }, { headers: { "Content-Type": "application/json"}})
     }
     getTokenVerify = async (token: string) => {
         return await axios.get(url + '/user/verify', { headers: { "Access-Token": token }})

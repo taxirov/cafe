@@ -13,7 +13,7 @@
                 navigate('/register')
             }
         }  catch(error) {
-            console.log('verify admin failed')
+            console.log('verify admin failed', error)
         }
     } getAdminVerify()
 

@@ -1,6 +1,6 @@
 # env
-@url=http://localhost:4800/api
-@admin-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibmFtZSI6IkJvYnVyIFRveGlyb3YiLCJ1c2VybmFtZSI6ImJvYnVyIiwicGhvbmUiOiIrOTk4OTE5MTIzMTg3IiwiaWF0IjoxNzAxMjc2MDYxLCJleHAiOjE3MDE4ODA4NjF9.3DFwUzO-TD65ZTEgnCpj6046c3oP9bHiiJdV_LUzOlk
+@url=http://31.129.110.72:4800/api
+@admin-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlNhYWQgVGFraGlyIiwidXNlcm5hbWUiOiJzYWFkdGFraGlyIiwicGhvbmUiOiIrOTk4OTA1Nzg5MjA0IiwiaWF0IjoxNzAyMDU2MjY1LCJleHAiOjE3MDI2NjEwNjV9.dPj6jji411u4m-JZKzRszlCwJIYwgJs8xjiMQUdLWmE
 @admin-key=Admin9204
 @waiter-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6IlNhYWQgVGFraGlyIiwidXNlcm5hbWUiOiJ0YXhpcm92IiwicGhvbmUiOiIrOTk4OTE5MTIzMTg3IiwiaWF0IjoxNzAxMjgwMTkyLCJleHAiOjE3MDE4ODQ5OTJ9.3x10cyqX-qHq93Z4ej0V8bGM_v-His4Ede_koUgqED8
 
@@ -55,7 +55,7 @@ POST {{url}}/user/login
 Content-Type: application/json
 
 {
-    "username": "taxirov",
+    "username": "saadtakhir",
     "password": "Saad1234"
 }
 
