@@ -31,11 +31,19 @@ function serve() {
 		}
 	};
 }
+function rmSourceMaps() {
+	return {
+	  name: 'rmSourceMaps',
+	  generateBundle() {
+		fs.rmSync('public/build/bundle.css.map', { force: true });
+	  }
+	}
+  }
 
 export default {
 	input: 'src/main.ts',
 	output: {
-		sourcemap: true,
+		sourcemap: false,
 		format: 'iife',
 		name: 'app',
 		file: 'public/build/bundle.js'
@@ -64,7 +72,8 @@ export default {
 		json(),
 		!production && serve(),
 		!production && livereload('public'),
-		production && terser()
+		production && terser(),
+		production && rmSourceMaps()
 	],
 	watch: {
 		clearScreen: false
