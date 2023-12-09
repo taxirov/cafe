@@ -7,7 +7,8 @@ import livereload from 'rollup-plugin-livereload';
 import css from 'rollup-plugin-css-only';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
-import json from '@rollup/plugin-json'
+import json from '@rollup/plugin-json';
+import fs from 'fs'
 
 const production = !process.env.ROLLUP_WATCH;
 
