@@ -9,6 +9,10 @@
         navigate('/login')
     }
 
+    function copyEmail() {
+        navigator.clipboard.writeText(user.email)
+    }
+
 </script>
 
 <section class="flex flex-col min-h-screen">
@@ -40,9 +44,9 @@
                 <p class="font-bold text-sm"><i class="bi bi-phone"></i> Telefon:</p>
                 <p class="font-medium text-md">{user.phone}</p>
             </div>
-            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
+            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 pl-4 pr-2 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-envelope"></i> Email:</p>
-                <p class="font-medium text-md">{user.email}</p>
+                <button on:click={copyEmail} class="font-medium text-sm bg-slate-200 px-2 py-1 rounded-xl">{user.email}</button>
             </div>
             <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-cash"></i> Oylik maosh:</p>
