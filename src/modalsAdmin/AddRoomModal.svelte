@@ -1,7 +1,7 @@
 <script lang="ts">
     import { categoryStore, roomStore, type Room } from "../store"
     import { RoomEndpoint } from '../api'
-    import Alert from "./Alert.svelte";
+    import Alert from "../modalsAll/Alert.svelte"
 
     const roomEndpoint = new RoomEndpoint()
     const token = localStorage.getItem('token')

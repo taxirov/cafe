@@ -1,7 +1,7 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    import { UserEndpoint } from "../api"
-
+    import { UserEndpoint } from "../api";
+    
     const userEndpoint = new UserEndpoint()
     const token = localStorage.getItem('token')
     if(token) {
@@ -13,8 +13,24 @@
         }; checkToken
     }
 
+    import Alert from "../modalsAll/Alert.svelte";
+
+    let show_alert: boolean = false
+    let alert_title: string
+    let alert_color: string
+    let alert_text: string
+    let alert_icon: string
+
     let password: HTMLInputElement
     let username: HTMLInputElement
+
+    function showAlert(title: string, color: string, text: string, icon: string) {
+        show_alert = true;
+        alert_title = title;
+        alert_text = text;
+        alert_color = color;
+        alert_icon = icon;
+    }
 
     async function login() {
         try {
@@ -23,7 +39,13 @@
             localStorage.setItem('user', JSON.stringify(res.data.user))
             navigate('/')
         }  catch(error) {
-            console.log(error)
+            if (error.response.status == 404) { 
+                showAlert('Xatolik', 'red-500', "Foydalanuchi topilmadi. Iltimos qaytadan urunib ko'ring", 'x')
+            } else if (error.response.status == 401) {
+                showAlert('Xatolik', 'red-500', "Foydalanuvchi nomi yoki parol noto'g'ri. Iltimos qaytadan urunib ko'ring", 'x')
+            } else if(error.response.status >= 500) {
+                showAlert('Xatolik', 'red-500', "Serverda xatolik. Iltimos dasturchi bilan bog'laning", 'x')
+            }
         }
     }
 </script>
@@ -33,6 +55,7 @@
 </svelte:head>
 
 <div class="flex justify-center items-center w-screen h-screen bg-indigo-500">
+    <Alert show={show_alert} close={() => show_alert = false } color={alert_color} text={alert_text} title={alert_title} icon={alert_icon} />
     <div class="flex flex-col gap-4 bg-white p-8 rounded-md">
         <h1 class="text-3xl font-bold outline-none">Tizimga kirish</h1>
         <div class="flex flex-col gap-2">

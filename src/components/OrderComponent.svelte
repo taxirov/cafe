@@ -1,8 +1,8 @@
 <script lang="ts">
     import { OrderEndpoint } from "../api"
     import type { Order } from "../store";
-    import AcceptEndOrder from "../modals/AcceptEndOrder.svelte";
-    import AddProInOrModal from "../modals/AddProInOrModal.svelte";
+    import AcceptEndOrder from "../modalsAdmin/AcceptEndOrder.svelte";
+    import AddProInOrModal from "../modalsAll/AddProInOrModal.svelte";
 
     const token = localStorage.getItem('token')
 

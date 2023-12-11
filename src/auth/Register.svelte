@@ -23,7 +23,7 @@
     // get roles
     async function getRoles() {
         try{
-            const res = await roleEndpoint.get(admin_key)
+            const res = await roleEndpoint.get()
             const roles: Role[] = res.data.roles
             roleStore.set(roles)
         }

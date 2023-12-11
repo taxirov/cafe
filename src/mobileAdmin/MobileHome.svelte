@@ -2,8 +2,6 @@
     import { navigate } from 'svelte-navigator';
     // api endpoints
     import { UserEndpoint, OrderEndpoint } from '../api';
-    // components
-    import AdminNavbar from '../components/AdminNavbar.svelte';
 
     if(screen.width > 450){ navigate('/') }
 
@@ -53,7 +51,7 @@
 </svelte:head>
 
 <section class="grid grid-rows-2 bg-indigo-500/10">
-    <div class="flex flex-col gap-3 p-3 h-fit">
+    <div class="grow flex flex-col gap-3 p-3 h-fit">
         <div class="umumiy flex flex-col gap-2">
             <h1 class="outline-none font-semibold text-lg">Umumiy ma'lumotlar</h1>
             <div class="grid grid-cols-3 gap-2">
@@ -216,5 +214,26 @@
             </div>
         </div>
     </div>
-    <AdminNavbar current_page={"m"}></AdminNavbar>
+    <div class="grow-0 h-fit grid grid-cols-5 bg-white px-2 py-2 sticky bottom-0 right-0 left-0">
+        <button on:click={() => { navigate('/m')}} class="flex flex-col items-center gap-1 text-violet-500 px-2 rounded-xl">
+            <i class="bi bi-house-fill text-2xl"></i>
+            <p class="text-[9px] font-bold">Asosiy</p>
+        </button>
+        <button on:click={() => { navigate('/morders')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+            <i class="bi bi-clipboard-fill text-2xl"></i>
+            <p class="text-[9px] font-bold">Buyurtmalar</p>
+        </button>
+        <button on:click={() => { navigate('/madd')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+            <i class="bi bi-plus text-2xl"></i>
+            <p class="text-[9px] font-bold">Qo'shish</p>
+        </button>
+        <button on:click={() => { navigate('/mrooms')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+            <i class="bi bi-door-open-fill text-2xl"></i>
+            <p class="text-[9px] font-bold">Xonalar</p>
+        </button>
+        <button on:click={() => { navigate('/mprofile')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+            <i class="bi bi-person-fill text-2xl"></i>
+            <p class="text-[10px] font-bold">Profil</p>
+        </button>
+    </div>
 </section>

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { categoryStore, productStore } from "../store"
+    import { categoryStore, productStore, type Product, type Category } from "../store"
     import { CategoryEndpoint, ProductEndpoint } from '../api'
 
     const categoryEndpoint = new CategoryEndpoint()
@@ -19,7 +19,10 @@
     async function create() {
         try {
             const res = await productEndpoint.post(+category_id.value, name.value, +price.value, desc.value, token, admin_key)
-            productStore.update((pro) => { return pro.concat(res.data.product)})
+            const product: Product = res.data.product
+            productStore.update((pro) => { return pro.concat(product)})
+            const categories: Category[] = (await categoryEndpoint.get()).data.categories 
+            categoryStore.set(categories)
             close()
         } catch (error) {
             console.log(error)

@@ -32,14 +32,6 @@ function serve() {
 		}
 	};
 }
-function rmSourceMaps() {
-	return {
-	  name: 'rmSourceMaps',
-	  generateBundle() {
-		fs.rmSync('public/build/bundle.css.map', { force: true });
-	  }
-	}
-  }
 
 export default {
 	input: 'src/main.ts',
@@ -57,8 +49,6 @@ export default {
 				dev: !production
 			}
 		}),
-		// we'll extract any component CSS out into
-		// a separate file - better for performance
 		css({ output: 'bundle.css' }),
 		resolve({
 			browser: true,
@@ -73,8 +63,7 @@ export default {
 		json(),
 		!production && serve(),
 		!production && livereload('public'),
-		production && terser(),
-		production && rmSourceMaps()
+		production && terser()
 	],
 	watch: {
 		clearScreen: false

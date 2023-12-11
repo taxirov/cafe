@@ -20,7 +20,7 @@
 	// waiter mobile navbar
 	import WaiterOrders from "./mobileWaiter/WaiterOrders.svelte";
 	import Products from "./mobileWaiter/Products.svelte"
-	import WaiterAdd from "./mobileWaiter/WaiterAdd.svelte";
+	import WaiterRooms from "./mobileWaiter/WaiterRooms.svelte";
 	import WaiterProfile from "./mobileWaiter/WaiterProfile.svelte"
     
 </script>
@@ -44,6 +44,6 @@
 	<!-- waiter -->
 	<Route exact path='/w'><WaiterOrders/></Route>
 	<Route exact path='/products'><Products/></Route>
-	<Route exact path='/wadd'><WaiterAdd/></Route>
+	<Route exact path='/wrooms'><WaiterRooms/></Route>
 	<Route exact path='/wprofile'><WaiterProfile/></Route>
 </Router>

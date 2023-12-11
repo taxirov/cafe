@@ -1,7 +1,7 @@
 import { writable, type Writable } from "svelte/store";
 // types
-export type Role = { id: number, name: string, create_date: string, update_date: string }
-export type User = { id: number, name: string, username: string, image: null | string, phone: string, email: string, salary: number, role: string, orders: number, create_date: string, update_date: string }
+export type Role = { id: number, name: string, users: number, create_date: string, update_date: string }
+export type User = { id: number, name: string, username: string, image: null | string, phone: string, email: string, salary: number, role: string, status: number, orders: number, create_date: string, update_date: string }
 export type Room = { id: number, name: string, desc: string | null, image: string | null, booked: number, capacity: number, create_date: string, update_date: string }
 export type Category = { id: number, name: string, desc: string | null, image: string | null, products: Product[], create_date: string, update_date: string }
 export type Product = { id: number, name: string, price: number, category_id: number, desc: string | null, image: string | null, create_date: string, update_date: string }
