@@ -1,40 +1,63 @@
 <script lang="ts">
     import { navigate } from 'svelte-navigator';
+    import { UserEndpoint } from "../api";
+    import type { User } from '../store';
+
+    const user: User = JSON.parse(localStorage.getItem('user'))
+    const token: string = localStorage.getItem("token")
+    const userEndpoint = new UserEndpoint()
+
+    async function checkToken() {
+        try {
+            const res = await userEndpoint.getTokenVerify(token)
+            if (res.status == 200) {
+                if (res.data.user.role == "waiter") {
+                    navigate('/wprofile')
+                } else {
+                    localStorage.setItem("user", JSON.stringify(res.data.user))
+                    console.log("Verify success")
+                }
+            }
+        } catch (error) {
+            navigate('/login')
+        }
+    }
+
+    if (!token || !user) {
+        localStorage.clear()
+        navigate('/login')
+    } else {
+        checkToken()
+    }
 
     // types
-    import type { Order, ProductInOrder } from '../store';
+    import type { Order, ProductInOrder, Room } from '../store';
     // stores
-    import { orderStore, productInOrderStore } from '../store';
-
+    import { orderStore, productInOrderStore, roomStore } from '../store';
     // endpoints
-    import { UserEndpoint, RoomEndpoint, ProductEndpoint, OrderEndpoint, ProductInOrderEndpoint } from '../api';
-
+    import { RoomEndpoint, ProductEndpoint, OrderEndpoint, ProductInOrderEndpoint } from '../api';
+    const roomEndpoint = new RoomEndpoint()
     // modals
     import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
-
     // components
     import OrderComponent from '../components/OrderComponent.svelte';
-    
     
     let show_add: boolean = false
 
     const orderEndpoint = new OrderEndpoint()
     const productInOrderEndpoint = new ProductInOrderEndpoint()
-
-    const token: string = localStorage.getItem('token')
-
  
     // // get rooms
-    // async function getRooms() {
-    //     try{
-    //         const res = await roomEndpoint.get(token)
-    //         const rooms: Room[] = res.data.rooms
-    //         roomStore.set(rooms)
-    //     }
-    //     catch(error) {
-    //         console.log(error)
-    //     }
-    // }  getRooms()
+    async function getRooms() {
+        try{
+            const res = await roomEndpoint.get(token)
+            const rooms: Room[] = res.data.rooms
+            roomStore.set(rooms)
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }  getRooms()
 
     // get orders to do
     async function getTrueOrders() {
@@ -72,7 +95,7 @@
                 <p class="text-center text-sm text-gray-400 font-medium">Sizda faol buyurtmalar mavjud emas</p>
             {:else}
                 {#each $orderStore as order}
-                    <OrderComponent order={order}></OrderComponent>
+                    <OrderComponent user_role={user.role} order={order}></OrderComponent>
                 {/each}
             {/if}
         </div>

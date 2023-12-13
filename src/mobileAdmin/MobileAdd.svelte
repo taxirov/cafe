@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { navigate } from "svelte-navigator";
     // components
     import AddProductModal from "../modalsAdmin/AddProductModal.svelte";
     import AddCategoryModal from "../modalsAdmin/AddCategoryModal.svelte";
@@ -9,18 +10,42 @@
     import EditRoomModal from "../modalsAdmin/EditRoomModal.svelte";
     // endpoints
     import { UserEndpoint, RoomEndpoint, CategoryEndpoint, ProductEndpoint, RoleEndpoint } from "../api";
+
+    const user: User = JSON.parse(localStorage.getItem('user'))
+    const token: string = localStorage.getItem("token")
+    const userEndpoint = new UserEndpoint()
+
+    async function checkToken() {
+        try {
+            const res = await userEndpoint.getTokenVerify(token)
+            if (res.status == 200) {
+                if (res.data.user.role == "waiter") {
+                    navigate('/wprofile')
+                } else {
+                    localStorage.setItem("user", JSON.stringify(res.data.user))
+                    console.log("Verify success")
+                }
+            }
+        } catch (error) {
+            navigate('/login')
+        }
+    }
+
+    if (!token || !user) {
+        localStorage.clear()
+        navigate('/login')
+    } else {
+        checkToken()
+    }
+
     // types and stores
     import type { User, Room, Category, Product, Role } from "../store";
     import { userStore, roomStore, categoryStore, productStore, roleStore } from "../store";
-    import { navigate } from "svelte-navigator";
 
-    const userEndpoint = new UserEndpoint();
     const roomEndpoint = new RoomEndpoint();
     const categoryEndpoint = new CategoryEndpoint();
     const productEndpoint = new ProductEndpoint();
     const roleEndpoint = new RoleEndpoint()
-
-    const token = localStorage.getItem('token');
 
     // get roles
     async function getRoles() {

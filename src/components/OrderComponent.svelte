@@ -2,8 +2,8 @@
     import { OrderEndpoint } from "../api"
     import type { Order, ProductInOrder } from "../store";
     import AcceptEndOrder from "../modalsAdmin/AcceptEndOrder.svelte";
+    import AcceptDeleteOrder from "../modalsAdmin/AcceptDeleteOrder.svelte";
     import AddProInOrModal from "../modalsAll/AddProInOrModal.svelte";
-    import EditProInOrModal from "../modalsAll/EditProInOrModal.svelte";
     import ProInOrder from "./ProInOrder.svelte";
 
     const token = localStorage.getItem('token')
@@ -13,12 +13,14 @@
 
     let show_end: boolean = false
     let show_edit: boolean = false
+    let show_delete: boolean = false
+
+    // buttons for products
     let show_products: boolean = false
     let show_btn: boolean = true
     let close_btn: boolean = false
+
     let show_add_pro: boolean = false;
-    let productInOrder: ProductInOrder 
-    let showEditProInOrder: boolean = false
 
 </script>
 
@@ -31,9 +33,10 @@
             <p class="text-sm font-medium">{order.create_date.slice(0,10)} {order.create_date.slice(11,16)}</p>
         </span>
         <div class="flex gap-2">
-            <button on:click={() => { show_add_pro = true}} class="bg-violet-500 text-white text-sm py-3 px-3 rounded-md font-semibold w-fit"><i class="bi bi-plus"></i></button>
+            <button on:click={() => { show_add_pro = true}} class="bg-violet-500 text-white text-xl py-3 px-3 rounded-md font-semibold w-fit"><i class="bi bi-clipboard-plus"></i></button>
             {#if user_role == 'admin'}
-                <button on:click={() => { show_end = true}} class="bg-red-500 text-white text-sm py-2 px-3 rounded-md font-semibold w-fit"><i class="bi bi-trash"></i></button>
+                <button on:click={() => { show_end = true}} class="bg-red-500 text-white text-xl py-3 px-3 rounded-md font-semibold w-fit"><i class="bi bi-clipboard-x"></i></button>
+                <button on:click={() => { show_delete = true}} class="border-red-500 border-2 text-red-500 text-xl py-3 px-3 rounded-md font-semibold w-fit"><i class="bi bi-trash"></i></button>
             {/if}
         </div>
     </div>
@@ -98,3 +101,4 @@
     </div>
 </div>
 <AcceptEndOrder id={order.id} show={show_end} close={() => { show_end = false }}></AcceptEndOrder>
+<AcceptDeleteOrder id={order.id} show={show_delete} close={() => show_delete = false }></AcceptDeleteOrder>

@@ -92,11 +92,11 @@ export class OrderEndpoint {
     async getStatusRoom( status_order: number, room_id: number, token: string) {
         return await axios.get(url + '/order?status_order=' + status_order + '&room_id=' + room_id, { headers: { "Access-Token": token }})
     }
-    async delete(id: number, token: string) {
-        return await axios.delete(url + '/order/' + id, { headers: { "Access-Token": token }} )
+    async delete(id: number, token: string, admin_key: string) {
+        return await axios.delete(url + '/order/' + id, { headers: { "Access-Token": token, "Admin-Key": admin_key }} )
     }
-    async patchStatus(id: number, status_order: boolean, token: string) {
-        return await axios.patch(url + '/order/' + id + '/status', { status_order }, { headers: { "Access-Token": token }})
+    async patchStatus(id: number, status: number, token: string, admin_key: string) {
+        return await axios.patch(url + '/order/' + id + '/status', { status }, { headers: { "Access-Token": token, "Admin-Key": admin_key }})
     }
     async getStatusUser(status_order: number, user_id: number, token: string) {
         return await axios.patch(url + '/order?status_order=' + status_order + '&user_id=' + user_id, { headers: { "Access-Token": token }})

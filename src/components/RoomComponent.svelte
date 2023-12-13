@@ -9,22 +9,6 @@
 
     let showAlertModal = false
 
-    async function getRooms() {
-        try {
-            const res = await roomEndpoint.get(token)
-            const rooms: Room[] = res.data.rooms
-            roomStore.set(rooms)
-        } catch (error) {
-            if (error.response.status == 401) {
-                navigate('/login')
-            } else if (error.response.status >= 500) {
-                showAlertModal = true
-            } else {
-                console.log(error)
-            }
-        }
-    } getRooms()
-
     export let room_name: string
     export let room_desc: string
     export let room_capacity: number
