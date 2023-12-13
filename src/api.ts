@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://localhost:4800/api";
+const url = "http://31.129.110.72:4800/api";
 
 export class RoleEndpoint {
     async post(name: string, admin_key: string) {
