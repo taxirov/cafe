@@ -1,24 +1,36 @@
 <script lang="ts">
     // endpoints
     import { ProductInOrderEndpoint } from '../api'
-
     // stores
-    import { orderStore, roomStore, productStore, categoryStore, type Order } from "../store";
+    import { orderStore, productStore, categoryStore } from "../store";
+    // types
+    import type { Order, ProductInOrder } from "../store";
+    const token  = localStorage.getItem("token")
+
     const proInOrEndpoint = new ProductInOrderEndpoint()
-    const token = localStorage.getItem('token')
 
     export let show: boolean
     export let close: () => void
     export let order_id: number
-    let category_id: number
-    let product_id: number
-    let count: number
+
+    let category_id: number = 1
+
+    let category: HTMLSelectElement
+    let product: HTMLSelectElement
+    let count: HTMLInputElement
+
+    function onSelectCategory() {
+        category_id = +category.value
+    }
 
     async function create() {
         try {
-            const res  = await proInOrEndpoint.post(order_id, product_id, count, token)
-            const order: Order = res.data.order
-            orderStore.update((orders) => orders.concat(order))
+            const res  = await proInOrEndpoint.post(order_id, +product.value, +count, token)
+            const proInOrder: ProductInOrder = res.data.productInOrder
+            let order = $orderStore.filter(o => o.id == proInOrder.order_id)[0]
+            order.products.push(proInOrder)
+            orderStore.update(orders => { return orders.filter(o => o.id != order.id)})
+            orderStore.update(orders => { return orders.concat([order]) })
             close()
         } catch (error) {
             console.log(error)
@@ -35,15 +47,20 @@
         <div class="flex flex-col gap-3">
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="room">Kategoriyani tanlang*:</label>
-                <select bind:value={category_id}  class="outline-0 border-2 px-3 py-1 rounded" name="room" id="">
+                <select bind:this={category} on:change={onSelectCategory}  class="outline-0 border-2 px-3 py-1 rounded" name="room" id="">
                     {#each $categoryStore as category}
                         <option value="{category.id}">{category.name}</option>
+                        <select>
+                            {#each category.products as product}
+                                <option value="{product.id}">{product.name}</option>
+                            {/each}
+                        </select>
                     {/each}
                 </select>
             </div>
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="product-id">Mahsulotni tanlang*:</label>
-                <select bind:value={product_id}  class="outline-0 border-2 px-3 py-1 rounded" name="room" id="">
+                <select bind:this={product}  class="outline-0 border-2 px-3 py-1 rounded" name="room" id="">
                     {#each $productStore.filter(p => p.category_id == category_id) as product}
                         <option value="{product.id}">{product.name}</option>
                     {/each}

@@ -1,8 +1,8 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator"
-    import { UserEndpoint, CategoryEndpoint } from "../api";
-    import type { Category, User } from "../store";
-    import { categoryStore } from "../store"
+    import { UserEndpoint, CategoryEndpoint, ProductEndpoint } from "../api";
+    import type { Category, User, Product } from "../store";
+    import { categoryStore, productStore } from "../store"
     import CategoryComponent from "../components/CategoryComponent.svelte"
 
     const user: User = JSON.parse(localStorage.getItem('user'))
@@ -26,7 +26,7 @@
     } 
     else { checkToken() }
 
-    const categoryEndpoint = new CategoryEndpoint()
+    const categoryEndpoint = new CategoryEndpoint();
 
     async function getCategories() {
         try { 
@@ -38,6 +38,8 @@
         }
     } getCategories()
 
+    
+
 </script>
 
 <svelte:head>
@@ -46,7 +48,7 @@
 
 <section class="flex flex-col min-h-screen">
     <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-white p-3 h-fit">
-        <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-door-open-fill text-2xl text-indigo-500"></i> Mahsulotlar</h2>
+        <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-box-seam-fill text-2xl text-indigo-500"></i> Mahsulotlar</h2>
     </div>
     <div class="grow flex flex-col gap-2 p-2">
         {#each $categoryStore as category}

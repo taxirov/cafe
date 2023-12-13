@@ -410,14 +410,14 @@
                         <th class="border border-slate-600 text-center">Tahrir</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody> 
                     {#each $roomStore as room}
                         <AcceptDeleteRoom show={showRoomDelete} close={() => { showRoomDelete = false }} id={room.id} />
                         <EditRoomModal show={showEditRoom} close={() => { showEditRoom = false }} id={room.id} name={room.name} desc={room.desc} capacity={room.capacity} />
                         <tr>
                             <td class="border border-slate-600 text-center">{room.id}</td>
                             <td class="border border-slate-600 text-center">{room.name}</td>
-                            {#if room.booked == 1}
+                            {#if room.booked == true}
                                 <td class="border border-slate-600 bg-red-500 text-center">band</td>
                             {:else}
                                 <td class="border border-slate-600 bg-green-500 text-center">ochiq</td>
@@ -445,11 +445,15 @@
         </button>
         <button on:click={() => { navigate('/madd')}} class="flex flex-col items-center gap-1 text-indigo-700 px-2 rounded-xl">
             <i class="bi bi-plus text-2xl"></i>
-            <p class="text-[9px] font-bold">Qo'shish</p>
+            <p class="text-[10px] font-bold">Qo'shish</p>
+        </button>
+        <button on:click={() => { navigate('/mrooms')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+            <i class="bi bi-door-open-fill text-2xl"></i>
+            <p class="text-[9px] font-bold">Xonalar</p>
         </button>
         <button on:click={() => { navigate('/mprofile')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
             <i class="bi bi-person-fill text-2xl"></i>
-            <p class="text-[10px] font-bold">Profile</p>
+            <p class="text-[9px] font-bold">Profile</p>
         </button>
     </div>
 </section>

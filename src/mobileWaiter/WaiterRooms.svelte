@@ -24,8 +24,7 @@
     if (!token || !user) {
         localStorage.clear()
         navigate('/login')
-    } 
-    else { checkToken() }
+    } else { checkToken() }
 
     // components
     import RoomComponent from '../components/RoomComponent.svelte';
@@ -59,7 +58,7 @@
     <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-white p-3 h-fit">
         <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-door-open-fill text-2xl text-indigo-500"></i> Xonalar</h2>
     </div>
-    <div class="grow flex flex-col gap-3 p-3 h-fit">
+    <div class="grow flex flex-col gap-3 p-2 h-fit">
         <AddRoomModal show={show_add} close={() => show_add = false}></AddRoomModal>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-start">
             {#if $roomStore.length == 0}

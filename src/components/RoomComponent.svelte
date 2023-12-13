@@ -28,7 +28,7 @@
     export let room_name: string
     export let room_desc: string
     export let room_capacity: number
-    export let room_booked: number
+    export let room_booked: boolean
 
     let show_delete: boolean = false
     let show_edit: boolean = false
@@ -53,7 +53,7 @@
         </div>
         <div class="flex justify-between items-center rounded-md bg-indigo-500/10 px-3 py-2">
             <p class="text-sm font-bold">Holati:</p>
-            {#if room_booked == 1}
+            {#if room_booked == true}
                 <p class="text-sm font-semibold px-4 py-1 rounded-2xl text-white bg-red-400">Xona band</p>
             {:else}
                 <p class="text-sm font-semibold px-4 py-1 rounded-2xl text-white bg-green-400">Xona ochiq</p>

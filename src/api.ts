@@ -77,7 +77,7 @@ export class ProductEndpoint {
 }
 
 export class OrderEndpoint {
-    async post(title: string, desc: string | null, room_id: number, token: string) {
+    async post(title: string, desc: string | null, room_id: number | null, token: string) {
         return await axios.post(url + '/order', { title, desc, room_id }, { headers: { "Access-Token": token }})
     }
     async get(token: string) {
@@ -107,17 +107,23 @@ export class OrderEndpoint {
 }
 
 export class ProductInOrderEndpoint {
-    post = async (order_id: number, product_id: number, count: number, token: string) => {
+    async post(order_id: number, product_id: number, count: number, token: string) {
         return await axios.post(url + '/productinorder', { order_id, product_id, count }, { headers: { "Access-Token": token }})
     }
-    get = async (token: string, order_id: number | null) => {
+    async get(token: string, order_id: number | null) {
         if(order_id) {
             return await axios.get(url + '/productinorder?order_id=' + order_id, { headers: { "Access-Token": token }})
         } else {
             return await axios.get(url + '/productinorder', { headers: { "Access-Token": token }})
         }
     }
-    delete = async (id: number, token: string) => {
+    async delete(id: number, token: string) {
         return await axios.delete(url + '/productinorder/' + id, { headers: { "Access-Token": token }} )
+    }
+    async put(id: number, product_id: number, count: number, token: string) {
+        return await axios.put(url + '/productinorder/' + id, { product_id, count}, { headers: { "Access-Token": token }})
+    }
+    async patchStatus(id: number, status: number, token: string) {
+        return await axios.patch(url + '/productinorder/' + id + '/status', { status }, { headers: { "Access-Token": token }})
     }
 }
