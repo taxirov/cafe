@@ -1,6 +1,7 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
     import { UserEndpoint } from "../api";
+    import https from "node:https"
     
     const userEndpoint = new UserEndpoint()
     const token = localStorage.getItem('token')
