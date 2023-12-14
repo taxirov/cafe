@@ -42,7 +42,7 @@ export default {
 		name: 'app',
 		file: 'public/build/bundle.js',
 		globals: {
-			https: https
+			https: '$'
 		}
 	},
 	plugins: [
