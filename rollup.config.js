@@ -8,7 +8,8 @@ import css from 'rollup-plugin-css-only';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
-import fs from 'fs'
+import fs from 'fs';
+import https from "https"
 
 const production = !process.env.ROLLUP_WATCH;
 
