@@ -10,6 +10,7 @@ import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import fs from 'fs';
 import https from "https"
+import { defineConfig } from 'rollup';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -68,5 +69,8 @@ export default {
 	],
 	watch: {
 		clearScreen: false
+	},
+	defineConfig: {
+		https: { }
 	}
 };
