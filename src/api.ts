@@ -7,9 +7,6 @@ const agent = new https.Agent({
     rejectUnauthorized: false,
 })
 
-const header1 = new axios.AxiosHeaders()
-header1.setUserAgent(false)
-
 const instance = axios.create({
     baseURL: "http://31.129.110.72:4800/api",
     headers: { 'Origin': '*', "Access-Control-Allow-Origin": "*" },
