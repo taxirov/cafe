@@ -1,21 +1,6 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
     import { UserEndpoint } from "../api";
-    import axios from "axios";
-    import https from 'node:https'
-
-    const url = "http://31.129.110.72:4800/api"
-
-    const agent = new https.Agent({
-        rejectUnauthorized: false,
-    })
-
-    const instance = axios.create({
-        baseURL: "http://31.129.110.72:4800/api",
-        headers: { 'Origin': '*', "Access-Control-Allow-Origin": "*" },
-        httpsAgent: agent,
-    });
-
     
     const userEndpoint = new UserEndpoint()
     const token = localStorage.getItem('token')
@@ -49,7 +34,7 @@
 
     async function login() {
         try {
-            const res = await instance.post('/user/login', { username, password }, { headers: { "Content-Type": "application/json" } })
+            const res = await userEndpoint.login(username.value, password.value)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('user', JSON.stringify(res.data.user))
             navigate('/')
