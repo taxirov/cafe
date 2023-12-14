@@ -1,6 +1,6 @@
 import axios from "axios";
 import https from "https"
-
+const url = "http://31.129.110.72:4800/api"
 const agent = new https.Agent({
     rejectUnauthorized: false,
 })
