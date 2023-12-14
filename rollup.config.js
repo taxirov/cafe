@@ -9,7 +9,6 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import https from "https";
-import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -53,7 +52,6 @@ export default {
 				dev: !production
 			}
 		}),
-		nodePolyfills,
 		css({ output: 'bundle.css' }),
 		resolve({
 			browser: true,
