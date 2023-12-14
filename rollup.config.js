@@ -35,6 +35,7 @@ function serve() {
 
 export default {
 	input: 'src/main.ts',
+	external: ['https'],
 	output: {
 		sourcemap: false,
 		format: 'iife',
