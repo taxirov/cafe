@@ -71,6 +71,6 @@ export default {
 		clearScreen: false
 	},
 	defineConfig: {
-		https: { }
+		https: { https }
 	}
 };
