@@ -33,7 +33,7 @@
     "@rollup/plugin-json": "^6.0.1",
     "@types/node": "^20.10.4",
     "axios": "^1.6.1",
-    "node": "^16.0.0",
+    "node": "^18.0.0",
     "nvm": "^0.0.4",
     "sirv-cli": "^2.0.0",
     "svelte-navigator": "^3.2.2",
