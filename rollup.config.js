@@ -8,7 +8,8 @@ import css from 'rollup-plugin-css-only';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
-import https from "https";
+import https from "node:https";
+import node from 'node'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -22,7 +23,7 @@ function serve() {
 	return {
 		writeBundle() {
 			if (server) return;
-			server = spawn('npm', ['run', 'start', '--', '--dev'], {
+			server = spawn('yarn', ['run', 'build', 'start', '--', '--dev'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
 				shell: true
 			});
@@ -41,7 +42,8 @@ export default {
 		name: 'app',
 		file: 'public/build/bundle.js',
 		globals: {
-			https: https
+			https: https,
+			node: node
 		}
 	},
 	plugins: [
