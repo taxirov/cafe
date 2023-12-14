@@ -9,6 +9,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import https from "node:https";
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -35,14 +36,16 @@ function serve() {
 
 export default {
 	input: 'src/main.ts',
-	external: ['https'],
+	external: [
+		"https"
+	],
 	output: {
-		sourcemap: false,
+		sourcemap: true,
 		format: 'iife',
 		name: 'app',
 		file: 'public/build/bundle.js',
 		globals: {
-			https: '$'
+			https: "$"
 		}
 	},
 	plugins: [
@@ -67,7 +70,8 @@ export default {
 		json(),
 		!production && serve(),
 		!production && livereload('public'),
-		production && terser()
+		production && terser(),
+		nodePolyfills( /* options */ )
 	],
 	watch: {
 		clearScreen: false
