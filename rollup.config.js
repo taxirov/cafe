@@ -9,7 +9,6 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import https from "node:https";
-import node from 'node'
 
 const production = !process.env.ROLLUP_WATCH;
 
