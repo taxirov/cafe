@@ -1,15 +1,20 @@
 import axios from "axios";
 const url = "http://31.129.110.72:4800/api";
 
+const instance = axios.create({
+    baseURL: "http://31.129.110.72:4800/api",
+    headers: {'Origin': '*', "Access-Control-Allow-Origin": "*"}    
+  });
+
 export class RoleEndpoint {
     async post(name: string, admin_key: string) {
-        return await axios.post(url + '/role', { name }, { headers: { "Admin-Key": admin_key }})
+        return await instance.post('/role', { name }, { headers: { "Admin-Key": admin_key }})
     }
     async get() {
-        return await axios.get(url + '/role')
+        return await instance.get('/role')
     }
     async delete(id: number, admin_key: string) {
-        return await axios.delete(url + '/role/' + id, { headers: { "Admin-Key": admin_key }} )
+        return await instance.delete('/role/' + id, { headers: { "Admin-Key": admin_key }} )
     }
 }
 
