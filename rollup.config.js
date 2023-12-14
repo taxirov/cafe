@@ -8,9 +8,8 @@ import css from 'rollup-plugin-css-only';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
-import fs from 'fs';
-import https from "https"
-import { defineConfig } from 'rollup';
+import https from "https";
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -41,7 +40,10 @@ export default {
 		sourcemap: false,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: 'public/build/bundle.js',
+		globals: {
+			https: https
+		}
 	},
 	plugins: [
 		svelte({
@@ -51,6 +53,7 @@ export default {
 				dev: !production
 			}
 		}),
+		nodePolyfills,
 		css({ output: 'bundle.css' }),
 		resolve({
 			browser: true,
