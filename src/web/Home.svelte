@@ -9,14 +9,11 @@
     async function checkToken() {
         if (token) {
             try {
-                await userEndpoint.getTokenVerify(token);
-                const role = JSON.parse(localStorage.getItem("user")).role;
-                if (typeof role === "string" && role === "admin") {
-                    if (screen.width < 500) {
-                        navigate("/m");
-                    } else {
-                        navigate("/admin");
-                    }
+                const res = await userEndpoint.getTokenVerify(token);
+                const user = res.data.user;
+                localStorage.setItem("user", JSON.stringify(user));
+                if (user.role === "admin") {
+                    navigate("/m");
                 } else {
                     navigate("/w");
                 }
@@ -24,7 +21,7 @@
                 navigate("/login");
             }
         } else {
-            navigate('/login')
+            navigate("/login");
         }
     }
     checkToken();

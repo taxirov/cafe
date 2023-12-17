@@ -3,7 +3,7 @@
     // api endpoints
     import { UserEndpoint, OrderEndpoint } from '../api';
 
-    if(screen.width > 450){ navigate('/') }
+    // if(screen.width > 450){ navigate('/') }
 
     const userEndpoint = new UserEndpoint()
     const orderEndpoint = new OrderEndpoint()
@@ -16,6 +16,8 @@
     async function getVerify() {
         try {
             const res = await userEndpoint.getTokenVerify(token)
+            const user = res.data.user
+            localStorage.setItem('user', JSON.stringify(user))
             if(res.status === 200) {
                 console.log('Verify succes')
             } else {

@@ -14,6 +14,7 @@
     }
 
     import Alert from "../modalsAll/Alert.svelte";
+    import type { User } from "../store";
 
     let show_alert: boolean = false
     let alert_title: string
@@ -35,8 +36,9 @@
     async function login() {
         try {
             const res = await userEndpoint.login(username.value, password.value)
+            const user: User = res.data.user
             localStorage.setItem('token', res.data.token)
-            localStorage.setItem('user', JSON.stringify(res.data.user))
+            localStorage.setItem('user', JSON.stringify(user))
             navigate('/')
         }  catch(error) {
             if (error.response.status == 404) { 
