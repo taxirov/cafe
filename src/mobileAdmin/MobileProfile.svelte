@@ -10,8 +10,8 @@
         try {
             const res = await userEndpoint.getTokenVerify(token)
             if (res.status == 200) {
-                if (res.data.user.role == "admin") {
-                    navigate('/mprofile')
+                if (res.data.user.role == "waiter") {
+                    navigate('/wprofile')
                 } else {
                     localStorage.setItem("user", JSON.stringify(res.data.user))
                     console.log("Verify success")
