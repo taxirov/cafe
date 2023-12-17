@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REST_API = "http:/31.129.110.72:4800/api"
+const REST_API = "https:/webpack.uz:4800/api"
 
 export class RoleEndpoint {
     async post(name: string, admin_key: string) {
