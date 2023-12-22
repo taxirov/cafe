@@ -33,7 +33,7 @@
 </script>
 
 <div class={"h-screen w-screen bg-black/70 fixed top-0 left-0 bottom-0 right-0 z-[999] justify-center items-center " + (show ? "flex" : "hidden")}>
-    <div class="bg-white p-8 flex flex-col gap-3 h-fit w-4/5 rounded-md shadow-md">
+    <div class="bg-white p-8 md:p-5 flex flex-col gap-3 md:gap-4 h-fit w-4/5 md:w-fit rounded-md shadow-md">
         <p class="text-xl text-center font-bold">Tasdiqlash</p>
         <p class="text-sm text-center font-medium">Mahsulot mijozga berilganligini tasdiqlaysizmi?</p>
         <div class="flex justify-between gap-3">

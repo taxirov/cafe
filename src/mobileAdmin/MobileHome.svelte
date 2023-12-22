@@ -40,7 +40,7 @@
 
     async function getTrueOrders() {
         try{
-            const res = await orderEndpoint.getStatus(1, token)
+            const res = await orderEndpoint.getStatus(1, 1, token)
             orders_count = res.data.orders.length
         } catch(error) {
         }

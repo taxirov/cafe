@@ -51,38 +51,37 @@
 </script>
 
 <svelte:head>
-    <title>Asosiy sahifa</title>
+    <title>Xonalar</title>
 </svelte:head>
 
 <section class="flex min-h-screen md:h-screen">
     <div class="grow-0 bg-indigo-600 md:w-1/5 flex flex-col justify-between p-6 sticky bottom-0 top-0 left-0">
         <div class="flex flex-col gap-8">
-            <p class="text-3xl font-black text-zinc-100">Madat Ota Choyxonasi</p>
+            <p class="text-2xl font-black text-zinc-100">Madat Ota Choyxonasi</p>
         <div class="flex flex-col gap-1">
-            <p class="text-xl font-bold text-zinc-100">Menu</p>
-            <button on:click={() => { navigate('/admin')}} class="flex items-center gap-3 bg-zinc-100 text-indigo-500 p-3 rounded-md shadow-md">
-                <i class="bi bi-house-fill text-2xl"></i>
-                <p class="text-lg font-bold">Asosiy</p>
+            <button on:click={() => { navigate('/admin')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
+                <i class="bi bi-house-fill text-lg"></i>
+                <p class="text-md font-bold">Asosiy</p>
             </button>
             <button on:click={() => { navigate('/orders')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
-                <i class="bi bi-clipboard-fill text-2xl"></i>
-                <p class="text-lg font-bold">Buyurtmalar</p>
+                <i class="bi bi-clipboard-fill text-lg"></i>
+                <p class="text-md font-bold">Buyurtmalar</p>
             </button>
             <button on:click={() => { navigate('/add')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
-                <i class="bi bi-database-fill-gear text-2xl"></i>
-                <p class="text-lg font-bold">Boshqarish</p>
+                <i class="bi bi-database-fill-gear text-lg"></i>
+                <p class="text-md font-bold">Boshqarish</p>
             </button>
-            <button on:click={() => { navigate('/rooms')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
-                <i class="bi bi-door-open-fill text-2xl"></i>
-                <p class="text-lg font-bold">Xonalar</p>
+            <button on:click={() => { navigate('/rooms')}} class="flex items-center gap-3 bg-zinc-100 text-indigo-500 p-3 rounded-md  shadow-md">
+                <i class="bi bi-door-open-fill text-lg"></i>
+                <p class="text-md font-bold">Xonalar</p>
             </button>
             <button on:click={() => { navigate('/archive')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
-                <i class="bi bi-archive-fill text-2xl"></i>
-                <p class="text-lg font-bold">Arxiv</p>
+                <i class="bi bi-archive-fill text-lg"></i>
+                <p class="text-md font-bold">Arxiv</p>
             </button>
             <button on:click={() => { navigate('/profile')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
-                <i class="bi bi-person-fill text-2xl"></i>
-                <p class="text-lg font-bold">Profile</p>
+                <i class="bi bi-person-fill text-lg"></i>
+                <p class="text-md font-bold">Profile</p>
             </button>
         </div>
         </div>

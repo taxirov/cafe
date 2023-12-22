@@ -58,7 +58,7 @@
 </script>
 
 <div class={"h-screen w-screen bg-black/70 fixed top-0 left-0 bottom-0 right-0 z-50 justify-center items-center " + (show ? "flex" : "hidden")}>
-    <div class="bg-white p-8 flex flex-col gap-3 w-screen h-full md:h-[fit-content] md:w-[fit-content] md:rounded-md shadow-md overflow-y-auto">
+    <div class="bg-white p-8 flex flex-col gap-3 w-screen md:w-1/3 h-full md:h-[fit-content] md:rounded-md shadow-md overflow-y-auto">
         <p class="text-xl text-center font-bold">Buyurtma yaratish</p>
         <div class="flex flex-col gap-3">
             <div class="flex flex-col gap-2">

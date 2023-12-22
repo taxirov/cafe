@@ -30,10 +30,6 @@
     // components
     import RoomComponent from '../components/RoomComponent.svelte';
     
-    // modals
-    import AddRoomModal from '../modalsAdmin/AddRoomModal.svelte';
-    
-    let show_add: boolean = false
     const roomEndpoint = new RoomEndpoint()
 
     // get rooms
@@ -60,7 +56,6 @@
         <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-door-open-fill text-2xl text-indigo-500"></i> Xonalar</h2>
     </div>
     <div class="grow flex flex-col gap-3 p-3 h-fit">
-        <AddRoomModal show={show_add} close={() => show_add = false}></AddRoomModal>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-start">
             {#if $roomStore.length == 0}
                 <p class="text-center text-md text-gray-400 font-medium">Xonalar mavjud emas</p>

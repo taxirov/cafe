@@ -22,3 +22,7 @@ export const productStore: Writable<Product[]> = writable([])
 export const orderStore: Writable<Order[]> = writable([])
 // product in order store
 export const productInOrderStore: Writable<ProductInOrder[]> = writable([])
+// order store
+export const pageStore: Writable<number[]> = writable([])
+export const firstFourPageStore: Writable<number[]> = writable([])
+export const lastFourPageStore: Writable<number[]> = writable([])

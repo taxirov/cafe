@@ -1,7 +1,7 @@
 # env
-@url=http://webpack.uz:4800/api
-@admin-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlNhYWQgVGFraGlyIiwidXNlcm5hbWUiOiJzYWFkdGFraGlyIiwicGhvbmUiOiIrOTk4OTA1Nzg5MjA0IiwiaWF0IjoxNzAyMDU2MjY1LCJleHAiOjE3MDI2NjEwNjV9.dPj6jji411u4m-JZKzRszlCwJIYwgJs8xjiMQUdLWmE
+@url=https://webpack.uz/api
 @admin-key=Admin9204
+@admin-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlNldmluY2hiZWsgVGF4aXJvdiIsInVzZXJuYW1lIjoic2FhZHRha2hpciIsInBob25lIjoiKzk5ODkwNTc4OTIwNCIsImlhdCI6MTcwMjgyMDQ4NSwiZXhwIjoxNzAzNDI1Mjg1fQ.JjRk3QOKUNcjeImMYs6fXqGSh_2yreTE0zc6YAeUpdI
 @waiter-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6IlNhYWQgVGFraGlyIiwidXNlcm5hbWUiOiJ0YXhpcm92IiwicGhvbmUiOiIrOTk4OTE5MTIzMTg3IiwiaWF0IjoxNzAxMjgwMTkyLCJleHAiOjE3MDE4ODQ5OTJ9.3x10cyqX-qHq93Z4ej0V8bGM_v-His4Ede_koUgqED8
 
 ### test role apis
@@ -222,7 +222,7 @@ Access-Token: {{admin-token}}
 Admin-Key: {{admin-key}}
 ###
 # get orders
-GET {{url}}/order?status_order=1
+GET {{url}}/order?&current_page=1&per_page=12
 Access-Token: {{admin-token}}
 ###
 # patch order status

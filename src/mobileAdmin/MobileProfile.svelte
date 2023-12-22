@@ -80,7 +80,7 @@
             </div>
             <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-cash"></i> Oylik maosh:</p>
-                <p class="font-medium text-md">{user.salary} so'm</p>
+                <p class="font-medium text-md">{user.salary.toLocaleString()} so'm</p>
             </div>
             <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-calendar-event"></i> Ro'yhatdan o'tgan sana:</p>

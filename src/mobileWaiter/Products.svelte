@@ -38,6 +38,10 @@
         }
     } getCategories()
 
+    function navigateAdmin() {
+        if (screen.width < 500) { navigate('/madd') } 
+        else { navigate('/add')}
+    }
     
 
 </script>

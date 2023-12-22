@@ -62,7 +62,7 @@
     // get orders to do
     async function getTrueOrders() {
         try{
-            const res = await orderEndpoint.getStatus(1, token)
+            const res = await orderEndpoint.getStatus(0, 1, token)
             const orders: Order[] = res.data.orders
             orderStore.set(orders)
         }
@@ -85,7 +85,7 @@
     <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-white p-3 h-fit">
         <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-clipboard-fill text-2xl text-indigo-500"></i> Buyurtmalar</h2>
         <div class="flex gap-1 items-center">
-            <button on:click={() => show_add = true} class="px-2 py-1 text-xl rounded-md bg-indigo-500 text-gray-100"><i class="bi bi-plus"></i></button>
+            <button on:click={() => show_add = true} class="px-2 py-1 text-sm font-bold rounded-md bg-indigo-500 text-gray-100 shadow-sm">Yangi buyurtma <i class="bi bi-plus"></i></button>
         </div>
     </div>
     <AddOrderModal show={show_add} close={() => show_add = false}></AddOrderModal>

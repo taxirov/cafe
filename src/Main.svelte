@@ -4,6 +4,11 @@
 	// admin desktop sidebar
 	import Admin from "./web/Admin.svelte";
 	import Home from "./web/Home.svelte";
+	import Orders from "./web/Orders.svelte";
+	import Add from "./web/Add.svelte";
+	import Rooms from "./web/Rooms.svelte";
+	import Profile from "./web/Profile.svelte";
+	import Archive from "./web/Archive.svelte"
 	
 	// auth pages
     import Login from "./auth/Login.svelte";
@@ -26,24 +31,30 @@
 </script>
 
 <Router>
-	<Route exact path='/'><Home/></Route>
-	<Route exact path="/admin"><Admin/></Route>
+	<!-- admin -->
+	<Route primary={false} exact path='/'><Home/></Route>
+	<Route primary={false} exact path="/admin"><Admin/></Route>
+	<Route primary={false} exact path="/orders"><Orders/></Route>
+	<Route primary={false} exact path='/add'><Add/></Route>
+	<Route primary={false} exact path="/rooms"><Rooms/></Route>
+	<Route primary={false} exact path="/profile"><Profile/></Route>
+	<Route primary={false} exact path="/archive"><Archive/></Route>
 	
 	<!-- auth -->
-	<Route exact path='/login'><Login/></Route>
-	<Route exact path='/register'><Register/></Route>
-	<Route exact path='/check'><Check/></Route>
+	<Route primary={false} exact path='/login'><Login/></Route>
+	<Route primary={false} exact path='/register'><Register/></Route>
+	<Route primary={false} exact path='/check'><Check/></Route>
 
 	<!-- mobile -->
-	<Route exact path='/m'><MobileHome/></Route>
-	<Route exact path='/mprofile'><MobileProfile/></Route>
-	<Route exact path='/morders'><MobileOrders/></Route>
-	<Route exact path='/mrooms'><MobileRooms/></Route>
-	<Route exact path="/madd"><MobileAdd/></Route>
+	<Route primary={false} exact path='/m'><MobileHome/></Route>
+	<Route primary={false} exact path='/mprofile'><MobileProfile/></Route>
+	<Route primary={false} exact path='/morders'><MobileOrders/></Route>
+	<Route primary={false} exact path='/mrooms'><MobileRooms/></Route>
+	<Route primary={false} exact path="/madd"><MobileAdd/></Route>
 
 	<!-- waiter -->
-	<Route exact path='/w'><WaiterOrders/></Route>
-	<Route exact path='/products'><Products/></Route>
-	<Route exact path='/wrooms'><WaiterRooms/></Route>
-	<Route exact path='/wprofile'><WaiterProfile/></Route>
+	<Route primary={false} exact path='/w'><WaiterOrders/></Route>
+	<Route primary={false} exact path='/products'><Products/></Route>
+	<Route primary={false} exact path='/wrooms'><WaiterRooms/></Route>
+	<Route primary={false} exact path='/wprofile'><WaiterProfile/></Route>
 </Router>
