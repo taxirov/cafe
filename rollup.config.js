@@ -35,7 +35,6 @@ function serve() {
 export default {
 	input: 'src/main.ts',
 	output: {
-		sourcemap: false,
 		format: 'iife',
 		name: 'app',
 		file: 'public/build/bundle.js'

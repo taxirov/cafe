@@ -136,16 +136,14 @@
     </div>
     <div class="grow left-0 flex flex-col h-screen">
         <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 p-3 h-fit">
-            <h2  class="outline-none text-2xl font-bold text-zinc-100"><i class="bi bi-clipboard-fill"></i> Buyurtmalar</h2>
-            <div class="flex gap-1 items-center">
-                <button on:click={() => show_add = true} class="bg-zinc-100 px-4 py-2 text-xl text-slate-600 font-bold rounded-md shadow-md">Buyurtma yaratish <i class="bi bi-plus"></i></button>
-            </div>
+            <h2  class="outline-none text-xl font-bold text-zinc-100"><i class="bi bi-clipboard-fill"></i> Buyurtmalar</h2>
+            <button on:click={() => show_add = true} class="bg-zinc-100 px-4 py-2 text-md text-slate-600 font-bold rounded-md shadow-md">Buyurtma yaratish <i class="bi bi-plus"></i></button>
         </div>
         <AddOrderModal show={show_add} close={() => show_add = false}></AddOrderModal>
         <div class="grow flex flex-col gap-3 p-5 overflow-y-scroll">
             <div class="grid grid-cols-1 justify-start gap-5">
                 {#if $orderStore.length == 0}
-                    <p class="text-center text-sm text-gray-400 font-medium">Sizda faol buyurtmalar mavjud emas</p>
+                    <p class="text-center text-sm md:text-xl text-gray-400 font-medium">Sizda faol buyurtmalar mavjud emas</p>
                 {:else}
                     {#each $orderStore as order}
                         <OrderComponent user_role={user.role} order={order}></OrderComponent>

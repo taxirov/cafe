@@ -3,6 +3,7 @@
     import EditStatusProductModal from "../modalsAll/EditStatusProductModal.svelte";
     import type { ProductInOrder } from "../store";
     export let product: ProductInOrder
+    export let order_status: number
     export let index: number
 
     let show_edit_data:boolean
@@ -23,7 +24,9 @@
     <td class="text-center font-medium md:text-lg py-1">{product.count}</td>
     <td class="text-center font-medium md:text-lg py-1">{product.total_price}</td>
     <td class="text-center font-medium md:text-lg py-1">
-        <button on:click={() => { show_edit_data = true }} class="bg-green-500 text-white text-sm py-2 px-3 rounded-md font-semibold w-fit"><i class="bi bi-pencil"></i></button>
+        {#if order_status}
+            <button on:click={() => { show_edit_data = true }} class="bg-green-500 text-white text-sm py-2 px-3 rounded-md font-semibold w-fit"><i class="bi bi-pencil"></i></button>
+        {/if}
         {#if product.status == 0}
             <button on:click={() => { show_edit_status = true }} class="bg-green-500 text-white text-sm py-2 px-3 rounded-md font-semibold w-fit"><i class="bi bi-check"></i></button>
         {:else}

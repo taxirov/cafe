@@ -105,9 +105,9 @@
             <i class="bi bi-house-fill text-2xl"></i>
             <p class="text-[9px] font-bold">Asosiy</p>
         </button>
-        <button on:click={() => { navigate('/morders')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+        <button on:click={() => { navigate('/morders')}} class="flex flex-col items-center gap-1 text-violet-500 px-2 rounded-xl">
             <i class="bi bi-clipboard-fill text-2xl"></i>
-            <p class="text-[9px] font-bold">Buyurtmalar</p>
+            <p class="text-[10px] font-bold">Buyurtmalar</p>
         </button>
         <button on:click={() => { navigate('/madd')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
             <i class="bi bi-plus text-2xl"></i>
@@ -117,9 +117,9 @@
             <i class="bi bi-door-open-fill text-2xl"></i>
             <p class="text-[9px] font-bold">Xonalar</p>
         </button>
-        <button on:click={() => { navigate('/mprofile')}} class="flex flex-col items-center gap-1 text-violet-500 px-2 rounded-xl">
+        <button on:click={() => { navigate('/mprofile')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
             <i class="bi bi-person-fill text-2xl"></i>
-            <p class="text-[10px] font-bold">Profil</p>
+            <p class="text-[9px] font-bold">Profil</p>
         </button>
     </div>
 </section>

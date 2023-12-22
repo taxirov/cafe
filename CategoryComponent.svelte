@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Category } from "../store";
+    import type { Category } from "./src/store";
 
     export let category: Category
 

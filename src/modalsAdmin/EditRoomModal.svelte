@@ -55,7 +55,7 @@
         </div>
 
         <div class="flex justify-between">
-            <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-400 font-bold">Yopish</button>
+            <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-500 font-bold">Yopish</button>
             <button on:click={edit} class="py-2 px-4 rounded-md text-white bg-indigo-500 font-bold">Saqlash</button>
         </div>
     </div>

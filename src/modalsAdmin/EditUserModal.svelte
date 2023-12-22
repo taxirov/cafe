@@ -3,9 +3,17 @@
     import { UserEndpoint } from '../api';
 
     const userEndpoint = new UserEndpoint();
+    const token = localStorage.getItem('token')
 
     export let show: boolean
     export let close: () => void
+    export let u_name: string
+    export let u_username: string
+    export let u_salary: number
+    export let u_role: string
+    export let u_phone: string
+    export let u_email: string
+    export let u_id: number
 
     let name: HTMLInputElement
     let username: HTMLInputElement
@@ -16,11 +24,12 @@
     let role: HTMLSelectElement
     let admin_key: HTMLInputElement
 
-    async function create() {
+    async function edit() {
         try {
-            const res = await userEndpoint.register(name.value, username.value, password.value, +salary.value, +role.value, phone.value, email.value, admin_key.value)
+            const res = await userEndpoint.put(u_id, name.value, username.value, password.value, +salary.value, +role.value, phone.value, email.value, token, admin_key.value)
             const user: User = res.data.user
-            userStore.update((pro) => { return pro.concat(user)})
+            userStore.update(users => { return users.filter(u => u.id != user.id)})
+            userStore.update(users => { return users.concat(user)})
             close()
         } catch (error) {
             console.log(error)
@@ -37,18 +46,18 @@
                 <div class="role flex flex-col gap-2">
                     <label class="font-semibold" for="desc">Roli*:</label>
                     <select bind:this={role} class="outline-0 border-2 px-3 py-1 rounded" name="category" id="">
-                        {#each $roleStore as role}
+                        {#each $roleStore.filter(role => role.name == u_role) as role}
                             <option value="{role.id}">{role.name}</option>
                         {/each}
                     </select>
                 </div>
                 <div class="name flex flex-col gap-2">
                     <label class="font-semibold" for="fullname">Ismi*:</label>
-                    <input bind:this={name}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="fullname" id="" placeholder="Eshmatov Toshmat">
+                    <input bind:this={name} value="{u_name}"  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="fullname" id="" placeholder="Eshmatov Toshmat">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label class="font-semibold" for="username">Username*:</label>
-                    <input bind:this={username}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="username" id="" placeholder="toshmat">
+                    <input bind:this={username} value="{u_username}"  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="username" id="" placeholder="toshmat">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label class="font-semibold" for="password">Parol*:</label>
@@ -56,25 +65,25 @@
                 </div>
                 <div class="flex flex-col gap-2">
                     <label class="font-semibold" for="phone">Telefon*:</label>
-                    <input bind:this={phone} class="outline-0 border-2 px-3 py-1 rounded" type="text" name="phone" id="" placeholder="+998905789204" />
+                    <input bind:this={phone} value={u_phone} class="outline-0 border-2 px-3 py-1 rounded" type="text" name="phone" id="" placeholder="+998905789204" />
                 </div>
             </div>
             <div class="flex flex-col gap-3 second-row">
                 <div class="flex flex-col gap-2">
                     <label class="font-semibold" for="email">Email*:</label>
-                    <input bind:this={email} class="outline-0 border-2 px-3 py-1 rounded" type='email' name="email" id="" placeholder="eshmatovtoshmat@gmail.com" />
+                    <input bind:this={email} value={u_email} class="outline-0 border-2 px-3 py-1 rounded" type='email' name="email" id="" placeholder="eshmatovtoshmat@gmail.com" />
                 </div>
                 <div class="flex flex-col gap-2">
                     <label class="font-semibold" for="salary">Oylik maosh*:</label>
-                    <input bind:this={salary} class="outline-0 border-2 px-3 py-1 rounded" type="text" name="salary" id="" placeholder="2000000" />
+                    <input bind:this={salary} value="{u_salary}" class="outline-0 border-2 px-3 py-1 rounded" type="text" name="salary" id="" placeholder="2000000" />
                 </div>
                 <div class="flex flex-col gap-2">
                     <label class="font-semibold" for="admin-key">Admin parol*:</label>
                     <input bind:this={admin_key}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="admin-key" id="">
                 </div>
                 <div class="flex justify-between">
-                    <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-600">Yopish</button>
-                    <button on:click={create} class="py-2 px-4 rounded-md text-white bg-green-600">Qo'shish</button>
+                    <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-500">Yopish</button>
+                    <button on:click={edit} class="py-2 px-4 rounded-md text-white bg-green-500">Saqlash</button>
                 </div>
             </div>
         </div>

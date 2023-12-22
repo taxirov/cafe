@@ -3,7 +3,7 @@
     import { UserEndpoint, CategoryEndpoint, ProductEndpoint } from "../api";
     import type { Category, User, Product } from "../store";
     import { categoryStore, productStore } from "../store"
-    import CategoryComponent from "../components/CategoryComponent.svelte"
+    import CategoryComponent from "../../CategoryComponent.svelte"
 
     const user: User = JSON.parse(localStorage.getItem('user'))
     const token: string = localStorage.getItem("token")

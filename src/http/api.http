@@ -261,3 +261,5 @@ Content-Type: application/json
 }
 ###
 # delete pro
+GET https://api.42.uz/api/course/express-frontend/
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3IiOjE0OTA2MDMxNTMsImV4cCI6MTcwMzI0NzUzM30.flwYOd4t4IfKbDClve7796is43Qae6ZMNLSw4AsNu2k

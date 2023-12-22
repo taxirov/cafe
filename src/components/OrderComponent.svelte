@@ -89,7 +89,7 @@
                     </thead>
                     <tbody>
                         {#each order.products as product, index}
-                            <ProInOrder product={product} index={index}></ProInOrder>
+                            <ProInOrder order_status={order.status} product={product} index={index}></ProInOrder>
                         {/each}                    
                     </tbody>
                 </table>

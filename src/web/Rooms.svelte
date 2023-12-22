@@ -89,18 +89,18 @@
     </div>
     <div class="w-4/5 left-0 flex flex-col h-screen">
         <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 px-3 py-4 h-fit">
-            <h2  class="outline-none text-zinc-100 text-2xl font-bold"><i class="bi bi-clipboard-fill text-2xl"></i> Xonalar</h2>
+            <h2  class="outline-none text-zinc-100 text-lg font-bold"><i class="bi bi-clipboard-fill"></i> Xonalar</h2>
         </div>
         <div class="grow flex flex-col gap-3 p-5 overflow-y-scroll">
-            <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-auto gap-5 justify-start">
-                {#if $roomStore.length == 0}
-                    <p class="text-center text-md text-gray-400 font-medium">Xonalar mavjud emas</p>
-                {:else}
+            {#if $roomStore.length == 0}
+                <p class="text-center text-md md:text-xl text-gray-400 font-medium">Xonalar mavjud emas</p>
+            {:else}
+                <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-auto gap-5 justify-start">
                     {#each $roomStore as room}
                         <RoomComponent room_booked={room.booked} room_name={room.name} room_capacity={room.capacity} room_desc={room.desc}></RoomComponent>
                     {/each}
-                {/if}
-            </div>
+                </div>
+            {/if}
         </div>
     </div>
 </section>

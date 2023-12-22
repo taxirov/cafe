@@ -2,20 +2,7 @@
     import { navigate } from "svelte-navigator";
     import { UserEndpoint } from "../api";
 
-    const admin_key = localStorage.getItem('admin-key')
     const userEndpoint = new UserEndpoint()
-
-    // get admin verify
-    async function getAdminVerify() {
-        try {
-            const res = await userEndpoint.getAdminVerify(admin_key)
-            if(res.status === 200) {
-                navigate('/register')
-            }
-        }  catch(error) {
-            console.log('verify admin failed', error)
-        }
-    } getAdminVerify()
 
     let password: HTMLInputElement
 

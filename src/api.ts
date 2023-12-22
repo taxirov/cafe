@@ -5,7 +5,9 @@ const url = "https://webpack.uz/api"
 export class RoleEndpoint {
     async post(name: string, admin_key: string) {
         return await axios.post(url + '/role', { name }, { headers: { "Admin-Key": admin_key } })
-        console.log(url)
+    }
+    async put(id: number,name: string, admin_key: string) {
+        return await axios.put(url + '/role/' + id, { name }, { headers: { "Admin-Key": admin_key } })
     }
     async get() {
         return await axios.get(url + '/role')
@@ -31,6 +33,12 @@ export class UserEndpoint {
     get = async (token: string) => {
         return await axios.get(url + '/user', { headers: { "Access-Token": token } })
     }
+    put = async (id: number, name: string, username: string, password: string, salary: number, role_id: number, phone: string, email: string, token: string, admin_key: string) => {
+        return await axios.put(url + '/user/' + id, { username, password, salary, name, role_id, phone, email }, { headers: { "Access-Token": token , "Admin-Key": admin_key } })
+    }
+    patchStatus = async (id: number, status: number,token: string, admin_key: string) => {
+        return await axios.patch(url + '/user/' + id, { status }, { headers: { "Access-Token": token, "Admin-Key": admin_key }})
+    }
 }
 
 export class RoomEndpoint {
@@ -49,14 +57,17 @@ export class RoomEndpoint {
 }
 
 export class CategoryEndpoint {
-    async post(name: string, desc: string, token: string, adminkey: string) {
-        return await axios.post(url + '/category', { name, desc }, { headers: { "Access-Token": token, "Admin-Key": adminkey } })
+    async post(name: string, desc: string, token: string, admin_key: string) {
+        return await axios.post(url + '/category', { name, desc }, { headers: { "Access-Token": token, "Admin-Key": admin_key } })
     }
     async get() {
         return await axios.get(url + '/category')
     }
-    async delete(id: number, token: string, adminkey: string) {
-        return await axios.delete(url + '/category/' + id, { headers: { "Access-Token": token, "Admin-Key": adminkey } })
+    async delete(id: number, token: string, admin_key: string) {
+        return await axios.delete(url + '/category/' + id, { headers: { "Access-Token": token, "Admin-Key": admin_key } })
+    }
+    async put(id: number, name: string, desc: string, token: string, admin_key: string) {
+        return await axios.put(url + '/category/' + id, { name, desc }, { headers: { "Access-Token": token, "Admin-Key": admin_key } })
     }
 }
 
@@ -64,6 +75,12 @@ export class ProductEndpoint {
     async post(category_id: number, name: string, price: number, desc: string, token: string, adminkey: string) {
         return await axios.post(
             url + '/product',
+            { name, desc, category_id, price },
+            { headers: { "Access-Token": token, "Admin-Key": adminkey } })
+    }
+    async put(id: number, category_id: number, name: string, price: number, desc: string, token: string, adminkey: string) {
+        return await axios.put(
+            url + '/product/' + id,
             { name, desc, category_id, price },
             { headers: { "Access-Token": token, "Admin-Key": adminkey } })
     }
