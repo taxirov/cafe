@@ -28,6 +28,10 @@
     } else {
         checkToken()
     }
+
+    if (screen.width < 500) {
+        navigate('/mprofile')
+    }
     
     function logOut(){
         localStorage.clear()
@@ -79,8 +83,8 @@
     </div>
     <div class="grow w-4/5 flex flex-col h-screen">
         <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 p-3 h-fit">
-            <h2  class="outline-none text-xl font-bold text-zinc-100"><i class="bi bi-person-fill"></i> Profile</h2>
-            <button on:click={logOut} class="font-bold text-sm bg-red-500 text-zinc-100 py-2 px-4 rounded-md shadow-sm w-fit"><i class="bi bi-box-arrow-left"></i>  Tizimdan chiqish</button>
+            <h2  class="outline-none text-lg font-bold text-zinc-100"><i class="bi bi-person-fill"></i> Profile</h2>
+            <button on:click={logOut} class="font-bold text-sm text-slate-600 bg-zinc-100 py-2 px-4 rounded-md shadow-sm w-fit"><i class="bi bi-box-arrow-left"></i>  Tizimdan chiqish</button>
         </div>
         <div class="grow flex flex-col justify-between items-end p-5 overflow-y-auto">
             <div class="flex gap-5">

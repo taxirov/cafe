@@ -38,6 +38,10 @@
         checkToken()
     }
 
+    if (screen.width > 500) {
+        navigate('/add')
+    }
+
     // types and stores
     import type { User, Room, Category, Product, Role } from "../store";
     import { userStore, roomStore, categoryStore, productStore, roleStore } from "../store";

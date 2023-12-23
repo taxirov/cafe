@@ -28,6 +28,10 @@
     } else {
         checkToken()
     }
+
+    if (screen.width > 500) {
+        navigate('/profile')
+    }
     
     function logOut(){
         localStorage.clear()

@@ -39,6 +39,10 @@
         checkToken()
     }
 
+    if (screen.width < 500) {
+        navigate('/madd')
+    }
+
     // types and stores
     import type { User, Room, Category, Product, Role } from "../store";
     import { userStore, roomStore, categoryStore, productStore, roleStore } from "../store";
@@ -233,7 +237,7 @@
     </div>
     <div class="w-4/5 left-0 flex flex-col h-screen">
         <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 px-3 py-4 h-fit">
-            <h2  class="outline-none text-zinc-100 text-xl font-bold"><i class="bi bi-database-fill-gear"></i> Boshqarish</h2>
+            <h2  class="outline-none text-zinc-100 text-lg font-bold"><i class="bi bi-database-fill-gear"></i> Boshqarish</h2>
         </div>
         <div class="grow flex flex-col gap-3 p-5 overflow-y-scroll">
             <div class="categories flex flex-col gap-3 p-3 border-t-8 border-green-500 bg-white rounded-xl shadow-md">
@@ -347,6 +351,7 @@
                             <th class="text-center">Holati</th>
                             <th class="text-center">Jami b.</th>
                             <th class="text-center">Roli</th>
+                            <th class="text-center">Telefon</th>
                             <th class="text-center">O'zgartirish</th>
                         </tr>
                     </thead>

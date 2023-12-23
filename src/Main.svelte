@@ -9,6 +9,7 @@
 	import Rooms from "./web/Rooms.svelte";
 	import Profile from "./web/Profile.svelte";
 	import Archive from "./web/Archive.svelte"
+	import ProductInOrders from "./web/ProductInOrders.svelte";
 	
 	// auth pages
     import Login from "./auth/Login.svelte";
@@ -24,9 +25,9 @@
 
 	// waiter mobile navbar
 	import WaiterOrders from "./mobileWaiter/WaiterOrders.svelte";
-	import Products from "./mobileWaiter/Products.svelte"
+	import Products from "./mobileWaiter/Products.svelte";
 	import WaiterRooms from "./mobileWaiter/WaiterRooms.svelte";
-	import WaiterProfile from "./mobileWaiter/WaiterProfile.svelte"
+	import WaiterProfile from "./mobileWaiter/WaiterProfile.svelte";
     
 </script>
 
@@ -57,4 +58,5 @@
 	<Route primary={false} exact path='/products'><Products/></Route>
 	<Route primary={false} exact path='/wrooms'><WaiterRooms/></Route>
 	<Route primary={false} exact path='/wprofile'><WaiterProfile/></Route>
+	<Route primary={false} exact path='/pro'><ProductInOrders/></Route>
 </Router>

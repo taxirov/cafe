@@ -30,12 +30,16 @@
         checkToken()
     }
 
+    if (screen.width > 500) {
+        navigate('/orders')
+    }
+
     // types
-    import type { Order, ProductInOrder, Room } from '../store';
+    import type { Order, Room } from '../store';
     // stores
-    import { orderStore, productInOrderStore, roomStore } from '../store';
+    import { orderStore, roomStore } from '../store';
     // endpoints
-    import { RoomEndpoint, ProductEndpoint, OrderEndpoint, ProductInOrderEndpoint } from '../api';
+    import { RoomEndpoint, OrderEndpoint } from '../api';
     const roomEndpoint = new RoomEndpoint()
     // modals
     import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
@@ -45,7 +49,6 @@
     let show_add: boolean = false
 
     const orderEndpoint = new OrderEndpoint()
-    const productInOrderEndpoint = new ProductInOrderEndpoint()
  
     // // get rooms
     async function getRooms() {
@@ -62,7 +65,7 @@
     // get orders to do
     async function getTrueOrders() {
         try{
-            const res = await orderEndpoint.getStatus(0, 1, token)
+            const res = await orderEndpoint.getTrueStatus(1, 1, token)
             const orders: Order[] = res.data.orders
             orderStore.set(orders)
         }
@@ -71,7 +74,7 @@
         }
     }  getTrueOrders()
 
-    
+    setInterval(() => { getRooms(), getTrueOrders() }, 30000)
 
 </script>
 

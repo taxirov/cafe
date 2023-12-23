@@ -1,7 +1,7 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    import type { User, Order, ProductInOrder, Room, Category, Product } from "../store";
-    import { categoryStore, orderStore, productInOrderStore, roomStore, productStore } from "../store"
+    import type { User, Order, Room, Category, Product } from "../store";
+    import { categoryStore, orderStore, roomStore, productStore } from "../store"
     // endpoints
     import { UserEndpoint, RoomEndpoint, OrderEndpoint, ProductInOrderEndpoint, CategoryEndpoint, ProductEndpoint } from '../api';
     // components
@@ -30,7 +30,6 @@
     else { checkToken() }
 
     const orderEndpoint = new OrderEndpoint()
-    const productInOrderEndpoint = new ProductInOrderEndpoint()
     const roomEndpoint = new RoomEndpoint()
     const categoryEndpoint = new CategoryEndpoint();
     const productEndpoint = new ProductEndpoint();
@@ -83,7 +82,7 @@
         }
     } getOrders()
 
-
+    setInterval(() => { getOrders(), getRooms(), getCategories(), getProducts() }, 30000)
 
 </script>
 

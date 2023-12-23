@@ -13,9 +13,15 @@
                 const user = res.data.user;
                 localStorage.setItem("user", JSON.stringify(user));
                 if (user.role === "admin") {
-                    navigate("/m");
-                } else {
+                    if (screen.width > 500) {
+                        navigate('/admin')
+                    } else {
+                        navigate("/m");
+                    }
+                } else if(user.role == "waiter") {
                     navigate("/w");
+                } else {
+                    navigate('/pro')
                 }
             } catch (error) {
                 navigate("/login");

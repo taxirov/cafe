@@ -27,6 +27,10 @@
     } 
     else { checkToken() }
 
+    if (screen.width > 500) {
+        navigate('/rooms')
+    }
+
     // components
     import RoomComponent from '../components/RoomComponent.svelte';
     
@@ -43,6 +47,8 @@
             console.log(error)
         }
     }  getRooms()
+
+    setInterval(() => { getRooms() }, 30000)
 
 </script>
 

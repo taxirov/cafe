@@ -105,6 +105,9 @@ export class OrderEndpoint {
     async getStatus(status_order: number, current_page: number, token: string) {
         return await axios.get(url + '/order?status_order=' + status_order + '&current_page=' + current_page + '&per_page=12 ', { headers: { "Access-Token": token } })
     }
+    async getTrueStatus(status_order: number, current_page: number, token: string) {
+        return await axios.get(url + '/order?status_order=' + status_order + '&current_page=' + current_page + '&per_page=50 ', { headers: { "Access-Token": token } })
+    }
     async getRoom(room_id: number, current_page: number, token: string) {
         return await axios.get(url + '/order?room_id=' + room_id + '&current_page=' + current_page + '&per_page=12', { headers: { "Access-Token": token } })
     }
@@ -122,6 +125,9 @@ export class OrderEndpoint {
     }
     async getWaiterOrders(token: string) {
         return await axios.get(url + '/order/waiter', { headers: { "Access-Token": token } })
+    }
+    async getByYearMonthDay(create_date: string, token: string) {
+        return await axios.get(url + '/order/date?create_date=' + create_date, { headers: { "Access-Token": token } })
     }
 }
 

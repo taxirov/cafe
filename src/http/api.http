@@ -236,7 +236,7 @@ Content-Type: application/json
 ###
 
 # get product in order
-GET {{url}}/productinorder
+GET http://localhost:4800/api/productinorder/status/0
 Access-Token: {{admin-token}}
 ###
 # post product in order

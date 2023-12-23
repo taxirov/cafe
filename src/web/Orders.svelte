@@ -27,6 +27,10 @@
             console.log(error)
         }
     }   getVerify()
+
+    if (screen.width < 500) {
+        navigate('/morders')
+    }
     
     // types
     import type { Category, Order, Product, ProductInOrder, Role, Room, User } from '../store';
@@ -42,11 +46,9 @@
     let show_add: boolean = false
 
     const orderEndpoint = new OrderEndpoint();
-    const productInOrderEndpoint = new ProductInOrderEndpoint();
     const roomEndpoint = new RoomEndpoint();
     const categoryEndpoint = new CategoryEndpoint();
     const productEndpoint = new ProductEndpoint();
-    const roleEndpoint = new RoleEndpoint() 
     
     // get rooms
     async function getRooms() {
@@ -86,7 +88,7 @@
     // get orders to do
     async function getTrueOrders() {
         try{
-            const res = await orderEndpoint.getStatus(1, 1, token)
+            const res = await orderEndpoint.getTrueStatus(1, 1, token)
             const orders: Order[] = res.data.orders
             orderStore.set(orders)
         }
@@ -94,6 +96,8 @@
             console.log(error)
         }
     }  getTrueOrders()
+
+    setInterval(() => { getTrueOrders(), getRooms(), getCategories(), getProducts() }, 30000)
 
 </script>
 
@@ -136,7 +140,7 @@
     </div>
     <div class="grow left-0 flex flex-col h-screen">
         <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 p-3 h-fit">
-            <h2  class="outline-none text-xl font-bold text-zinc-100"><i class="bi bi-clipboard-fill"></i> Buyurtmalar</h2>
+            <h2  class="outline-none text-lg font-bold text-zinc-100"><i class="bi bi-clipboard-fill"></i> Buyurtmalar</h2>
             <button on:click={() => show_add = true} class="bg-zinc-100 px-4 py-2 text-md text-slate-600 font-bold rounded-md shadow-md">Buyurtma yaratish <i class="bi bi-plus"></i></button>
         </div>
         <AddOrderModal show={show_add} close={() => show_add = false}></AddOrderModal>

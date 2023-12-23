@@ -1,50 +1,121 @@
 <script lang="ts">
     import { navigate } from 'svelte-navigator';
-    // api endpoints
-    import { UserEndpoint, OrderEndpoint } from '../api';
+    import { roomStore, type Room, type User, orderStore, userStore, type Order, type Product, type Category, categoryStore, productStore } from '../store';
+    import { RoomEndpoint, UserEndpoint, OrderEndpoint, CategoryEndpoint, ProductEndpoint } from '../api';
+    import OrderComponent from "../components/OrderComponent.svelte"
+    import RoomComponent from '../components/RoomComponent.svelte';
 
-    // if(screen.width > 450){ navigate('/') }
-
+    const user: User = JSON.parse(localStorage.getItem('user'))
+    const token: string = localStorage.getItem("token")
     const userEndpoint = new UserEndpoint()
-    const orderEndpoint = new OrderEndpoint()
-    const token = localStorage.getItem('token')
 
-    let orders_count: number = 0
-    let users_count: number = 0
-
-    // check token 
-    async function getVerify() {
+    async function checkToken() {
         try {
             const res = await userEndpoint.getTokenVerify(token)
-            const user = res.data.user
-            localStorage.setItem('user', JSON.stringify(user))
-            if(res.status === 200) {
-                console.log('Verify succes')
-            } else {
-                navigate('/login')
+            if (res.status == 200) {
+                if (res.data.user.role == "waiter") {
+                    navigate('/wrooms')
+                } else {
+                    localStorage.setItem("user", JSON.stringify(res.data.user))
+                    console.log("Verify success")
+                }
             }
-        } catch(error) {
-            console.log(error)
+        } catch (error) {
+            navigate('/login')
         }
     }
-    getVerify()
+    if (!token || !user) {
+        localStorage.clear()
+        navigate('/login')
+    } 
+    else { checkToken() }
+
+    const orderEndpoint = new OrderEndpoint()
+    const categoryEndpoint = new CategoryEndpoint();
+    const productEndpoint = new ProductEndpoint();
+
+    if (screen.width > 500) {
+        navigate('/admin')
+    }
+
+    const roomEndpoint = new RoomEndpoint()
+
+    const day = new Date().toJSON()
+
+    let totalOrderLastMonth: number = 0
+    let totalPriceLastMonth: number = 0
+
+    // get last month orders
+    async function getLastMonthOrders() {
+        try {
+            const res = await orderEndpoint.getByYearMonthDay(day.slice(0,7), token)
+            const orders: Order[] = res.data.orders
+            totalOrderLastMonth = orders.length
+            for (let i = 0; i < orders.length; i++) {
+                totalPriceLastMonth += orders[i].total_price
+            }
+        } catch(e) {
+            console.log(e)
+        }
+    } getLastMonthOrders()
 
     // get users
     async function getUsers() {
         try {
             const res = await userEndpoint.get(token)
-            users_count = res.data.users.length
+            const users: User[] = res.data.users
+            userStore.set(users)
         } catch(error) {
+            console.log(error)
+            navigate('/login')
         }
     } getUsers()
-
+    
+    // get orders to do
     async function getTrueOrders() {
         try{
             const res = await orderEndpoint.getStatus(1, 1, token)
-            orders_count = res.data.orders.length
-        } catch(error) {
+            const orders: Order[] = res.data.orders
+            orderStore.set(orders)
         }
-    } getTrueOrders()
+        catch(error) {
+            console.log(error)
+        }
+    }  getTrueOrders()
+
+    // get rooms
+    async function getRooms() {
+        try{
+            const res = await roomEndpoint.get(token)
+            const rooms: Room[] = res.data.rooms
+            roomStore.set(rooms)
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }  getRooms()
+
+    // get categories
+    async function getCategories() {
+        try {
+            const res = await categoryEndpoint.get();
+            const categories: Category[] = res.data.categories;
+            categoryStore.set(categories);
+        } catch (error) {
+            console.log(error);
+        }
+    }  getCategories();
+
+    // get products
+    async function getProducts() {
+        try {
+            const res = await productEndpoint.get()
+            const products: Product[] = res.data.products
+            productStore.set(products)
+        } catch(error) {
+            console.log(error)
+        }
+    } getProducts()
 
 </script>
 
@@ -52,8 +123,8 @@
     <title>Asosiy sahifa</title>
 </svelte:head>
 
-<section class="grid grid-rows-2 bg-indigo-500/10">
-    <div class="grow flex flex-col gap-3 p-3 h-fit">
+<section class="flex flex-col bg-indigo-500/10">
+    <div class="grow flex flex-col gap-3 p-3 overflow-y-scroll">
         <div class="umumiy flex flex-col gap-2">
             <h1 class="outline-none font-semibold text-lg">Umumiy ma'lumotlar</h1>
             <div class="grid grid-cols-3 gap-2">
@@ -61,17 +132,41 @@
                     <p class="text-sm">Oxirgi oydagi daromad</p>
                     <span class="flex justify-between">
                         <span class="flex items-end gap-1">
-                            <p class="text-3xl font-bold">3.6</p>
-                            <p class="">mln</p>
+                            {#if totalPriceLastMonth.toString().length == 4}
+                                <p class="text-3xl font-bold">
+                                    {totalPriceLastMonth.toString()}
+                                </p>
+                                <p class="">ming</p>
+                            {:else if totalPriceLastMonth.toString().length == 5}
+                                <p class="text-3xl font-bold">
+                                    {totalPriceLastMonth.toString().slice(0,2)}
+                                </p>
+                                <p class="">ming</p>
+                            {:else if totalPriceLastMonth.toString().length == 6}
+                                <p class="text-3xl font-bold">
+                                    {totalPriceLastMonth.toString().slice(0,3)}
+                                </p>
+                                <p class="">ming</p>
+                            {:else if totalPriceLastMonth.toString().length == 7}
+                                <p class="text-3xl font-bold">
+                                    {totalPriceLastMonth.toString()[0]}
+                                </p>
+                                <p class="">mln</p>
+                            {:else if totalPriceLastMonth.toString().length == 8}
+                                <p class="text-3xl font-bold">
+                                    {totalPriceLastMonth.toString().slice(0,2)}
+                                </p>
+                                <p class="">mln</p>
+                            {/if}
                         </span>
                         <i class="bi bi-cash-stack absolute text-7xl right-0 bottom-0 opacity-30"></i>
                     </span>
                 </span>
                 <span class="flex flex-col justify-between gap-1 bg-sky-400 text-gray-100 p-3 rounded-xl relative">
-                    <p class="text-sm">Faol buyurtmalar</p>
+                    <p class="text-sm">Oxirgi oydagi buyurtmalar</p>
                     <span class="flex justify-between">
                         <span class="flex items-end gap-1">
-                            <p class="text-3xl font-bold">{orders_count}</p>
+                            <p class="text-3xl font-bold">{totalOrderLastMonth}</p>
                             <p class="">ta</p>
                         </span>
                         <i class="bi bi-box-seam absolute text-7xl right-0 bottom-0 opacity-30"></i>
@@ -81,7 +176,7 @@
                     <p class="text-sm">Ishchilar soni</p>
                     <span class="flex justify-between">
                         <span class="flex items-end gap-1">
-                            <p class="text-3xl font-bold">{users_count}</p>
+                            <p class="text-3xl font-bold">{$userStore.length}</p>
                             <p class="">ta</p>
                         </span>
                         <i class="bi bi-people absolute text-7xl right-0 bottom-0 opacity-30"></i>
@@ -92,127 +187,27 @@
         <div class="orders flex flex-col gap-3">
             <div class="flex justify-between items-center">
                 <h1 class="outline-none font-semibold text-lg">Buyurtmalar</h1>
-                <button on:click={() => { navigate('/morders')}} class="px-2 py-1 rounded-md bg-indigo-500 text-gray-100">Batafsil <i class="bi bi-arrow-right"></i></button>
+                <button on:click={() => { navigate('/orders')}} class="px-4 py-2 text-md rounded-md bg-indigo-500 text-zinc-100">Batafsil <i class="bi bi-arrow-right"></i></button>
             </div>
             <div class="grid grid-cols-1 gap-2">
-                <div class="flex flex-col gap-2 shadow-md rounded-xl p-3 bg-white">
-                    <h2 class="font-bold text-md">Buyurtma sarlavhasi</h2>
-                    <div class="flex flex-col gap-1">
-                        <p class="text-md">Mahsulotlar:</p>
-                        <div class="flex flex-col gap-2">
-                            <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                                <span class="flex gap-1 w-1/2">
-                                    <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://img.freepik.com/premium-photo/fried-fish-with-lemon-dark-board-male-hands-black_239004-146.jpg')]"></span>
-                                    <p class="font-semibold">Qovurilgan baliq</p>
-                                </span>
-                                <span class="flex flex-col items-end gap-1 w-1/2">
-                                    <p>3 kg</p>
-                                    <p>150000 so'm</p>
-                                </span>
-                            </div>
-                            <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                                <span class="flex gap-1 w-1/2">
-                                    <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://images.uzum.uz/cf7p3f2vtie1lhbhc7ig/original.jpg')]"></span>
-                                    <p class="font-semibold">Coca Cola 1.5</p>
-                                </span>
-                                <span class="flex flex-col items-end gap-1 w-1/2">
-                                    <p>2 ta</p>
-                                    <p>26000 so'm</p>
-                                </span>
-                            </div>
-                            <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                                <span class="flex gap-1 w-1/2">
-                                    <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg')]"></span>
-                                    <p class="font-semibold">Fanta 1.5</p>
-                                </span>
-                                <span class="flex flex-col items-end gap-1 w-1/2">
-                                    <p>2 ta</p>
-                                    <p>26000 so'm</p>
-                                </span>
-                            </div>
-                        </div>
-                        <p class="bg-green-300 rounded-lg p-2 text-sm text-center">Faol buyurtma</p>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 shadow-md rounded-xl p-3 bg-white">
-                    <h2 class="font-bold text-md">Buyurtma sarlavhasi</h2>
-                    <div class="flex flex-col gap-1">
-                        <p class="text-md">Mahsulotlar:</p>
-                        <div class="flex flex-col gap-2">
-                            <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                                <span class="flex gap-1 w-1/2">
-                                    <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://img.freepik.com/premium-photo/fried-fish-with-lemon-dark-board-male-hands-black_239004-146.jpg')]"></span>
-                                    <p class="font-semibold">Qovurilgan baliq</p>
-                                </span>
-                                <span class="flex flex-col items-end gap-1 w-1/2">
-                                    <p>3 kg</p>
-                                    <p>150000 so'm</p>
-                                </span>
-                            </div>
-                            <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                                <span class="flex gap-1 w-1/2">
-                                    <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://images.uzum.uz/cf7p3f2vtie1lhbhc7ig/original.jpg')]"></span>
-                                    <p class="font-semibold">Coca Cola 1.5</p>
-                                </span>
-                                <span class="flex flex-col items-end gap-1 w-1/2">
-                                    <p>2 ta</p>
-                                    <p>26000 so'm</p>
-                                </span>
-                            </div>
-                            <div class="flex justify-between bg-indigo-500/10 rounded-xl p-2">
-                                <span class="flex gap-1 w-1/2">
-                                    <span class="w-[40px] rounded-md bg-clip-border bg-center bg-cover bg-[url('https://images.uzum.uz/ce8a878v1htd23airm6g/original.jpg')]"></span>
-                                    <p class="font-semibold">Fanta 1.5</p>
-                                </span>
-                                <span class="flex flex-col items-end gap-1 w-1/2">
-                                    <p>2 ta</p>
-                                    <p>26000 so'm</p>
-                                </span>
-                            </div>
-                        </div>
-                        <p class="bg-green-300 rounded-lg p-2 text-sm text-center">Faol buyurtma</p>
-                    </div>
-                </div>
+                {#each $orderStore as order, index}
+                    {#if index < 2}
+                        <OrderComponent user_role={user.role} order={order}></OrderComponent>
+                    {/if}
+                {/each}
             </div>
         </div>
         <div class="rooms flex flex-col gap-3">
             <div class="flex justify-between items-center">
                 <h1 class="outline-none font-semibold text-lg">Xonalar</h1>
-                <button on:click={() => { navigate('/mrooms')}} class="px-2 py-1 rounded-md bg-indigo-500 text-gray-100">Batafsil <i class="bi bi-arrow-right"></i></button>
+                <button on:click={() => { navigate('/rooms')}} class="px-4 py-2 text-md rounded-md bg-indigo-500 text-zinc-100">Batafsil <i class="bi bi-arrow-right"></i></button>
             </div>
-            <div class="grid grid-cols-2 gap-2">
-                <div class="flex flex-col shadow-md rounded-xl bg-white">
-                    <img class="rounded-t-xl" src="https://b.zmtcdn.com/data/pictures/6/19877256/3275c38ad9d367b8a7acf16934344973.jpeg" alt="">
-                    <div class="flex flex-col gap-1 p-3">
-                        <p class="text-md font-bold">Xona nomi</p>
-                        <p class="text-sm">Xona haqida. Lorem ipsum dolor sit amet.</p>
-                        <p class="bg-red-300 rounded-lg p-2 text-sm text-center">Band qilingan</p>
-                    </div>
-                </div>
-                <div class="flex flex-col shadow-md rounded-xl bg-white">
-                    <img class="rounded-t-xl" src="https://b.zmtcdn.com/data/pictures/6/19877256/3275c38ad9d367b8a7acf16934344973.jpeg" alt="">
-                    <div class="flex flex-col gap-1 p-3">
-                        <p class="text-md font-bold">Xona nomi</p>
-                        <p class="text-sm">Xona haqida. Lorem ipsum dolor sit amet.</p>
-                        <p class="bg-red-300 rounded-lg p-2 text-sm text-center">Band qilingan</p>
-                    </div>
-                </div>
-                <div class="flex flex-col shadow-md rounded-xl bg-white">
-                    <img class="rounded-t-xl" src="https://b.zmtcdn.com/data/pictures/6/19877256/3275c38ad9d367b8a7acf16934344973.jpeg" alt="">
-                    <div class="flex flex-col gap-1 p-3">
-                        <p class="text-md font-bold">Xona nomi</p>
-                        <p class="text-sm">Xona haqida. Lorem ipsum dolor sit amet.</p>
-                        <p class="bg-red-300 rounded-lg p-2 text-sm text-center">Band qilingan</p>
-                    </div>
-                </div>
-                <div class="flex flex-col shadow-md rounded-xl bg-white">
-                    <img class="rounded-t-xl" src="https://b.zmtcdn.com/data/pictures/6/19877256/3275c38ad9d367b8a7acf16934344973.jpeg" alt="">
-                    <div class="flex flex-col gap-1 p-3">
-                        <p class="text-md font-bold">Xona nomi</p>
-                        <p class="text-sm">Xona haqida. Lorem ipsum dolor sit amet.</p>
-                        <p class="bg-red-300 rounded-lg p-2 text-sm text-center">Band qilingan</p>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 gap-2">
+                {#each $roomStore as room, index}
+                    {#if index < 4}
+                        <RoomComponent room_booked={room.booked} room_name={room.name} room_capacity={room.capacity} room_desc={room.desc}></RoomComponent>
+                    {/if}
+                {/each}
             </div>
         </div>
     </div>

@@ -10,7 +10,6 @@
     export let u_name: string
     export let u_username: string
     export let u_salary: number
-    export let u_role: string
     export let u_phone: string
     export let u_email: string
     export let u_id: number
@@ -46,7 +45,7 @@
                 <div class="role flex flex-col gap-2">
                     <label class="font-semibold" for="desc">Roli*:</label>
                     <select bind:this={role} class="outline-0 border-2 px-3 py-1 rounded" name="category" id="">
-                        {#each $roleStore.filter(role => role.name == u_role) as role}
+                        {#each $roleStore as role}
                             <option value="{role.id}">{role.name}</option>
                         {/each}
                     </select>
