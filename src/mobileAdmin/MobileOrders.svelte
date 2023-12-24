@@ -1,7 +1,13 @@
 <script lang="ts">
-    import { navigate } from 'svelte-navigator';
-    import { UserEndpoint } from "../api";
-    import type { User } from '../store';
+    import { navigate } from "svelte-navigator";
+    import type { User, Order, Room, Category, Product } from "../store";
+    import { categoryStore, orderStore, roomStore, productStore } from "../store"
+    // endpoints
+    import { UserEndpoint, RoomEndpoint, OrderEndpoint, CategoryEndpoint, ProductEndpoint } from '../api';
+    // components
+    import OrderComponent from '../components/OrderComponent.svelte';
+    // modals
+    import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
 
     const user: User = JSON.parse(localStorage.getItem('user'))
     const token: string = localStorage.getItem("token")
@@ -11,46 +17,48 @@
         try {
             const res = await userEndpoint.getTokenVerify(token)
             if (res.status == 200) {
-                if (res.data.user.role == "waiter") {
-                    navigate('/wprofile')
-                } else {
-                    localStorage.setItem("user", JSON.stringify(res.data.user))
-                    console.log("Verify success")
-                }
+                localStorage.setItem("user", JSON.stringify(res.data.user))
             }
         } catch (error) {
             navigate('/login')
         }
     }
-
     if (!token || !user) {
         localStorage.clear()
         navigate('/login')
-    } else {
-        checkToken()
-    }
-
-    if (screen.width > 500) {
-        navigate('/orders')
-    }
-
-    // types
-    import type { Order, Room } from '../store';
-    // stores
-    import { orderStore, roomStore } from '../store';
-    // endpoints
-    import { RoomEndpoint, OrderEndpoint } from '../api';
-    const roomEndpoint = new RoomEndpoint()
-    // modals
-    import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
-    // components
-    import OrderComponent from '../components/OrderComponent.svelte';
-    
-    let show_add: boolean = false
+    } 
+    else { checkToken() }
 
     const orderEndpoint = new OrderEndpoint()
+    const roomEndpoint = new RoomEndpoint()
+    const categoryEndpoint = new CategoryEndpoint();
+    const productEndpoint = new ProductEndpoint();
+     
+    let showAddOrder: boolean = false
+
+    // get products
+    async function getProducts() {
+        try { 
+            const res = await productEndpoint.get()
+            const products: Product[] = res.data.products
+            productStore.set(products)
+        } catch (error) {
+            console.log(error)
+        }
+    } getProducts()
+
+    // get categories
+    async function getCategories() {
+        try { 
+            const res = await categoryEndpoint.get()
+            const categories: Category[] = res.data.categories
+            categoryStore.set(categories)
+        } catch (error) {
+            console.log(error)
+        }
+    } getCategories()
  
-    // // get rooms
+    // get rooms
     async function getRooms() {
         try{
             const res = await roomEndpoint.get(token)
@@ -62,19 +70,18 @@
         }
     }  getRooms()
 
-    // get orders to do
-    async function getTrueOrders() {
-        try{
+    // get waiter orders
+    async function getOrders() {
+        try {
             const res = await orderEndpoint.getTrueStatus(1, 1, token)
             const orders: Order[] = res.data.orders
             orderStore.set(orders)
-        }
-        catch(error) {
+        } catch (error) {
             console.log(error)
         }
-    }  getTrueOrders()
+    } getOrders()
 
-    setInterval(() => { getRooms(), getTrueOrders() }, 30000)
+    setInterval(() => { getProducts(), getCategories(), getRooms(), getOrders()  }, 40000)
 
 </script>
 
@@ -88,10 +95,10 @@
     <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-white p-3 h-fit">
         <h2  class="outline-none text-xl font-bold text-indigo-500"><i class="bi bi-clipboard-fill text-2xl text-indigo-500"></i> Buyurtmalar</h2>
         <div class="flex gap-1 items-center">
-            <button on:click={() => show_add = true} class="px-2 py-1 text-sm font-bold rounded-md bg-indigo-500 text-gray-100 shadow-sm">Yangi buyurtma <i class="bi bi-plus"></i></button>
+            <button on:click={() => showAddOrder = true} class="px-2 py-1 text-sm font-bold rounded-md bg-indigo-500 text-gray-100 shadow-sm">Yangi buyurtma <i class="bi bi-plus"></i></button>
         </div>
     </div>
-    <AddOrderModal show={show_add} close={() => show_add = false}></AddOrderModal>
+    <AddOrderModal show={showAddOrder} close={() => showAddOrder = false}></AddOrderModal>
     <div class="grow flex flex-col gap-3 p-3 h-fit">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-start">
             {#if $orderStore.length == 0}

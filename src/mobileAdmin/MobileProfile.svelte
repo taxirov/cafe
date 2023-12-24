@@ -49,7 +49,7 @@
         <div class="flex flex-col">
             <div class="mx-5 h-[6px] bg-violet-300 bottom-0 right-0 left-0 top-10 z-10 shadow-sm rounded-t-xl"></div>
             <div class="mx-3 h-[8px] bg-violet-400 bottom-0 right-0 left-0 top-10 z-10 rounded-t-xl"></div>
-            <div class="flex items-center gap-3 p-3 bg-violet-500 rounded-xl text-stone-100 shadow-sm z-20">
+            <div class="flex items-center gap-3 p-3 bg-violet-500 rounded-lg text-stone-100 shadow-sm z-20">
                 <div class="flex flex-col gap-3 p-2">
                     <p class="text-md font-bold">Buyurtmalarim soni</p>
                     <span class="flex items-end gap-2">
@@ -62,57 +62,55 @@
             
         </div>
         <div class="flex flex-col gap-2">
-            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
+            <div class="flex justify-between items-center bg-white/80 rounded-lg py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-at"></i> Username:</p>
                 <p class="font-medium text-md">{user.username}</p>
             </div>
-            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
+            <div class="flex justify-between items-center bg-white/80 rounded-lg py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-person"></i> Ism:</p>
                 <p class="font-medium text-md">{user.name}</p>
             </div>
-            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
+            <div class="flex justify-between items-center bg-white/80 rounded-lg py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-shield-check"></i> Rol:</p>
                 <p class="font-medium text-md">{user.role.toLocaleUpperCase()}</p>
             </div>
-            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
+            <div class="flex justify-between items-center bg-white/80 rounded-lg py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-phone"></i> Telefon:</p>
                 <p class="font-medium text-md">{user.phone}</p>
             </div>
-            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 pl-4 pr-2 shadow-sm">
+            <div class="flex justify-between items-center bg-white/80 rounded-lg py-2 pl-4 pr-2 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-envelope"></i> Email:</p>
-                <button on:click={copyEmail} class="font-medium text-sm bg-slate-200 px-2 py-1 rounded-xl">{user.email}</button>
+                <button on:click={copyEmail} class="font-medium text-sm bg-slate-200 px-2 py-1 rounded-lg">{user.email}</button>
             </div>
-            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
+            <div class="flex justify-between items-center bg-white/80 rounded-lg py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-cash"></i> Oylik maosh:</p>
                 <p class="font-medium text-md">{user.salary.toLocaleString()} so'm</p>
             </div>
-            <div class="flex justify-between items-center bg-white/80 rounded-xl py-2 px-4 shadow-sm">
+            <div class="flex justify-between items-center bg-white/80 rounded-lg py-2 px-4 shadow-sm">
                 <p class="font-bold text-sm"><i class="bi bi-calendar-event"></i> Ro'yhatdan o'tgan sana:</p>
                 <p class="font-medium text-md">{user.create_date.toString().split('T')[0]}</p>
             </div>
-            <div class="flex justify-center items-center bg-red-500 text-white rounded-xl py-2 px-4 shadow-sm">
-                <button on:click={logOut} class="font-bold text-sm"><i class="bi bi-box-arrow-left"></i>  Tizimdan chiqish</button>
-            </div>
+            <button on:click={logOut} class="font-bold text-sm bg-red-500 text-zinc-100 rounded-lg py-2 px-4 shadow-sm"><i class="bi bi-box-arrow-left"></i>  Tizimdan chiqish</button>
         </div>
     </div>
     <div class="grow-0 h-fit grid grid-cols-5 bg-white px-2 py-2 sticky bottom-0 right-0 left-0">
-        <button on:click={() => { navigate('/m')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+        <button on:click={() => { navigate('/m')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-lg">
             <i class="bi bi-house-fill text-2xl"></i>
             <p class="text-[9px] font-bold">Asosiy</p>
         </button>
-        <button on:click={() => { navigate('/morders')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+        <button on:click={() => { navigate('/morders')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-lg">
             <i class="bi bi-clipboard-fill text-2xl"></i>
             <p class="text-[9px] font-bold">Buyurtmalar</p>
         </button>
-        <button on:click={() => { navigate('/madd')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+        <button on:click={() => { navigate('/madd')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-lg">
             <i class="bi bi-plus text-2xl"></i>
             <p class="text-[9px] font-bold">Qo'shish</p>
         </button>
-        <button on:click={() => { navigate('/mrooms')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-xl">
+        <button on:click={() => { navigate('/mrooms')}} class="flex flex-col items-center gap-1 text-slate-400 px-2 rounded-lg">
             <i class="bi bi-door-open-fill text-2xl"></i>
             <p class="text-[9px] font-bold">Xonalar</p>
         </button>
-        <button on:click={() => { navigate('/mprofile')}} class="flex flex-col items-center gap-1 text-indigo-700 px-2 rounded-xl">
+        <button on:click={() => { navigate('/mprofile')}} class="flex flex-col items-center gap-1 text-indigo-700 px-2 rounded-lg">
             <i class="bi bi-person-fill text-2xl"></i>
             <p class="text-[10px] font-bold">Profile</p>
         </button>

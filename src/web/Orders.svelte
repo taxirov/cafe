@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { CategoryEndpoint, RoleEndpoint, UserEndpoint } from '../api';
+    import { UserEndpoint } from '../api';
     import { navigate } from 'svelte-navigator';
 
     const userEndpoint = new UserEndpoint()
@@ -33,11 +33,11 @@
     }
     
     // types
-    import type { Category, Order, Product, ProductInOrder, Role, Room, User } from '../store';
+    import type { Category, Order, Product, Room } from '../store';
     // stores
-    import { categoryStore, orderStore, productInOrderStore, productStore, roleStore, roomStore, userStore } from '../store';
+    import { categoryStore, orderStore, productStore, roomStore} from '../store';
     // endpoints
-    import { RoomEndpoint, ProductEndpoint, OrderEndpoint, ProductInOrderEndpoint } from '../api';
+    import { CategoryEndpoint, RoomEndpoint, ProductEndpoint, OrderEndpoint } from '../api';
     // modals
     import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
     // components
@@ -97,7 +97,7 @@
         }
     }  getTrueOrders()
 
-    setInterval(() => { getTrueOrders(), getRooms(), getCategories(), getProducts() }, 30000)
+    setInterval(() => { getProducts(), getCategories(), getRooms(), getTrueOrders()}, 40000)
 
 </script>
 

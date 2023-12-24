@@ -1,13 +1,7 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    import type { User, Order, Room, Category, Product } from "../store";
-    import { categoryStore, orderStore, roomStore, productStore } from "../store"
-    // endpoints
-    import { UserEndpoint, RoomEndpoint, OrderEndpoint, ProductInOrderEndpoint, CategoryEndpoint, ProductEndpoint } from '../api';
-    // components
-    import OrderComponent from '../components/OrderComponent.svelte';
-    // modals
-    import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
+    import { UserEndpoint } from '../api';
+    import type { User } from "../store";
 
     const user: User = JSON.parse(localStorage.getItem('user'))
     const token: string = localStorage.getItem("token")
@@ -28,12 +22,23 @@
         navigate('/login')
     } 
     else { checkToken() }
+    
+    // endpoints
+    import { RoomEndpoint, OrderEndpoint, CategoryEndpoint, ProductEndpoint } from '../api';
+    import { categoryStore, orderStore, roomStore, productStore } from "../store";
+    import type { Order, Room, Category, Product } from "../store";
+    // components
+    import OrderComponent from '../components/OrderComponent.svelte';
+    // modals
+    import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
 
     const orderEndpoint = new OrderEndpoint()
     const roomEndpoint = new RoomEndpoint()
     const categoryEndpoint = new CategoryEndpoint();
     const productEndpoint = new ProductEndpoint();
-    
+     
+    let showAddOrder: boolean = false
+
     // get products
     async function getProducts() {
         try { 
@@ -55,14 +60,12 @@
             console.log(error)
         }
     } getCategories()
-    
-    let showAddOrder: boolean = false
  
     // get rooms
     async function getRooms() {
         try{
             const res = await roomEndpoint.get(token)
-            const rooms = res.data.rooms
+            const rooms: Room[] = res.data.rooms
             roomStore.set(rooms)
         }
         catch(error) {
@@ -76,13 +79,12 @@
             const res = await orderEndpoint.getWaiterOrders(token)
             const orders: Order[] = res.data.orders
             orderStore.set(orders)
-            console.log(orders)
         } catch (error) {
             console.log(error)
         }
     } getOrders()
 
-    setInterval(() => { getOrders(), getRooms(), getCategories(), getProducts() }, 30000)
+    setInterval(() => { getProducts(), getCategories(), getRooms(), getOrders()  }, 40000)
 
 </script>
 

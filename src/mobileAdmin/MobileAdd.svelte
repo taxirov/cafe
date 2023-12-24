@@ -1,15 +1,6 @@
 <script lang="ts">
     import { navigate } from "svelte-navigator";
-    // components
-    import AddProductModal from "../modalsAdmin/AddProductModal.svelte";
-    import AddCategoryModal from "../modalsAdmin/AddCategoryModal.svelte";
-    import AddUserModal from "../modalsAdmin/AddUserModal.svelte";
-    import AddRoleModal from "../modalsAdmin/AddRoleModal.svelte";
-    import AddRoomModal from "../modalsAdmin/AddRoomModal.svelte";
-    import AcceptDeleteRoom from "../modalsAdmin/AcceptDeleteRoom.svelte";
-    import EditRoomModal from "../modalsAdmin/EditRoomModal.svelte";
-    // endpoints
-    import { UserEndpoint, RoomEndpoint, CategoryEndpoint, ProductEndpoint, RoleEndpoint } from "../api";
+    import { UserEndpoint } from "../api";
 
     const user: User = JSON.parse(localStorage.getItem('user'))
     const token: string = localStorage.getItem("token")
@@ -42,9 +33,22 @@
         navigate('/add')
     }
 
+     // endpoints
+     import { RoomEndpoint, CategoryEndpoint, ProductEndpoint, RoleEndpoint } from "../api";
+    // components
+    import AddProductModal from "../modalsAdmin/AddProductModal.svelte";
+    import AddCategoryModal from "../modalsAdmin/AddCategoryModal.svelte";
+    import AddUserModal from "../modalsAdmin/AddUserModal.svelte";
+    import AddRoleModal from "../modalsAdmin/AddRoleModal.svelte";
+    import AddRoomModal from "../modalsAdmin/AddRoomModal.svelte";
     // types and stores
     import type { User, Room, Category, Product, Role } from "../store";
     import { userStore, roomStore, categoryStore, productStore, roleStore } from "../store";
+    import CategoryInTable from "../components/CategoryInTable.svelte";
+    import ProductInTable from "../components/ProductInTable.svelte";
+    import RoleInTable from "../components/RoleInTable.svelte";
+    import UserInTable from "../components/UserInTable.svelte";
+    import RoomInTable from "../components/RoomInTable.svelte";
 
     const roomEndpoint = new RoomEndpoint();
     const categoryEndpoint = new CategoryEndpoint();
@@ -109,30 +113,11 @@
         }
     } getProducts()
 
-    // for category
     let showAddCategory: boolean = false;
-    let showCategoryDelete: boolean = false;
-    let showEditCategory: boolean = false;
-
-    // for product
     let showAddProduct: boolean = false;
-    let showProductDelete: boolean = false;
-    let showEditProduct: boolean = false;
-
-    // for user
     let showAddUser: boolean = false;
-    let showUserDelete: boolean = false;
-    let showEditUser: boolean = false;
-
-    // for role
     let showAddRole: boolean = false;
-    let showRoleDelete: boolean = false;
-    let showEditRole: boolean = false;
-
-    // for room
     let showAddRoom: boolean = false;
-    let showRoomDelete: boolean = false;
-    let showEditRoom: boolean = false;
 
     let showCategories: boolean = false;
     let categories_class = 'hidden'
@@ -201,7 +186,7 @@
         <div class="categories flex flex-col gap-3 p-3 border-t-8 border-green-500 bg-white rounded-xl shadow-md">
             <AddCategoryModal show={showAddCategory} close={() => (showAddCategory = false)}/>
             <div class="flex justify-between items-center">
-                <p class="text-xl font-semibold">Kategoriyalar</p>
+                <p class="text-lg font-semibold">Kategoriyalar ({$categoryStore.length})</p>
                 <div class="flex gap-1 items-center">
                         {#if showCategories}
                             <button on:click={showHideCategories} class="px-2 py-1 rounded-md bg-green-500 text-xl text-gray-100"><i class="bi bi-chevron-up" /></button> 
@@ -211,47 +196,18 @@
                         <button on:click={() => { showAddCategory = true }} class="px-2 py-1 rounded-md bg-green-500 text-xl text-gray-100"><i class="bi bi-plus" /></button>
                 </div>
             </div>
-            <table class="{categories_class} border-collapse border border-slate-500">
+            <table class="{categories_class}">
                 <thead>
                     <tr>
-                        <th class="border border-slate-600 text-center">ID</th>
-                        <th class="border border-slate-600 text-center">Nomi</th
-                        >
-                        <th class="border border-slate-600 text-center"
-                            >Mah. soni</th
-                        >
-                        <th class="border border-slate-600 text-center"
-                            >O'zgartirish</th
-                        >
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Nomi</th>
+                        <th class="text-center">Mah. soni</th>
+                        <th class="text-center">Tahrirlash</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {#each $categoryStore as category}
-                        <tr>
-                            <td class="border border-slate-600 text-center"
-                                >{category.id}</td
-                            >
-                            <td class="border border-slate-600 text-center"
-                                >{category.name}</td
-                            >
-                            <td class="border border-slate-600 text-center"
-                                >{category.products.length}</td
-                            >
-                            <td class="border border-slate-600 text-center">
-                                <div class="flex gap-1 items-center">
-                                    <button
-                                        on:click={() => {}}
-                                        class="px-2 py-1 rounded-md bg-blue-500 text-gray-100"
-                                        ><i class="bi bi-pencil" /></button
-                                    >
-                                    <button
-                                        on:click={() => {}}
-                                        class="px-2 py-1 rounded-md bg-red-500 text-gray-100"
-                                        ><i class="bi bi-trash" /></button
-                                    >
-                                </div>
-                            </td>
-                        </tr>
+                    {#each $categoryStore as category, index}
+                        <CategoryInTable index={index} category={category}></CategoryInTable>
                     {/each}
                 </tbody>
             </table>
@@ -259,7 +215,7 @@
         <div class="products flex flex-col gap-3 p-3 border-t-8 border-indigo-500 bg-white rounded-xl shadow-md">
             <AddProductModal show={showAddProduct} close={() => (showAddProduct = false)}/>
             <div class="flex justify-between items-center">
-                <p class="text-xl font-semibold">Mahsulotlar</p>
+                <p class="text-lg font-semibold">Mahsulotlar ({$productStore.length})</p>
                 <div class="flex gap-1 items-center">
                     <button on:click={() => { navigate('/products') }} class="px-2 py-[6px] rounded-md bg-indigo-500 text-md font-bold text-gray-100">Ko'rish</button>
                     {#if showProducts}
@@ -270,46 +226,18 @@
                     <button on:click={() => { showAddProduct = true }} class="px-2 py-1 rounded-md bg-indigo-500 text-xl text-gray-100"><i class="bi bi-plus" /></button>
                 </div>
             </div>
-            <table class="{products_class} border-collapse border border-slate-500">
+            <table class="{products_class}">
                 <thead>
                     <tr>
-                        <th class="border border-slate-600 text-center">ID</th>
-                        <th class="border border-slate-600 text-center">Nomi</th
-                        >
-                        <th class="border border-slate-600 text-center">Izoh</th
-                        >
-                        <th class="border border-slate-600 text-center"
-                            >O'zgartirish</th
-                        >
+                        <th class="text-center">T/r</th>
+                        <th class="text-center">Nomi</th>
+                        <th class="text-center">Narxi</th>
+                        <th class="text-center">Tahrir</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {#each $productStore as product}
-                        <tr>
-                            <td class="border border-slate-600 text-center"
-                                >{product.id}</td
-                            >
-                            <td class="border border-slate-600 text-center"
-                                >{product.name}</td
-                            >
-                            <td class="border border-slate-600 text-center"
-                                >{product.desc}</td
-                            >
-                            <td class="border border-slate-600 text-center">
-                                <div class="flex gap-1 items-center">
-                                    <button
-                                        on:click={() => {}}
-                                        class="px-2 py-1 rounded-md bg-blue-500 text-gray-100"
-                                        ><i class="bi bi-pencil" /></button
-                                    >
-                                    <button
-                                        on:click={() => {}}
-                                        class="px-2 py-1 rounded-md bg-red-500 text-gray-100"
-                                        ><i class="bi bi-trash" /></button
-                                    >
-                                </div>
-                            </td>
-                        </tr>
+                    {#each $productStore as product, index}
+                        <ProductInTable index={index} product={product}></ProductInTable>
                     {/each}
                 </tbody>
             </table>
@@ -317,7 +245,7 @@
         <div class="roles flex flex-col gap-3 p-3 border-t-8 border-purple-500 bg-white rounded-xl shadow-md">
             <AddRoleModal show={showAddRole} close={() => (showAddRole = false)}/>
             <div class="flex justify-between items-center">
-                <p class="text-xl font-semibold">Rollar</p>
+                <p class="text-lg font-semibold">Rollar ({$roleStore.length})</p>
                 <div class="flex gap-1 items-center">
                     {#if showRoles}
                         <button on:click={showHideRoles} class="px-2 py-1 rounded-md bg-purple-500 text-xl text-gray-100"><i class="bi bi-chevron-up" /></button> 
@@ -327,37 +255,18 @@
                      <button on:click={() => { showAddRole = true }} class="px-2 py-1 rounded-md bg-purple-500 text-xl text-gray-100"><i class="bi bi-plus" /></button>
                 </div>
             </div>
-            <table class="{roles_class} border-collapse border border-slate-500">
+            <table class="{roles_class}">
                 <thead>
                     <tr>
-                        <th class="border border-slate-600 text-center">ID</th>
-                        <th class="border border-slate-600 text-center">Ismi</th>
-                        <th class="border border-slate-600 text-center">Ishchilar</th>
-                        <th class="border border-slate-600 text-center">Tahrir</th>
+                        <th class="text-center">T/r</th>
+                        <th class="text-center">Nomi</th>
+                        <th class="text-center">Ishchi soni</th>
+                        <th class="text-center">Tahrir</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {#each $roleStore as role}
-                        <tr>
-                            <td class="border border-slate-600 text-center">{role.id}</td>
-                            <td class="border border-slate-600 text-center">{role.name}</td>
-                            <td class="border border-slate-600 text-center">{role.users}</td
-                            >
-                            <td class="border border-slate-600 text-center">
-                                <div class="flex gap-1 items-center">
-                                    <button
-                                        on:click={() => {}}
-                                        class="px-2 py-1 rounded-md bg-blue-500 text-gray-100"
-                                        ><i class="bi bi-pencil" /></button
-                                    >
-                                    <button
-                                        on:click={() => {}}
-                                        class="px-2 py-1 rounded-md bg-red-500 text-gray-100"
-                                        ><i class="bi bi-trash" /></button
-                                    >
-                                </div>
-                            </td>
-                        </tr>
+                    {#each $roleStore as role, index}
+                        <RoleInTable index={index} role={role}></RoleInTable>
                     {/each}
                 </tbody>
             </table>
@@ -365,7 +274,7 @@
         <div class="users flex flex-col gap-3 p-3 border-t-8 border-blue-500 bg-white rounded-xl shadow-md">
             <AddUserModal show={showAddUser} close={() => (showAddUser = false)}/>
             <div class="flex justify-between items-center">
-                <p class="text-xl font-semibold">Ishchilar</p>
+                <p class="text-lg font-semibold">Ishchilar ({$userStore.length})</p>
                 <div class="flex gap-1 items-center">
                     {#if showUsers}
                         <button on:click={showHideUsers} class="px-2 py-1 rounded-md bg-blue-500 text-xl text-gray-100"><i class="bi bi-chevron-up" /></button> 
@@ -375,44 +284,19 @@
                      <button on:click={() => { showAddUser = true }} class="px-2 py-1 rounded-md bg-blue-500 text-xl text-gray-100"><i class="bi bi-plus" /></button>
                 </div>
             </div>
-            <table class="{users_class} border-collapse border border-slate-500">
+            <table class="{users_class} ">
                 <thead>
                     <tr>
-                        <th class="border border-slate-600 text-center">ID</th>
-                        <th class="border border-slate-600 text-center">Ismi</th>
-                        <th class="border border-slate-600 text-center">Jami b.</th>
-                        <th class="border border-slate-600 text-center">O'zgartirish</th>
+                        <th class="text-center">T/r</th>
+                        <th class="text-center">Ismi</th>
+                        <th class="text-center">Roli</th>
+                        <th class="text-center">Tahrir</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {#each $userStore as user}
-                        <tr>
-                                {#if user.status == 0}
-                                    <td class="border bg-red-500 border-slate-600 text-center">{user.id}</td>
-                                {:else}
-                                    <td class="border bg-green-500 border-slate-600 text-center">{user.id}</td>
-                                {/if}
-                            <td class="border border-slate-600 text-center"
-                                >{user.name}</td
-                            >
-                            <td class="border border-slate-600 text-center"
-                                >{user.orders}</td
-                            >
-                            <td class="border border-slate-600 text-center">
-                                <div class="flex gap-1 items-center">
-                                    <button
-                                        on:click={() => {}}
-                                        class="px-2 py-1 rounded-md bg-blue-500 text-gray-100"
-                                        ><i class="bi bi-pencil" /></button
-                                    >
-                                    <button
-                                        on:click={() => {}}
-                                        class="px-2 py-1 rounded-md bg-red-500 text-gray-100"
-                                        ><i class="bi bi-trash" /></button
-                                    >
-                                </div>
-                            </td>
-                        </tr>
+                    {#each $userStore as user, index}
+                        <UserInTable user={user} index={index}></UserInTable>
+                        <div class="h-[2px]"></div>
                     {/each}
                 </tbody>
             </table>
@@ -420,7 +304,7 @@
         <div class="rooms flex flex-col gap-3 p-3 border-t-8 border-pink-500 bg-white rounded-xl shadow-md">
             <AddRoomModal show={showAddRoom} close={() => (showAddRoom = false)}/>
             <div class="flex justify-between items-center">
-                <p class="text-xl font-semibold">Xonalar</p>
+                <p class="text-lg font-semibold">Xonalar ({$roomStore.length})</p>
                 <div class="flex gap-1 items-center">
                     {#if showRooms}
                         <button on:click={showHideRooms} class="px-2 py-1 rounded-md bg-pink-500 text-xl text-gray-100"><i class="bi bi-chevron-up" /></button> 
@@ -430,34 +314,18 @@
                      <button on:click={() => { showAddRoom = true }} class="px-2 py-1 rounded-md bg-pink-500 text-xl text-gray-100"><i class="bi bi-plus" /></button>
                 </div>
             </div>
-            <table class="{rooms_class} border-collapse border border-slate-500">
+            <table class="{rooms_class} text-medium">
                 <thead>
                     <tr>
-                        <th class="border border-slate-600 text-center">ID</th>
-                        <th class="border border-slate-600 text-center">Ismi</th>
-                        <th class="border border-slate-600 text-center">Holati</th>
-                        <th class="border border-slate-600 text-center">Tahrir</th>
+                        <th class="text-center">T/r</th>
+                        <th class="text-center">Ismi</th>
+                        <th class="text-center">Holati</th>
+                        <th class="text-center">Tahrir</th>
                     </tr>
                 </thead>
                 <tbody> 
-                    {#each $roomStore as room}
-                        <AcceptDeleteRoom show={showRoomDelete} close={() => { showRoomDelete = false }} id={room.id} />
-                        <EditRoomModal show={showEditRoom} close={() => { showEditRoom = false }} id={room.id} name={room.name} desc={room.desc} capacity={room.capacity} />
-                        <tr>
-                            <td class="border border-slate-600 text-center">{room.id}</td>
-                            <td class="border border-slate-600 text-center">{room.name}</td>
-                            {#if room.booked == true}
-                                <td class="border border-slate-600 bg-red-500 text-center">band</td>
-                            {:else}
-                                <td class="border border-slate-600 bg-green-500 text-center">ochiq</td>
-                            {/if}
-                            <td class="border border-slate-600 text-center">
-                                <div class="flex gap-1 items-center">
-                                    <button on:click={() => { showEditRoom = true }} class="px-2 py-1 rounded-md bg-blue-500 text-gray-100"><i class="bi bi-pencil" /></button>
-                                    <button on:click={() => { showRoomDelete = true }} class="px-2 py-1 rounded-md bg-red-500 text-gray-100"><i class="bi bi-trash" /></button>
-                                </div>
-                            </td>
-                        </tr>
+                    {#each $roomStore as room, index}
+                        <RoomInTable index={index} room={room}></RoomInTable>
                     {/each}
                 </tbody>
             </table>

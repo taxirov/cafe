@@ -32,8 +32,8 @@
 <div class={"h-screen w-screen bg-black/70 fixed top-0 left-0 bottom-0 right-0 z-[999] justify-center items-center " + (show ? "flex" : "hidden")}>
     <div class="bg-white p-8 flex flex-col gap-3 w-screen h-full md:h-[fit-content] md:w-[fit-content] md:rounded-md shadow-md overflow-y-auto">
         <p class="text-xl text-center font-bold">Ishchi qo'shish</p>
-        <div class="flex flex-col md:flex-row items-start gap-3">
-            <div class="flex flex-col gap-3 first-row">
+        <div class="flex flex-col md:flex-row md:items-start gap-3">
+            <div class="flex flex-col gap-3 w-full first-row">
                 <div class="role flex flex-col gap-2">
                     <label class="font-semibold" for="desc">Roli*:</label>
                     <select bind:this={role} class="outline-0 border-2 px-3 py-1 rounded" name="category" id="">
@@ -59,7 +59,7 @@
                     <input bind:this={phone} class="outline-0 border-2 px-3 py-1 rounded" type="text" name="phone" id="" placeholder="+998905789204" />
                 </div>
             </div>
-            <div class="flex flex-col gap-3 second-row">
+            <div class="flex flex-col gap-3 w-full second-row">
                 <div class="flex flex-col gap-2">
                     <label class="font-semibold" for="email">Email*:</label>
                     <input bind:this={email} class="outline-0 border-2 px-3 py-1 rounded" type='email' name="email" id="" placeholder="eshmatovtoshmat@gmail.com" />

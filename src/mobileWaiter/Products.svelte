@@ -80,7 +80,7 @@
         </div>
     {:else}
         <div class="grow-0 bg-white p-5 sticky bottom-0 right-0 left-0">
-            <button on:click={() => { navigate('/madd') }} class="bg-indigo-500 text-stone-100 font-semibold w-full rounded-xl py-2"><i class="bi bi-arrow-left"></i> Ortga qaytish</button>
+            <button on:click={() => { if (screen.width > 500) { navigate('/add') } else { navigate('/madd') } }} class="bg-indigo-500 text-stone-100 font-semibold w-full rounded-xl py-2"><i class="bi bi-arrow-left"></i> Ortga qaytish</button>
         </div>
     {/if}
 </section>

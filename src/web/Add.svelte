@@ -256,7 +256,7 @@
                 <table class="{categories_class}">
                     <thead>
                         <tr>
-                            <th class="text-center">ID</th>
+                            <th class="text-center">T/r</th>
                             <th class="text-center">Nomi</th>
                             <th class="text-center">Mah. soni</th>
                             <th class="text-center">Izoh</th>
@@ -264,8 +264,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {#each $categoryStore as category}
-                            <CategoryInTable category={category}></CategoryInTable>
+                        {#each $categoryStore as category, index}
+                            <CategoryInTable index={index} category={category}></CategoryInTable>
                         {/each}
                     </tbody>
                 </table>
@@ -287,7 +287,7 @@
                 <table class="{products_class}">
                     <thead>
                         <tr>
-                            <th class="text-center">ID</th>
+                            <th class="text-center">T/r</th>
                             <th class="text-center">Nomi</th>
                             <th class="text-center">Narxi</th>
                             <th class="text-center">Izoh</th>
@@ -295,8 +295,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {#each $productStore as product}
-                            <ProductInTable product={product}></ProductInTable>
+                        {#each $productStore as product, index}
+                            <ProductInTable index={index} product={product}></ProductInTable>
                         {/each}
                     </tbody>
                 </table>
@@ -317,15 +317,15 @@
                 <table class="{roles_class}">
                     <thead>
                         <tr>
-                            <th class="text-center">ID</th>
+                            <th class="text-center">T/r</th>
                             <th class="text-center">Nomi</th>
                             <th class="text-center">Ishchi soni</th>
                             <th class="text-center">Tahrirlash</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {#each $roleStore as role}
-                            <RoleInTable role={role}></RoleInTable>
+                        {#each $roleStore as role, index}
+                            <RoleInTable index={index} role={role}></RoleInTable>
                         {/each}
                     </tbody>
                 </table>
@@ -346,18 +346,18 @@
                 <table class="{users_class} ">
                     <thead>
                         <tr>
-                            <th class="text-center">ID</th>
+                            <th class="text-center">T/r</th>
                             <th class="text-center">Ismi</th>
-                            <th class="text-center">Holati</th>
-                            <th class="text-center">Jami b.</th>
                             <th class="text-center">Roli</th>
+                            <th class="text-center">Jami b.</th>
                             <th class="text-center">Telefon</th>
                             <th class="text-center">O'zgartirish</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {#each $userStore as user}
-                            <UserInTable user={user}></UserInTable>
+                        {#each $userStore as user, index}
+                            <UserInTable index={index} user={user}></UserInTable>
+                            <div class="h-[3px]"></div>
                         {/each}
                     </tbody>
                 </table>
@@ -378,7 +378,7 @@
                 <table class="{rooms_class} text-medium">
                     <thead>
                         <tr>
-                            <th class="text-center">ID</th>
+                            <th class="text-center">T/r</th>
                             <th class="text-center">Ismi</th>
                             <th class="text-center">Holati</th>
                             <th class="text-center">Izoh</th>
@@ -386,8 +386,8 @@
                         </tr>
                     </thead>
                     <tbody> 
-                        {#each $roomStore as room}
-                            <RoomInTable room={room}></RoomInTable>
+                        {#each $roomStore as room, index}
+                            <RoomInTable index={index} room={room}></RoomInTable>
                         {/each}
                     </tbody>
                 </table>

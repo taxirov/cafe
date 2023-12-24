@@ -4,6 +4,8 @@
     import type { Room } from "../store";
 
     export let room: Room
+    export let index: number
+
     let showRoomDelete: boolean = false
     let showRoomEdit: boolean = false
     
@@ -12,7 +14,7 @@
 <AcceptDeleteRoom show={showRoomDelete} close={() => { showRoomDelete = false }} id={room.id} />
 <EditRoomModal show={showRoomEdit} close={() => { showRoomEdit = false }} id={room.id} name={room.name} desc={room.desc} capacity={room.capacity} />
 <tr>
-    <td class="text-center">{room.id}</td>
+    <td class="text-center">{index + 1}</td>
     <td class="text-center">{room.name}</td>
     {#if room.booked == true}
         <td class="text-center"><p class="bg-red-500 text-zinc-100 text-sm font-semibold px-4 py-1 text-center rounded-2xl">Band</p></td>

@@ -32,9 +32,9 @@
 </script>
 
 <div class={"h-screen w-screen bg-black/70 fixed top-0 left-0 bottom-0 right-0 z-[999] justify-center items-center " + (show ? "flex" : "hidden")}>
-    <div class="bg-white p-8 flex flex-col gap-3 h-fit w-fit rounded-md shadow-md">
-        <p class="text-xl text-center font-bold">Ishchi statusini o'zgartirish</p>
-        <p class="text-sm">Ishchi statusini o'zgartirishni tasdiqlaysizmi?</p>
+    <div class="bg-white p-8 flex flex-col w-4/5 md:w-fit gap-3 h-fit rounded-md shadow-md">
+        <p class="text-xl text-center font-bold">Ishchi statusini tahrirlash</p>
+        <p class="text-md text-center">Statusni o'zgartirishni tasdiqlaysizmi?</p>
         <label for=""><b>Admin parol*</b></label>
         <input bind:value={adminKey} class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="">
         <div class="flex justify-between gap-3">

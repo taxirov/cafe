@@ -90,9 +90,7 @@
                 <p class="font-bold text-sm"><i class="bi bi-calendar-event"></i> Ro'yhatdan o'tgan sana:</p>
                 <p class="font-medium text-md">{user.create_date.toString().split('T')[0]}</p>
             </div>
-            <div class="flex justify-center items-center bg-red-500 text-white rounded-lg py-2 px-4 shadow-sm">
-                <button on:click={logOut} class="font-bold text-sm"><i class="bi bi-box-arrow-left"></i>  Tizimdan chiqish</button>
-            </div>
+            <button on:click={logOut} class="font-bold text-md bg-red-500 text-zinc-100 rounded-lg py-2 shadow-sm"><i class="bi bi-box-arrow-left"></i>  Tizimdan chiqish</button>
         </div>
     </div>
     <div class="grow-0 h-fit grid grid-cols-4 bg-white px-2 py-2 sticky bottom-0 right-0 left-0 shadow-xl">
