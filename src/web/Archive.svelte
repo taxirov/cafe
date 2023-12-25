@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { CategoryEndpoint, RoleEndpoint, UserEndpoint } from '../api';
+    import { UserEndpoint } from '../api';
     import { navigate } from 'svelte-navigator';
 
     const userEndpoint = new UserEndpoint()
@@ -29,11 +29,11 @@
     }   getVerify()
     
     // types
-    import type { Category, Order, Product, ProductInOrder, Role, Room, User } from '../store';
+    import type { Category, Order, Product, Room } from '../store';
     // stores
-    import { categoryStore, orderStore, productStore, roleStore, roomStore, userStore, pageStore,  lastFourPageStore, firstFourPageStore } from '../store';
+    import { categoryStore, productStore, roomStore, archiveOrderStore, pageStore } from '../store';
     // endpoints
-    import { RoomEndpoint, ProductEndpoint, OrderEndpoint, ProductInOrderEndpoint } from '../api';
+    import { CategoryEndpoint, RoomEndpoint, ProductEndpoint, OrderEndpoint } from '../api';
     // modals
     import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
     // components
@@ -42,11 +42,9 @@
     let show_add: boolean = false
 
     const orderEndpoint = new OrderEndpoint();
-    const productInOrderEndpoint = new ProductInOrderEndpoint();
     const roomEndpoint = new RoomEndpoint();
     const categoryEndpoint = new CategoryEndpoint();
     const productEndpoint = new ProductEndpoint();
-    const roleEndpoint = new RoleEndpoint() 
 
     let current_page: number = 1
     let pages: number[] = []
@@ -179,7 +177,7 @@
         try{
             const res = await orderEndpoint.getStatus(0, current_page, token)
             const orders: Order[] = res.data.orders
-            orderStore.set(orders)
+            archiveOrderStore.set(orders)
             current_page = res.data.current_page
             total_order_count = res.data.total_order_count
             total_page_count = res.data.total_page_count
@@ -241,7 +239,7 @@
                 </button>
             </div>
         </div>
-        <p class="text-center py-3 text-zinc-200">Created by <button class="font-semibold">Saad Takhir</button> </p>
+        <p class="text-center py-3 text-zinc-200">Created by <a href="https://saad.uz" target="_blank" class="font-semibold">Saad Takhir</a> </p>
     </div>
     <div class="grow w-4/5 flex flex-col h-screen">
         <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 p-3 h-fit">
@@ -251,10 +249,10 @@
         <AddOrderModal show={show_add} close={() => show_add = false}></AddOrderModal>
         <div class="grow flex flex-col gap-3 p-5 overflow-y-scroll">
             <div class="grid grid-cols-1 justify-start gap-5">
-                {#if $orderStore.length == 0}
+                {#if $archiveOrderStore.length == 0}
                     <p class="text-center text-sm md:text-xl text-gray-400 font-medium">Sizda faol buyurtmalar mavjud emas</p>
                 {:else}
-                    {#each $orderStore as order}
+                    {#each $archiveOrderStore as order}
                         <OrderComponent user_role={user.role} order={order}></OrderComponent>
                     {/each}
                 {/if}

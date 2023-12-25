@@ -39,6 +39,33 @@
         navigate('/m')
     }
 
+    const defaultOrders: Order[] = [
+        { 
+            id: 0, 
+            title: 'Zakaz-1', 
+            desc: "Anvarning tug'ilgan kuni", 
+            user: { id: 0, name: "Sardor Olimov" }, 
+            room: { id: 0, name: "Zal-12" }, 
+            products: [], 
+            total_price: 0, 
+            status: 1, 
+            create_date: "2023-12-25T11:17:54.016Z", 
+            update_date: "2023-12-25T11:17:54.016Z" 
+        },
+        { 
+            id: 1, 
+            title: 'Zakaz-2', 
+            desc: "Mahalladagi Bekmurod akaning 40 yillik yubileyi", 
+            user: { id: 0, name: "Sardor Olimov" }, 
+            room: { id: 0, name: "Zal-13" }, 
+            products: [], 
+            total_price: 0, 
+            status: 1, 
+            create_date: "2023-12-25T11:17:54.016Z", 
+            update_date: "2023-12-25T11:17:54.016Z" 
+        }
+    ]
+
     const roomEndpoint = new RoomEndpoint()
 
     const day = new Date().toJSON()
@@ -125,7 +152,7 @@
 </svelte:head>
 
 <section class="flex min-h-screen md:h-screen">
-    <div class="grow-0 bg-indigo-500 md:w-1/5 flex flex-col justify-between p-6 sticky bottom-0 top-0 left-0">
+    <div class="grow-0 bg-indigo-600 md:w-1/5 flex flex-col justify-between p-6 sticky bottom-0 top-0 left-0">
         <div class="flex flex-col gap-8">
             <p class="text-2xl font-black text-zinc-100 inline-block">Madat Ota Choyxonasi</p>
             <div class="flex flex-col gap-1">
@@ -155,10 +182,10 @@
                 </button>
             </div>
         </div>
-        <p class="text-center py-3 text-zinc-200">Created by <button class="font-semibold">Saad Takhir</button> </p>
+        <p class="text-center py-3 text-zinc-200">Created by <a href="https://saad.uz" target="_blank" class="font-semibold">Saad Takhir</a> </p>
     </div>
     <div class="w-4/5 left-0 flex flex-col h-screen">
-        <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-400 px-3 py-4 h-fit">
+        <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 px-3 py-4 h-fit">
             <h2  class="outline-none text-zinc-100 text-lg font-bold"><i class="bi bi-house-fill text-2xl"></i> Asosiy sahifa</h2>
         </div>
         <div class="grow flex flex-col gap-3 p-5 overflow-y-scroll">
@@ -227,11 +254,17 @@
                     <button on:click={() => { navigate('/orders')}} class="px-4 py-2 text-md rounded-md bg-indigo-500 text-zinc-100">Batafsil <i class="bi bi-arrow-right"></i></button>
                 </div>
                 <div class="grid grid-cols-1 gap-2">
-                    {#each $orderStore as order, index}
-                        {#if index < 2}
+                    {#if $orderStore.length == 0}
+                        {#each defaultOrders as order, index}
                             <OrderComponent user_role={user.role} order={order}></OrderComponent>
-                        {/if}
-                    {/each}
+                        {/each}
+                    {:else}
+                        {#each $orderStore as order, index}
+                            {#if index < 2}
+                                <OrderComponent user_role={user.role} order={order}></OrderComponent>
+                            {/if}
+                        {/each}
+                    {/if}
                 </div>
             </div>
             <div class="rooms flex flex-col gap-3">

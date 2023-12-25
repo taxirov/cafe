@@ -37,18 +37,12 @@
             <p class="text-xl text-center font-bold">
                 Mahsulotni bekor qilish
             </p>
-            <div class="flex justify-between">
-                <p>Mahsulotni bekor qilishni tasdiqlaysizmi?</p>
-                <button
-                    on:click={() => close()}
-                    class="py-2 px-4 rounded-md text-white bg-red-400 font-semibold"
-                    ><i class="bi bi-x"></i> Yopish</button
-                >
-                <button
-                    on:click={deleteProduct}
-                    class="py-2 px-4 rounded-md text-white bg-indigo-500 font-semibold"
-                    ><i class="bi bi-plus"></i> Tasdiqlash</button
-                >
+            <div class="flex flex-col gap-3 justify-between">
+                <p class="text-center text-sm md:text-md font-medium">Mahsulotni bekor qilishni tasdiqlaysizmi?</p>
+                <div class="flex justify-between">
+                    <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-500 font-semibold w-fit">Yopish</button>
+                    <button on:click={deleteProduct} class="py-2 px-4 rounded-md text-white bg-indigo-500 font-semibold w-fit">Tasdiqlash</button>
+                </div>
             </div>
         </div>
     </div>

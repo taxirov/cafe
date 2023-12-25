@@ -59,14 +59,21 @@
             orderStore.update(orders => { return orders.concat([order]) })
             close()
         } catch(error) {
-            console.log(error)
+            if (error.response.status == 404) {
+                let order = $orderStore.filter(o => o.id == productInOrder.order_id)[0]
+                let products_filter = order.products.filter(p => p.id != productInOrder.id)
+                order.products = products_filter
+                orderStore.update(orders => { return orders.filter(o => o.id != order.id)})
+                orderStore.update(orders => { return orders.concat([order]) })
+                close()
+            }
         }
     }
 
 </script>
 
 <div class={"h-screen w-screen bg-black/70 fixed top-0 left-0 bottom-0 right-0 z-[999] justify-center items-center " + (show ? "flex" : "hidden")}>
-    <div class="bg-white p-8 flex flex-col justify-between w-screen h-full md:h-[fit-content] md:w-[fit-content] md:rounded-md shadow-md overflow-y-auto">
+    <div class="bg-white p-8 flex flex-col justify-between md:gap-4 w-screen h-screen md:h-fit md:w-fit rounded-md shadow-md overflow-y-auto">
         <div class="flex flex-col gap-3">
             <p class="text-xl text-center font-bold">Buyurtmadagi mahsulotni tahrirlash</p>
         <div class="flex flex-col gap-3">

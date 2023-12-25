@@ -45,8 +45,10 @@
                 showAlert('Xatolik', 'red-500', "Foydalanuchi topilmadi. Iltimos qaytadan urunib ko'ring", 'x')
             } else if (error.response.status == 401) {
                 showAlert('Xatolik', 'red-500', "Foydalanuvchi nomi yoki parol noto'g'ri. Iltimos qaytadan urunib ko'ring", 'x')
+            } else if (error.response.status == 403) {
+                showAlert('Xatolik', 'red-500', "Siz hozirda ishdan olingansiz. Iltimos admin bilan bog'laning", 'x')
             } else if(error.response.status >= 500) {
-                showAlert('Xatolik', 'red-500', "Serverda xatolik. Iltimos dasturchi bilan bog'laning", 'x')
+                showAlert('Xatolik', 'red-500', "Serverda xatolik. Iltimos admin bilan bog'laning", 'x')
             }
         }
     }
