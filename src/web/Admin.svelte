@@ -39,6 +39,7 @@
         navigate('/m')
     }
 
+    import OrderFake from "../components/OrderFake.svelte";
     const defaultOrders: Order[] = [
         { 
             id: 0, 
@@ -256,7 +257,7 @@
                 <div class="grid grid-cols-1 gap-2">
                     {#if $orderStore.length == 0}
                         {#each defaultOrders as order, index}
-                            <OrderComponent user_role={user.role} order={order}></OrderComponent>
+                            <OrderFake order={order}></OrderFake>
                         {/each}
                     {:else}
                         {#each $orderStore as order, index}

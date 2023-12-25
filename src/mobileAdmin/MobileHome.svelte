@@ -38,6 +38,34 @@
         navigate('/admin')
     }
 
+    import OrderFake from "../components/OrderFake.svelte";
+    const defaultOrders: Order[] = [
+        { 
+            id: 0, 
+            title: 'Zakaz-1', 
+            desc: "Anvarning tug'ilgan kuni", 
+            user: { id: 0, name: "Sardor Olimov" }, 
+            room: { id: 0, name: "Zal-12" }, 
+            products: [], 
+            total_price: 0, 
+            status: 1, 
+            create_date: "2023-12-25T11:17:54.016Z", 
+            update_date: "2023-12-25T11:17:54.016Z" 
+        },
+        { 
+            id: 1, 
+            title: 'Zakaz-2', 
+            desc: "Mahalladagi Bekmurod akaning 40 yillik yubileyi", 
+            user: { id: 0, name: "Sardor Olimov" }, 
+            room: { id: 0, name: "Zal-13" }, 
+            products: [], 
+            total_price: 0, 
+            status: 1, 
+            create_date: "2023-12-25T11:17:54.016Z", 
+            update_date: "2023-12-25T11:17:54.016Z" 
+        }
+    ]
+
     const roomEndpoint = new RoomEndpoint()
 
     const day = new Date().toJSON()
@@ -190,11 +218,17 @@
                 <button on:click={() => { navigate('/orders')}} class="px-4 py-2 text-md rounded-md bg-indigo-500 text-zinc-100">Batafsil <i class="bi bi-arrow-right"></i></button>
             </div>
             <div class="grid grid-cols-1 gap-2">
-                {#each $orderStore as order, index}
-                    {#if index < 2}
-                        <OrderComponent user_role={user.role} order={order}></OrderComponent>
-                    {/if}
-                {/each}
+                {#if $orderStore.length == 0}
+                        {#each defaultOrders as order, index}
+                            <OrderFake order={order}></OrderFake>
+                        {/each}
+                {:else}
+                    {#each $orderStore as order, index}
+                        {#if index < 2}
+                            <OrderComponent user_role={user.role} order={order}></OrderComponent>
+                        {/if}
+                    {/each}
+                {/if}
             </div>
         </div>
         <div class="rooms flex flex-col gap-3">
