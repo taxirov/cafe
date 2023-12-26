@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { categoryStore, roomStore, type Room } from "../store"
-    import { RoomEndpoint } from '../api'
-    import Alert from "../modalsAll/Alert.svelte"
+    import { roomStore, type Room } from "../store";
+    import { RoomEndpoint } from '../api';
+    import Alert from "../modalsAll/Alert.svelte";
 
     const roomEndpoint = new RoomEndpoint()
     const token = localStorage.getItem('token')
@@ -35,10 +35,14 @@
             roomStore.update((rooms) => rooms.concat([room]))
             close()
         } catch (error) {
-            if (error.response.status == 500) {
-                showAlert('Xatolik', 'red-500', 'Serverda xatolik. Iltimos dasturchiga murojat qiling', 'x')
-            } else if (error.response.status == 401) {
-                showAlert('Xatolik', 'red-500', "Admin parol noto'g'ri. Iltimos qaytadan urunib ko'ring", 'x')
+            if (error.response.status == 409) {
+                showAlert('Xatolik', 'red-500', name + " bu nomli xona mavjud. Iltimos boshqa nom tanlang", 'x')
+            } else if(error.response.status == 403) {
+                showAlert('Xatolik', 'red-500', "Admin parol kiritilmagan! Iltimos admin parolni kiritib qaytadan urining.", 'x')
+            } else if(error.response.status == 401) {
+                showAlert('Xatolik', 'red-500', "Admin parol noto'g'ri! Iltimos qaytadan urining.", 'x')
+            } else if(error.response.status == 500 && error.response.status > 500) {
+                showAlert('Xatolik', 'red-500', "Serverda xatolik. Iltimos admin bilan bog'laning", 'x')
             }
         }
     }
@@ -55,7 +59,6 @@
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="">Nomi*:</label>
                 <input bind:value={name}  class="outline-0 border-2 px-3 py-1 rounded" type="text" name="" id="" placeholder="Zal 1">
-                <p class="text-red-500 font-medium">Xona nomi takrorlanmasligi kerak!</p>
             </div>
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="">Sig'imi*:</label>
@@ -72,7 +75,7 @@
         </div>
 
         <div class="flex justify-between">
-            <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-400 font-bold">Yopish</button>
+            <button on:click={() => close()} class="py-2 px-4 rounded-md text-white bg-red-500 font-bold">Yopish</button>
             <button on:click={create} class="py-2 px-4 rounded-md text-white bg-indigo-500 font-bold">Qo'shish</button>
         </div>
     </div>

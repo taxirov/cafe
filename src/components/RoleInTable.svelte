@@ -16,8 +16,15 @@
     <td class="text-center">{index + 1}</td>
     <td class="text-center">{role.name}</td>
     <td class="text-center">{role.users}</td>
-    <td class="text-center">
-        <button on:click={() => { showEditRole = true }} class="px-3 py-1 rounded-md bg-blue-500 font-semibold text-zinc-100">{#if screen.width > 500} Tahrirlash{/if} <i class="bi bi-pencil" /></button>
-        <button on:click={() => { showDeleteRole = true }} class="px-3 py-1 rounded-md bg-red-500 font-semibold text-zinc-100">{#if screen.width > 500} O'chirish{/if} <i class="bi bi-trash" /></button>
-    </td>
+    {#if role.name == 'waiter' || role.name == 'admin'}
+        <td class="text-center">
+            <button disabled class="px-3 py-1 rounded-md bg-blue-500 font-semibold text-zinc-100">{#if screen.width > 500} Tahrirlash{/if} <i class="bi bi-pencil" /></button>
+            <button disabled class="px-3 py-1 rounded-md bg-red-500 font-semibold text-zinc-100">{#if screen.width > 500} O'chirish{/if} <i class="bi bi-trash" /></button>
+        </td>
+    {:else}
+        <td class="text-center">
+            <button on:click={() => { showEditRole = true }} class="px-3 py-1 rounded-md bg-blue-500 font-semibold text-zinc-100">{#if screen.width > 500} Tahrirlash{/if} <i class="bi bi-pencil" /></button>
+            <button on:click={() => { showDeleteRole = true }} class="px-3 py-1 rounded-md bg-red-500 font-semibold text-zinc-100">{#if screen.width > 500} O'chirish{/if} <i class="bi bi-trash" /></button>
+        </td>
+    {/if}
 </tr>
