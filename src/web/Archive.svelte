@@ -244,7 +244,7 @@
     <div class="grow w-4/5 flex flex-col h-screen">
         <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 p-3 h-fit">
             <h2  class="outline-none text-lg font-bold text-zinc-100"><i class="bi bi-clipboard-fill"></i> Buyurtmalar tarixi</h2>
-            <button disabled class="bg-zinc-100 px-4 py-2 text-sm text-slate-600 font-bold rounded-md shadow-md">Filtrlash <i class="bi bi-filter"></i></button>
+            <!-- <button disabled class="bg-zinc-100 px-4 py-2 text-sm text-slate-600 font-bold rounded-md shadow-md">Filtrlash <i class="bi bi-filter"></i></button> -->
         </div>
         <AddOrderModal show={show_add} close={() => show_add = false}></AddOrderModal>
         <div class="grow flex flex-col gap-3 p-5 overflow-y-scroll">
