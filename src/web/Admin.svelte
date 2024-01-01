@@ -193,11 +193,11 @@
             <div class="umumiy flex flex-col gap-2">
                 <h1 class="outline-none font-semibold text-lg">Umumiy ma'lumotlar</h1>
                 <div class="grid grid-cols-3 gap-2">
-                    <span class="flex flex-col justify-between gap-1 bg-green-400 text-gray-100 p-3 rounded-xl relative">
+                    <span class="flex flex-col justify-between gap-1 bg-green-400 text-zinc-100 p-3 rounded-xl relative">
                         <p class="text-lg">Oxirgi oydagi daromad</p>
                         <span class="flex justify-between">
                             <span class="flex items-end gap-1">
-                                {#if totalPriceLastMonth.toString().length == 4}
+                                {#if totalPriceLastMonth.toString().length <= 4}
                                     <p class="text-3xl font-bold">
                                         {totalPriceLastMonth.toString()}
                                     </p>
