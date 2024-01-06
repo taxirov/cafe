@@ -25,7 +25,7 @@
 
     async function create() {
         try {
-            const res  = await proInOrEndpoint.post(order_id, +product.value, +count, token)
+            const res  = await proInOrEndpoint.post(order_id, +product.value, Number.parseFloat(count.value), token)
             const proInOrder: ProductInOrder = res.data.productInOrder
             let order = $orderStore.filter(o => o.id == proInOrder.order_id)[0]
             order.products.push(proInOrder)
@@ -68,7 +68,7 @@
             </div>
             <div class="flex flex-col gap-2">
                 <label class="font-semibold" for="product-count">Mahsulotni miqdori*:</label>
-                <input bind:value={count} class="outline-0 border-2 px-3 py-1 rounded" type="number" min="1" max="100" name="product-count" id="">
+                <input bind:this={count} class="outline-0 border-2 px-3 py-1 rounded" type="text" name="product-count" id="">
             </div>
         </div>
 

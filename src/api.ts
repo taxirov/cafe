@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://webpack.uz/api"
+const url = "http://localhost:4800/api"
 
 export class RoleEndpoint {
     async post(name: string, admin_key: string) {
