@@ -44,7 +44,7 @@
         }
     } getZeroStatus()
 
-    setInterval(() => { getZeroStatus() }, 20000)
+    setInterval(() => { getZeroStatus() }, 5000)
 
 </script>
 

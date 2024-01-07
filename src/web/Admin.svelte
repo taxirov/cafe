@@ -1,7 +1,7 @@
 <script lang="ts">
     import { navigate } from 'svelte-navigator';
-    import { roomStore, type Room, type User, orderStore, userStore, type Order, type Product, type Category, categoryStore, productStore } from '../store';
-    import { RoomEndpoint, UserEndpoint, OrderEndpoint, CategoryEndpoint, ProductEndpoint } from '../api';
+    import { roomStore, type Room, type User, orderStore, userStore, type Order, type Product, type Category, categoryStore, productStore, type Book } from '../store';
+    import { RoomEndpoint, UserEndpoint, OrderEndpoint, CategoryEndpoint, ProductEndpoint, BookEndpoint } from '../api';
     import OrderComponent from "../components/OrderComponent.svelte"
     import RoomComponent from '../components/RoomComponent.svelte';
 
@@ -33,7 +33,6 @@
     const orderEndpoint = new OrderEndpoint()
     const categoryEndpoint = new CategoryEndpoint();
     const productEndpoint = new ProductEndpoint();
-
     
     if (screen.width < 500) {
         navigate('/m')
@@ -68,11 +67,27 @@
     ]
 
     const roomEndpoint = new RoomEndpoint()
+    const bookEndpoint = new BookEndpoint()
 
     const day = new Date().toJSON()
 
     let totalOrderLastMonth: number = 0
+    let totalOrderToday: number = 0
     let totalPriceLastMonth: number = 0
+    let totalPriceToday: number = 0
+
+    async function getTodayBrons() {
+        let date = (new Date()).toLocaleDateString()
+        try {
+            const res = await bookEndpoint.date(date, token)
+            const books: Book[] = res.data.books
+            if (books.length > 0) {
+                await bookEndpoint.status(books, token)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    } getTodayBrons()
 
     // get last month orders
     async function getLastMonthOrders() {
@@ -87,6 +102,20 @@
             console.log(e)
         }
     } getLastMonthOrders()
+
+    // get last month orders
+    async function getTodayOrders() {
+        try {
+            const res = await orderEndpoint.getByYearMonthDay(day.slice(0,10), token)
+            const orders: Order[] = res.data.orders
+            totalOrderToday = orders.length
+            for (let i = 0; i < orders.length; i++) {
+                totalPriceToday += orders[i].total_price
+            }
+        } catch(e) {
+            console.log(e)
+        }
+    } getTodayOrders()
 
     // get users
     async function getUsers() {
@@ -181,6 +210,10 @@
                     <i class="bi bi-person-fill text-lg"></i>
                     <p class="text-md font-bold">Profile</p>
                 </button>
+                <button on:click={() => { navigate('/bron')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
+                    <i class="bi bi-bookmarks-fill text-lg"></i>
+                    <p class="text-md font-bold">Bronlar</p>
+                </button>
             </div>
         </div>
         <p class="text-center py-3 text-zinc-200">Created by <a href="https://saad.uz" target="_blank" class="font-semibold">Saad Takhir</a> </p>
@@ -192,8 +225,52 @@
         <div class="grow flex flex-col gap-3 p-5 overflow-y-scroll">
             <div class="umumiy flex flex-col gap-2">
                 <h1 class="outline-none font-semibold text-lg">Umumiy ma'lumotlar</h1>
-                <div class="grid grid-cols-3 gap-2">
-                    <span class="flex flex-col justify-between gap-1 bg-green-400 text-zinc-100 p-3 rounded-xl relative">
+                <div class="grid grid-cols-5 gap-2">
+                    <span class="flex flex-col justify-between gap-1 bg-lime-500 text-zinc-100 p-3 rounded-xl relative">
+                        <p class="text-lg">Bugungi daromad miqdori</p>
+                        <span class="flex justify-between">
+                            <span class="flex items-end gap-1">
+                                {#if totalPriceToday.toString().length <= 4}
+                                    <p class="text-3xl font-bold">
+                                        {totalPriceToday.toString()}
+                                    </p>
+                                    <p class="">ming so'm</p>
+                                {:else if totalPriceToday.toString().length == 5}
+                                    <p class="text-3xl font-bold">
+                                        {totalPriceLastMonth.toString().slice(0,2)}.{totalPriceToday.toString()[2]}
+                                    </p>
+                                    <p class="">ming so'm</p>
+                                {:else if totalPriceToday.toString().length == 6}
+                                    <p class="text-3xl font-bold">
+                                        {totalPriceToday.toString().slice(0,3)}.{totalPriceToday.toString()[3]}
+                                    </p>
+                                    <p class="">ming so'm</p>
+                                {:else if totalPriceToday.toString().length == 7}
+                                    <p class="text-3xl font-bold">
+                                        {totalPriceToday.toString()[0]}.{totalPriceToday.toString().slice(1,3)} 
+                                    </p>
+                                    <p class="">mln so'm</p>
+                                {:else if totalPriceToday.toString().length == 8}
+                                    <p class="text-3xl font-bold">
+                                        {totalPriceToday.toString().slice(0,2)}.{totalPriceToday.toString().slice(2,4)} 
+                                    </p>
+                                    <p class="">mln so'm</p>
+                                {/if}
+                            </span>
+                            <i class="bi bi-cash-stack absolute text-7xl right-0 bottom-0 opacity-30"></i>
+                        </span>
+                    </span>
+                    <span class="flex flex-col justify-between gap-1 bg-teal-500 text-gray-100 p-3 rounded-xl relative">
+                        <p class="text-lg">Bugungi buyurtmalar</p>
+                        <span class="flex justify-between">
+                            <span class="flex items-end gap-1">
+                                <p class="text-3xl font-bold">{totalOrderToday}</p>
+                                <p class="">ta</p>
+                            </span>
+                            <i class="bi bi-box-seam absolute text-7xl right-0 bottom-0 opacity-30"></i>
+                        </span>
+                    </span>
+                    <span class="flex flex-col justify-between gap-1 bg-green-500 text-zinc-100 p-3 rounded-xl relative">
                         <p class="text-lg">Oxirgi oydagi daromad</p>
                         <span class="flex justify-between">
                             <span class="flex items-end gap-1">
@@ -227,7 +304,7 @@
                             <i class="bi bi-cash-stack absolute text-7xl right-0 bottom-0 opacity-30"></i>
                         </span>
                     </span>
-                    <span class="flex flex-col justify-between gap-1 bg-sky-400 text-gray-100 p-3 rounded-xl relative">
+                    <span class="flex flex-col justify-between gap-1 bg-sky-500 text-gray-100 p-3 rounded-xl relative">
                         <p class="text-lg">Oxirgi oydagi buyurtmalar</p>
                         <span class="flex justify-between">
                             <span class="flex items-end gap-1">
@@ -237,7 +314,7 @@
                             <i class="bi bi-box-seam absolute text-7xl right-0 bottom-0 opacity-30"></i>
                         </span>
                     </span>
-                    <span class="flex flex-col justify-between gap-1 bg-purple-400 text-gray-100 p-3 rounded-xl relative">
+                    <span class="flex flex-col justify-between gap-1 bg-purple-500 text-gray-100 p-3 rounded-xl relative">
                         <p class="text-lg">Ishchilar soni</p>
                         <span class="flex justify-between">
                             <span class="flex items-end gap-1">

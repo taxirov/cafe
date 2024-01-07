@@ -77,6 +77,10 @@
                     <i class="bi bi-person-fill text-lg"></i>
                     <p class="text-md font-bold">Profile</p>
                 </button>
+                <button on:click={() => { navigate('/bron')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
+                    <i class="bi bi-bookmarks-fill text-lg"></i>
+                    <p class="text-md font-bold">Bronlar</p>
+                </button>
             </div>
         </div>
         <p class="text-center py-3 text-zinc-200">Created by <a href="https://saad.uz" target="_blank" class="font-semibold">Saad Takhir</a> </p>
@@ -86,8 +90,8 @@
             <h2  class="outline-none text-lg font-bold text-zinc-100"><i class="bi bi-person-fill"></i> Profile</h2>
             <button on:click={logOut} class="font-bold text-sm text-slate-600 bg-zinc-100 py-2 px-4 rounded-md shadow-sm w-fit"><i class="bi bi-box-arrow-left"></i>  Tizimdan chiqish</button>
         </div>
-        <div class="grow flex flex-col justify-between items-end p-5 overflow-y-auto">
-            <div class="flex gap-5">
+        <div class="grow flex flex-col justify-between items-end p-5 w-full overflow-y-auto">
+            <div class="flex w-full gap-5">
                 <div class="flex flex-col gap-3 w-2/3">
                     <div class="flex justify-between items-center bg-white/80 rounded-xl py-3 px-4 shadow-sm">
                         <p class="font-bold md:text-lg"><i class="bi bi-at"></i> Username:</p>

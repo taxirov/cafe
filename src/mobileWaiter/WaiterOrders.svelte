@@ -84,7 +84,7 @@
         }
     } getOrders()
 
-    setInterval(() => { getProducts(), getCategories(), getRooms(), getOrders()  }, 40000)
+    setInterval(() => { getProducts(), getCategories(), getRooms(), getOrders()  }, 20000)
 
 </script>
 

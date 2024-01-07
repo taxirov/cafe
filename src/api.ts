@@ -1,6 +1,8 @@
 import axios from "axios";
+import type { Book } from "./store";
 
 const url = "http://localhost:4800/api"
+
 
 export class RoleEndpoint {
     async post(name: string, admin_key: string) {
@@ -146,5 +148,26 @@ export class ProductInOrderEndpoint {
     }
     async patchStatus(id: number, status: number, token: string) {
         return await axios.patch(url + '/productinorder/' + id + '/status', { status }, { headers: { "Access-Token": token } })
+    }
+}
+
+export class BookEndpoint {
+    async post(room_id: number, person: number, price: number, booker_name: string, booked_date: string, token: string) {
+        return await axios.post(`${url}/book`, { room_id, person, price, booker_name, booked_date }, { headers: { 'Access-Token': token }})
+    }
+    async put(id: number, room_id: number, person: number, price: number, booker_name: string, booked_date: string, token: string) {
+        return await axios.put(`${url}/book/${id}`, { room_id, person, price, booker_name, booked_date }, { headers: { 'Access-Token': token }})
+    }
+    async status(books: Book[], token: string) {
+        return await axios.post(`${url}/book/status`, { books }, { headers: { 'Access-Token': token }})
+    }
+    async get(token: string) {
+        return await axios.get(`${url}/book?status=1`, { headers: { "Access-Token": token } })
+    }
+    async delete(id: number, token: string) {
+        return await axios.delete(`${url}/book/${id}`, { headers: { "Access-Token": token } })
+    }
+    async date(date: string, token: string) {
+        return await axios.get(`${url}/book/date?date=${date}`, { headers: { "Access-Token": token } })
     }
 }

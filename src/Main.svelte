@@ -10,6 +10,7 @@
 	import Profile from "./web/Profile.svelte";
 	import Archive from "./web/Archive.svelte"
 	import ProductInOrders from "./web/ProductInOrders.svelte";
+	import Bron from "./web/Bron.svelte"
 	
 	// auth pages
     import Login from "./auth/Login.svelte";
@@ -40,6 +41,7 @@
 	<Route primary={false} exact path="/rooms"><Rooms/></Route>
 	<Route primary={false} exact path="/profile"><Profile/></Route>
 	<Route primary={false} exact path="/archive"><Archive/></Route>
+	<Route primary={false} exact path="/bron"><Bron/></Route>
 	
 	<!-- auth -->
 	<Route primary={false} exact path='/login'><Login/></Route>

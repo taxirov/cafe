@@ -47,6 +47,26 @@ export type Order = {
     create_date: string, 
     update_date: string 
 }
+
+export type Book = {
+    id: number,
+    room: {
+        id: number,
+        name: string,
+        capacity: number
+    },
+    user: {
+        id: number,
+        name: string,
+        role_id: number
+    },
+    price: number,
+    person: number,
+    booker_name: string,
+    booked_date: string,
+    status: number,
+    create_date: string
+}
 // role store
 export const roleStore: Writable<Role[]> = writable([])
 // user store
@@ -65,5 +85,7 @@ export const archiveOrderStore: Writable<Order[]> = writable([])
 export const productInOrderStore: Writable<ProductInOrder[]> = writable([])
 // order store
 export const pageStore: Writable<number[]> = writable([])
+export const pageBookStore: Writable<number[]> = writable([])
 export const firstFourPageStore: Writable<number[]> = writable([])
 export const lastFourPageStore: Writable<number[]> = writable([])
+export const bookStore: Writable<Book[]> = writable([])

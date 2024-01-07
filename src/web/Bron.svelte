@@ -33,16 +33,22 @@
     }
     
     // types
-    import type { Category, Order, Product, Room } from '../store';
+    import type { Category, Product, Room } from '../store';
     // stores
-    import { categoryStore, orderStore, productStore, roomStore} from '../store';
+    import { categoryStore, productStore, roomStore} from '../store';
     // endpoints
     import { CategoryEndpoint, RoomEndpoint, ProductEndpoint, OrderEndpoint } from '../api';
     // modals
-    import AddOrderModal from "../modalsAll/AddOrderModal.svelte";
+    import AddBookModal from "../modalsAll/AddBookModal.svelte";
     // components
-    import OrderComponent from '../components/OrderComponent.svelte';
-    
+    import BookComponent from "../components/BookComponent.svelte"
+    // endpoints
+    import { BookEndpoint } from "../api";
+    // types and stores
+    import { bookStore, type Book } from "../store";
+
+    const bookEndpoint = new BookEndpoint()
+
     let show_add: boolean = false
 
     const orderEndpoint = new OrderEndpoint();
@@ -86,18 +92,18 @@
     } getProducts()
 
     // get orders to do
-    async function getTrueOrders() {
+    async function getTrueBooks() {
         try{
-            const res = await orderEndpoint.getTrueStatus(1, 1, token)
-            const orders: Order[] = res.data.orders
-            orderStore.set(orders)
+            const res = await bookEndpoint.get(token)
+            const books: Book[] = res.data.books
+            bookStore.set(books)
         }
         catch(error) {
             console.log(error)
         }
-    }  getTrueOrders()
+    }  getTrueBooks()
 
-    setInterval(() => { getProducts(), getCategories(), getRooms(), getTrueOrders()}, 20000)
+    setInterval(() => { getTrueBooks() }, 20000)
 
 </script>
 
@@ -114,7 +120,7 @@
                 <i class="bi bi-house-fill text-lg"></i>
                 <p class="text-md font-bold">Asosiy</p>
             </button>
-            <button on:click={() => { navigate('/orders')}} class="flex items-center gap-3 bg-zinc-100 text-indigo-500 p-3 rounded-md shadow-md">
+            <button on:click={() => { navigate('/orders')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
                 <i class="bi bi-clipboard-fill text-lg"></i>
                 <p class="text-md font-bold">Buyurtmalar</p>
             </button>
@@ -134,7 +140,7 @@
                 <i class="bi bi-person-fill text-lg"></i>
                 <p class="text-md font-bold">Profile</p>
             </button>
-            <button on:click={() => { navigate('/bron')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
+            <button on:click={() => { navigate('/bron')}} class="flex items-center gap-3 bg-zinc-100 text-indigo-500 p-3 rounded-md shadow-md">
                 <i class="bi bi-bookmarks-fill text-lg"></i>
                 <p class="text-md font-bold">Bronlar</p>
             </button>
@@ -144,17 +150,17 @@
     </div>
     <div class="grow left-0 flex flex-col h-screen">
         <div class="grow-0 flex justify-between items-center sticky top-0 left-0 right-0 bg-indigo-500 p-3 h-fit">
-            <h2  class="outline-none text-lg font-bold text-zinc-100"><i class="bi bi-clipboard-fill"></i> Buyurtmalar</h2>
-            <button on:click={() => show_add = true} class="bg-zinc-100 px-4 py-2 text-md text-slate-600 font-bold rounded-md shadow-md">Buyurtma yaratish <i class="bi bi-plus"></i></button>
+            <h2  class="outline-none text-lg font-bold text-zinc-100"><i class="bi bi-clipboard-fill"></i> Bronlar</h2>
+            <button on:click={() => show_add = true} class="bg-zinc-100 px-4 py-2 text-md text-slate-600 font-bold rounded-md shadow-md">Xona bron qilish <i class="bi bi-plus"></i></button>
         </div>
-        <AddOrderModal show={show_add} close={() => show_add = false}></AddOrderModal>
+        <AddBookModal show={show_add} close={() => show_add = false}></AddBookModal>
         <div class="grow flex flex-col gap-3 p-5 overflow-y-scroll">
-            <div class="grid grid-cols-1 justify-start gap-5">
-                {#if $orderStore.length == 0}
+            <div class="grid grid-cols-3 justify-start gap-5">
+                {#if $bookStore.length == 0}
                     <p class="text-center text-sm md:text-xl text-gray-400 font-medium">Sizda faol buyurtmalar mavjud emas</p>
                 {:else}
-                    {#each $orderStore as order}
-                        <OrderComponent user_role={user.role} order={order}></OrderComponent>
+                    {#each $bookStore as book}
+                        <BookComponent book={book}></BookComponent>
                     {/each}
                 {/if}
             </div>

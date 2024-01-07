@@ -231,6 +231,10 @@
                 <i class="bi bi-person-fill text-lg"></i>
                 <p class="text-md font-bold">Profile</p>
             </button>
+            <button on:click={() => { navigate('/bron')}} class="flex items-center gap-3 hover:bg-indigo-500 text-zinc-100 p-3 rounded-md">
+                <i class="bi bi-bookmarks-fill text-lg"></i>
+                <p class="text-md font-bold">Bronlar</p>
+            </button>
         </div>
         </div>
         <p class="text-center py-3 text-zinc-200">Created by <a href="https://saad.uz" target="_blank" class="font-semibold">Saad Takhir</a> </p>

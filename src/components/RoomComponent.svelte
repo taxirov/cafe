@@ -22,20 +22,10 @@
 <Alert show={showAlertModal} close={() => showAlertModal = false } color={"red-500"} text={"Serverda xatolik. Iltimos dasturchi bilan bog'laning!"} icon={"x"} title={"Xatolik"} />
 <div class="flex flex-col shadow-md rounded-xl bg-white">
     <div class="flex flex-col gap-2 p-4">
-        <div class="flex justify-between items-center rounded-md bg-indigo-500/10 px-4 py-3">
-            <p class="text-sm md:text-xl font-bold">Nomi:</p>
-            <p class="text-md md:text-xl font-medium">{room_name}</p>
-        </div>
-        <div class="flex justify-between items-center rounded-md bg-indigo-500/10 px-4 py-3">
-            <p class="text-sm md:text-xl font-bold">Sig'imi:</p>
-            <p class="text-md md:text-xl font-medium">{room_capacity} kishilik</p>
-        </div>
-        <div class="flex justify-between items-center rounded-md bg-indigo-500/10 px-4 py-3">
-            <p class="text-sm md:text-xl font-bold">Ma'lumot:</p>
-            <p class="text-md md:text-xl font-medium">{room_desc}</p>
-        </div>
-        <div class="flex justify-between items-center rounded-md bg-indigo-500/10 px-4 py-3">
-            <p class="text-sm md:text-xl font-bold">Holati:</p>
+        <p class="text-2xl md:text-4xl font-bold">{room_name}</p>
+        <p class="text-xl md:text-xl font-medium">{room_capacity} kishilik</p>
+        <p class="text-md md:text-lg font-medium">{room_desc}</p>
+        <div class="flex justify-end items-center rounded-mdend">
             {#if room_booked == true}
                 <p class="text-sm md:text-xl font-semibold px-5 py-2 rounded-3xl text-white bg-red-400">Xona band</p>
             {:else}
