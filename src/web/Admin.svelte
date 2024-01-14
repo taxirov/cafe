@@ -80,9 +80,14 @@
         let date = (new Date()).toLocaleDateString()
         try {
             const res = await bookEndpoint.date(date, token)
-            const books: Book[] = res.data.books
-            if (books.length > 0) {
+            const books: Book[] = res.data.books 
+            if (books.length == 1) {
                 await bookEndpoint.status(books, token)
+            } else if (books.length == 2) {
+                let bo: Book[] = []
+                bo[0] = books.filter(b => b.booked_date.split(' ')[1] == 'abet')[0]
+                bo[1] = books.filter(b => b.booked_date.split(' ')[1] == 'gech')[0]
+                await bookEndpoint.status(bo, token)
             }
         } catch (e) {
             console.log(e)

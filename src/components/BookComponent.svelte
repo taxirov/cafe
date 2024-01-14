@@ -35,7 +35,12 @@
         <p class="font-bold py-1 px-4 rounded-xl bg-violet-500 text-zinc-100 text-md">{book.room.name}</p>
     </div>
     <div class="grid grid-cols-2 gap-3 pt-3">
-        <button on:click={() => { showEdit = true }} class="px-4 py-2 bg-indigo-500 text-stone-100 font-bold rounded-xl"><i class="bi bi-pencil"></i> Tahrirlash</button>
+        {#if book.status == 1}
+            <button on:click={() => { showEdit = true }} class="px-4 py-2 bg-indigo-500 text-stone-100 font-bold rounded-xl"><i class="bi bi-pencil"></i> Tahrirlash</button>
+        {/if}
+        {#if book.status == 0}
+            <button disabled class="px-4 py-2 bg-red-300 text-stone-100 font-bold rounded-xl"> Tugatilgan</button>
+        {/if}
         <button on:click={() => { showDelete = true }} class="px-4 py-2 bg-red-500 text-stone-100 font-bold rounded-xl"><i class="bi bi-trash"></i> O'chirish</button>
     </div>
 </div>

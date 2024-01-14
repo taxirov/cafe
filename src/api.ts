@@ -161,8 +161,8 @@ export class BookEndpoint {
     async status(books: Book[], token: string) {
         return await axios.post(`${url}/book/status`, { books }, { headers: { 'Access-Token': token }})
     }
-    async get(token: string) {
-        return await axios.get(`${url}/book?status=1`, { headers: { "Access-Token": token } })
+    async get(status: number, token: string) {
+        return await axios.get(`${url}/book?status=${status}`, { headers: { "Access-Token": token } })
     }
     async delete(id: number, token: string) {
         return await axios.delete(`${url}/book/${id}`, { headers: { "Access-Token": token } })
