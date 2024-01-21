@@ -56,7 +56,7 @@
                     type="text"
                     name=""
                     id=""
-                    placeholder="Buyurtma 1"
+                    placeholder="Palankas"
                 />
             </div>
             <div class="flex gap-3">
