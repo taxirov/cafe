@@ -97,7 +97,12 @@
         }
     }  getTrueOrders()
 
-    setInterval(() => { getProducts(), getCategories(), getRooms(), getTrueOrders()}, 20000)
+    setInterval(() => { 
+            getProducts()
+            getCategories()
+            getRooms()
+            getTrueOrders()
+        }, 20000)
 
 </script>
 

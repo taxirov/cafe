@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { OrderEndpoint, ProductInOrderEndpoint } from '../api'
-    import { productInOrderStore, orderStore } from "../store";
-    import type { ProductInOrder, Order } from "../store";
+    import { ProductInOrderEndpoint } from '../api'
+    import { orderStore } from "../store";
+    import type { Order } from "../store";
 
     const token = localStorage.getItem('token')
     const productInOrderEndpoint = new ProductInOrderEndpoint()
@@ -13,17 +13,8 @@
     async function patchStatus() {
         try {
             const res = await productInOrderEndpoint.patchStatus(id, 1, token)
-            const productInOrder: ProductInOrder = res.data.productInOrder
-            let order = $orderStore.filter(o => o.id == productInOrder.order_id)[0]
-            let products_filter = order.products.filter(p => p.id != productInOrder.id)
-            products_filter.push(productInOrder)
-            order.products = products_filter
-            if (productInOrder.status == 1) {
-                let order_total_price = order.total_price + productInOrder.total_price
-                order.total_price = order_total_price
-            }
-            orderStore.update(orders => { return orders.filter(o => o.id != order.id)})
-            orderStore.update(orders => { return orders.concat([order]) })
+            const orders: Order[] = res.data.orders
+            orderStore.set(orders)
             close()
         } catch (error) {
             console.log(error)

@@ -1,9 +1,9 @@
 <script lang="ts">
     import { OrderEndpoint } from '../api';
-    import { orderStore, type Order } from "../store";
+    import { orderStore, type Order, type Room, roomStore } from "../store";
     import Alert from "../modalsAll/Alert.svelte";
 
-    const roomEndpoint = new OrderEndpoint()
+    const orderEndpoint = new OrderEndpoint()
     const token = localStorage.getItem('token')
 
     export let show: boolean
@@ -27,9 +27,11 @@
 
     async function endOrder() {
         try {
-            const res = await roomEndpoint.delete(id, token, adminKey)
-            const order_ended: Order = res.data.order
-            orderStore.update((orders) =>  { return orders.filter(o => o.id != order_ended.id)})
+            const res = await orderEndpoint.delete(id, token, adminKey)
+            const orders: Order[] = res.data.orders
+            orderStore.set(orders)
+            const rooms: Room[] = res.data.rooms
+            roomStore.set(rooms)
             close()
         } catch (error) {
             if(error.response.status == 403) {

@@ -11,25 +11,11 @@
     export let close: () => void
 
     let title: HTMLInputElement
-    let desc: HTMLTextAreaElement
     let room: HTMLSelectElement
     let room_id: number | null
 
     let check_soboy: HTMLInputElement
     let room_class = 'flex'
-
-    // get rooms
-    async function getRooms() {
-        try{
-            const res = await roomEndpoint.get(token)
-            const rooms: Room[] = res.data.rooms
-            roomStore.set(rooms)
-        }
-        catch(error) {
-            console.log(error)
-        }
-    }  getRooms()
-
     
     function checkSoboy() {
         if (check_soboy.checked == true){
@@ -45,10 +31,11 @@
 
     async function create() {
         try {
-            const res = await orderEndpoint.post(title.value, desc.value, room_id, token)
-            const order: Order = res.data.order;
-            orderStore.update((orders) => orders.concat(order))
-            getRooms()
+            const res = await orderEndpoint.post(title.value, 'izoh', room_id, token)
+            const orders: Order[] = res.data.orders
+            orderStore.set(orders)
+            const rooms: Room[] = res.data.rooms
+            roomStore.set(rooms)
             close()
         } catch (error) {
             console.log(error)
@@ -62,7 +49,7 @@
         <p class="text-xl text-center font-bold">Buyurtma yaratish</p>
         <div class="flex flex-col gap-3">
             <div class="flex flex-col gap-2">
-                <label class="font-semibold" for="">Sarlavhasi*:</label>
+                <label class="font-semibold" for="">Mijoz ismi*:</label>
                 <input
                     bind:this={title}
                     class="outline-0 border-2 px-3 py-1 rounded"
@@ -87,17 +74,6 @@
                 {:else}
                     <p class="text-red-500 text-sm">Bosh xona mavjud emas</p>
                 {/if}
-            </div>
-            <div class="flex flex-col gap-2">
-                <label class="font-semibold" for="desc">Izoh*:</label>
-                <textarea
-                    bind:this={desc}
-                    class="outline-0 border-2 px-3 py-1 rounded"
-                    name="desc"
-                    id=""
-                    rows="5"
-                    placeholder="Buyutma uchun izoh"
-                ></textarea>
             </div>
         </div>
 

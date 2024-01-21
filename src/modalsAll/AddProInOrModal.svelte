@@ -4,7 +4,7 @@
     // stores
     import { orderStore, productStore, categoryStore } from "../store";
     // types
-    import type { Order, ProductInOrder } from "../store";
+    import type { Order } from "../store";
     const token  = localStorage.getItem("token")
 
     const proInOrEndpoint = new ProductInOrderEndpoint()
@@ -13,7 +13,7 @@
     export let close: () => void
     export let order_id: number
 
-    let category_id: number = 1
+    let category_id: number = 2
 
     let category: HTMLSelectElement
     let product: HTMLSelectElement
@@ -25,12 +25,9 @@
 
     async function create() {
         try {
-            const res  = await proInOrEndpoint.post(order_id, +product.value, Number.parseFloat(count.value), token)
-            const proInOrder: ProductInOrder = res.data.productInOrder
-            let order = $orderStore.filter(o => o.id == proInOrder.order_id)[0]
-            order.products.push(proInOrder)
-            orderStore.update(orders => { return orders.filter(o => o.id != order.id)})
-            orderStore.update(orders => { return orders.concat([order]) })
+            const res = await proInOrEndpoint.post(order_id, +product.value, Number.parseFloat(count.value), token)
+            const orders: Order[] = res.data.orders
+            orderStore.set(orders)
             close()
         } catch (error) {
             console.log(error)

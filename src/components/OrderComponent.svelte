@@ -31,11 +31,6 @@
             <p class="md:text-2xl font-bold">
                 {order.title}
             </p>
-            {#if order.status == 1}
-                <p class="px-3 py-1 font-semibold text-white rounded-2xl bg-green-500 text-sm md:text-xl"><i class="bi bi-hourglass-top"></i></p>
-            {:else}
-                <p class="px-3 py-1 font-semibold text-white rounded-2xl bg-red-500 text-sm md:text-xl"><i class="bi bi-hourglass-split"></i></p>
-            {/if}
             {#if order.room === null}
                 <p class="text-stone-100 text-sm md:text-xl font-semibold bg-pink-500 rounded-2xl px-3 py-1">S/D</p>
             {:else}
@@ -53,10 +48,6 @@
                 <button on:click={() => { show_delete = true}} class="border-red-500 border-2 text-red-500 text-md md:text-xl px-2 py-1 md:py-3 md:px-4 rounded-md font-semibold w-fit"><i class="bi bi-trash"></i></button>
             {/if}
         </div>
-    </div>
-    <div class="flex flex-col items-start justify-between p-2 rounded-md bg-green-500/10">
-        <p class="md:text-xl text-green-500"><b><i class="bi bi-quote"></i> Izoh:</b></p>
-        <p class="md:text-xl pl-3">{order.desc}</p>
     </div>
     <div class="flex flex-col">
         <div class="flex justify-between p-2 bg-indigo-500 text-zinc-100 rounded-t-lg">

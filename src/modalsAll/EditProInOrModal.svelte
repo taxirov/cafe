@@ -1,6 +1,6 @@
 <script lang="ts">
     // endpoints
-    import { ProductInOrderEndpoint } from '../api'
+    import { ProductInOrderEndpoint, OrderEndpoint } from '../api'
     // stores
     import { orderStore, productStore, categoryStore } from "../store";
     // types
@@ -8,6 +8,7 @@
     const token  = localStorage.getItem("token")
 
     const proInOrEndpoint = new ProductInOrderEndpoint()
+    const orderEndpoint = new OrderEndpoint()
 
     export let show: boolean
     export let close: () => void
@@ -25,19 +26,9 @@
 
     async function editProduct() {
         try {
-            const res  = await proInOrEndpoint.put(productInOrder.id, product, +count, token)
-            const proInOrder: ProductInOrder = res.data.productInOrder
-            let order = $orderStore.filter(o => o.id == proInOrder.order_id)[0]
-            let products_filter = order.products.filter(p => p.id != proInOrder.id)
-            products_filter.push(proInOrder)
-            order.products = products_filter
-            if (proInOrder.status == 1) {
-                let order_total_price = order.total_price - productInOrder.total_price
-                order_total_price += proInOrder.total_price
-                order.total_price = order_total_price
-            }
-            orderStore.update(orders => { return orders.filter(o => o.id != order.id)})
-            orderStore.update(orders => { return orders.concat([order]) })
+            const res = await proInOrEndpoint.put(productInOrder.id, product, +count, token)
+            const orders: Order[] = res.data.orders
+            orderStore.set(orders)
             close()
         } catch (error) {
             console.log(error)
@@ -47,24 +38,14 @@
     async function deleteProduct() {
         try {
             const res = await proInOrEndpoint.delete(productInOrder.id, token)
-            const proInOrder_deleted: ProductInOrder = res.data.productInOrder
-            let order = $orderStore.filter(o => o.id == proInOrder_deleted.order_id)[0]
-            let products_filter = order.products.filter(p => p.id != proInOrder_deleted.id)
-            order.products = products_filter
-            if (proInOrder_deleted.status == 1) {
-                let order_total_price = order.total_price - proInOrder_deleted.total_price
-                order.total_price = order_total_price
-            }
-            orderStore.update(orders => { return orders.filter(o => o.id != order.id)})
-            orderStore.update(orders => { return orders.concat([order]) })
+            const orders: Order[] = res.data.orders
+            orderStore.set(orders)
             close()
         } catch(error) {
             if (error.response.status == 404) {
-                let order = $orderStore.filter(o => o.id == productInOrder.order_id)[0]
-                let products_filter = order.products.filter(p => p.id != productInOrder.id)
-                order.products = products_filter
-                orderStore.update(orders => { return orders.filter(o => o.id != order.id)})
-                orderStore.update(orders => { return orders.concat([order]) })
+                const res = await orderEndpoint.getTrueStatus(1, 1, token)
+                const orders: Order[] = res.data.orders
+                orderStore.set(orders)
                 close()
             }
         }

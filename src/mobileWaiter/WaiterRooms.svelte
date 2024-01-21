@@ -60,7 +60,7 @@
     </div>
     <div class="grow flex flex-col gap-3 p-2 h-fit">
         <AddRoomModal show={show_add} close={() => show_add = false}></AddRoomModal>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-start">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 justify-start">
             {#if $roomStore.length == 0}
                 <p class="text-center text-md text-gray-400 font-medium">Xonalar mavjud emas</p>
             {:else}
