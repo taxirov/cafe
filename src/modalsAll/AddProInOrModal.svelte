@@ -13,7 +13,7 @@
     export let close: () => void
     export let order_id: number
 
-    let category_id: number = 2
+    let category_id: number = 1
 
     let category: HTMLSelectElement
     let product: HTMLSelectElement
