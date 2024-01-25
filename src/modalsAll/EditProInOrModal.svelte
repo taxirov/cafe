@@ -40,13 +40,13 @@
             const res = await proInOrEndpoint.delete(productInOrder.id, token)
             const orders: Order[] = res.data.orders
             orderStore.set(orders)
-            close()
+            location.reload()
         } catch(error) {
             if (error.response.status == 404) {
                 const res = await orderEndpoint.getTrueStatus(1, 1, token)
                 const orders: Order[] = res.data.orders
                 orderStore.set(orders)
-                close()
+                location.reload()
             }
         }
     }
@@ -54,7 +54,7 @@
 </script>
 
 <div class={"h-screen w-screen bg-black/70 fixed top-0 left-0 bottom-0 right-0 z-[999] justify-center items-center " + (show ? "flex" : "hidden")}>
-    <div class="bg-white p-8 flex flex-col justify-between md:gap-4 w-screen h-screen md:h-fit md:w-fit rounded-md shadow-md overflow-y-auto">
+    <div class="bg-white p-8 flex flex-col justify-between md:gap-4 w-screen h-screen md:h-fit md:w-fit md:rounded-md md:shadow-md overflow-y-auto">
         <div class="flex flex-col gap-3">
             <p class="text-xl text-center font-bold">Buyurtmadagi mahsulotni tahrirlash</p>
         <div class="flex flex-col gap-3">

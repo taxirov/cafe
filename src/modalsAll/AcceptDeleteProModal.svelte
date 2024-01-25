@@ -17,11 +17,9 @@
         let id = pro_id
         try {
             const res = await proInOrEndpoint.delete(id, token);
-            const proInOrder_deleted: ProductInOrder = res.data.productInOrder;
-            productInOrderStore.update(pro => { return pro.filter(p => p.id != proInOrder_deleted.id) })
-            close();
+            location.reload()
         } catch (error) {
-            console.log(error);
+            location.reload()
         }
     }
 </script>
